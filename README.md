@@ -1,4 +1,4 @@
-# tfc-dashboard
+# tf-admin
 
 > 내일의 창업 카페 대시보드 프론트
 
