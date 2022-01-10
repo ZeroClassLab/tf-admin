@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { styled } from "@mui/material/styles";
 
 import Badge from "@mui/material/Badge";
+import Box from "@mui/material/Box";
+import CircularProgress from "@mui/material/CircularProgress";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import Typography from "@mui/material/Typography";
 import Toolbar from "@mui/material/Toolbar";
@@ -9,7 +11,10 @@ import Paper from "@mui/material/Paper";
 import Modal from "@mui/material/Modal";
 import MenuIcon from "@mui/icons-material/Menu";
 import NotificationsIcon from "@mui/icons-material/Notifications";
+
 import IconButton from "@mui/material/IconButton";
+import RefreshIcon from "@mui/icons-material/Refresh";
+import { scherzo } from "./etc";
 
 const drawerWidth = 240;
 
@@ -19,6 +24,8 @@ interface AppBarProps extends MuiAppBarProps {
 interface HeaderBarProps extends AppBarProps {
     open: boolean;
     setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    reload: () => void;
+    isReloading: boolean;
 }
 
 const AppBar = styled(MuiAppBar, {
@@ -39,7 +46,12 @@ const AppBar = styled(MuiAppBar, {
     }),
 }));
 
-const HeaderBar: React.VFC<HeaderBarProps> = ({ open, setOpen }) => {
+const HeaderBar: React.VFC<HeaderBarProps> = ({
+    open,
+    setOpen,
+    reload,
+    isReloading,
+}) => {
     const [moo, setMoo] = useState(() => {
         return localStorage.getItem("moomessage") || "";
     });
@@ -76,20 +88,41 @@ const HeaderBar: React.VFC<HeaderBarProps> = ({ open, setOpen }) => {
                         noWrap
                         sx={{ flexGrow: 1 }}
                     >
-                        카페 사장님 제출 폼 리더
+                        내일의 창업 대시보드
                     </Typography>
-                    <IconButton
-                        color="inherit"
-                        onClick={() => {
-                            setModalOpen(true);
-                            setMoo("1");
-                            localStorage.setItem("moomessage", "read!");
-                        }}
-                    >
-                        <Badge badgeContent={moo ? 0 : 1} color="secondary">
-                            <NotificationsIcon />
-                        </Badge>
-                    </IconButton>
+                    <Box sx={{ display: "flex", justifyContent: "center" }}>
+                        {/* reload */}
+                        {isReloading ? (
+                            <Box
+                                sx={{
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                    mr: 1.5,
+                                }}
+                            >
+                                <CircularProgress size={16} color="inherit" />
+                            </Box>
+                        ) : (
+                            <IconButton color="inherit" onClick={reload}>
+                                <RefreshIcon />
+                            </IconButton>
+                        )}
+                        {/* notification */}
+                        <IconButton
+                            color="inherit"
+                            onClick={() => {
+                                setModalOpen(true);
+                                scherzo();
+                                setMoo("1");
+                                localStorage.setItem("moomessage", "read!");
+                            }}
+                        >
+                            <Badge badgeContent={moo ? 0 : 1} color="secondary">
+                                <NotificationsIcon />
+                            </Badge>
+                        </IconButton>
+                    </Box>
                 </Toolbar>
             </AppBar>
             <Toolbar />

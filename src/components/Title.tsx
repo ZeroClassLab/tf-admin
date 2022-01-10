@@ -7,7 +7,7 @@ interface TitleProps {
 
 const Title: React.VFC<TitleProps> = (props) => {
     return (
-        <Typography component="h2" variant="h6" color="primary" gutterBottom>
+        <Typography component="h3" variant="h6" color="primary" gutterBottom>
             {props.children}
         </Typography>
     );

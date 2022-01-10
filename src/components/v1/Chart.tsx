@@ -10,7 +10,7 @@ import {
     Cell,
     ResponsiveContainer,
 } from "recharts";
-import Title from "./Title";
+import Title from "../Title";
 
 interface ChartProps {
     contacts: number[];
@@ -68,7 +68,7 @@ const Chart: React.VFC<ChartProps> = ({ contacts }) => {
                 >
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="name" />
-                    <YAxis tickCount={1} />
+                    <YAxis tickCount={3} />
                     <Tooltip />
                     <Bar dataKey="개수" fill={theme.palette.primary.main}>
                         {data.map((entry, index) => (

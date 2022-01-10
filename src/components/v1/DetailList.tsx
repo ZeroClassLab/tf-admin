@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
 
+import { useRecoilState } from "recoil";
+import { currentPageState } from "../recoils";
+
 import {
     DataGrid,
     GridRowsProp,
@@ -10,7 +13,6 @@ import {
 interface DataProps {
     data: { [key: string]: any }[];
     setCurDatum: React.Dispatch<React.SetStateAction<{ [key: string]: any }>>;
-    setCurPage: React.Dispatch<React.SetStateAction<number>>;
     smallMode?: boolean;
 }
 /**
@@ -48,13 +50,9 @@ interface DataProps {
     productTagImageDescriptions: list[str]
     productTags: list[ProductTag]
  */
-const DetailList: React.VFC<DataProps> = ({
-    data,
-    setCurDatum,
-    setCurPage,
-    smallMode,
-}) => {
+const DetailList: React.VFC<DataProps> = ({ data, setCurDatum, smallMode }) => {
     const [checkedRows, setCheckedRows] = useState<number[]>([]);
+    const [curPage, setCurPage] = useRecoilState(currentPageState);
 
     useEffect(() => {
         const checkeds = JSON.parse(localStorage.getItem("checkeds") || "[]");

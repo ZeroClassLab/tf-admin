@@ -22,49 +22,6 @@ interface DetailPageProps {
     curDatum: { [key: string]: any };
 }
 
-/**
- * parentImage: str = Field(...)
-    xPosition: float = Field(...)
-    yPosition: float = Field(...)
-    productName: str = Field(...)
-    brand: str = Field(...)
-    description: str = Field(...)
- * 
- * name: str = Field(...)
-    contact: str = Field(...)
-    email: str = Field(...)
-    title: str = Field(...)
-    cafeName: str = Field(...)
-    cafeClosedDays: str = Field(...)
-    cafeOpenDays: str = Field(...)
-    cafeStreetAddress: str = Field(...)
-    cafeBuildingAddress: str = Field(...)
-    cafeSignatureMenu: str = Field(...)
-    cafeMenuImages: list[str]
-    cafeIsParkingAvailable: str = Field(...)
-    cafeIsDeliveryAvailable: str = Field(...)
-    cafeIsPetAllowed: str = Field(...)
-    cafeIsChildrenAllowed: str = Field(...)
-    cafePhone: str = Field(...)
-
-    cafeInstagram: str = Field(...)
-    cafeYoutube: str = Field(...)
-    cafeFacebook: str = Field(...)
-
-    cafeIntroduction: str = Field(...)
-    cafeStartupStory: str = Field(...)
-    cafeStartupDifficulty: str = Field(...)
-    cafeStartupPreparationTime: str = Field(...)
-    cafeStartupItemSearchTimeSpent: str = Field(...)
-    cafeStartupMarketingMethod: str = Field(...)
-    cafeStartupInteriorMethod: str = Field(...)
-    cafeStartupExpense: str = Field(...)
-    code: str = Field(...)
-    productTagImages: list[str]
-    productTagImageDescriptions: list[str]
-    productTags: list[ProductTag]
- */
-
 const KoreanMap: { [key: string]: string } = {
     // 1. 대표자 정보
     name: "성함",
@@ -515,10 +472,10 @@ const AboutImageItemTagger: React.VFC<DetailPageProps> = ({ curDatum }) => {
                                                     tag: ProductTag,
                                                     idx2: number
                                                 ) => {
-                                                    console.log(
-                                                        tag.parentImage
-                                                    );
-                                                    console.log(image);
+                                                    // console.log(
+                                                    //     tag.parentImage
+                                                    // );
+                                                    // console.log(image);
                                                     if (
                                                         tag.parentImage ===
                                                         image

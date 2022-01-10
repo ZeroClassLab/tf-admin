@@ -7,12 +7,14 @@ import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import MainList from "./MainList";
-import SubList from "./SubList";
+import SubList from "./v1/SubList";
+
+import { useRecoilState } from "recoil";
+import { currentPageState } from "./recoils";
 
 interface SidebarProps {
     open: boolean;
     setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-    setCurPage: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const drawerWidth = 240;
@@ -43,7 +45,9 @@ const Drawer = styled(MuiDrawer, {
     },
 }));
 
-const Sidebar: React.VFC<SidebarProps> = ({ open, setOpen, setCurPage }) => {
+const Sidebar: React.VFC<SidebarProps> = ({ open, setOpen }) => {
+    const [curPage, setCurPage] = useRecoilState(currentPageState);
+
     const closeDrawer = () => {
         setOpen(false);
     };

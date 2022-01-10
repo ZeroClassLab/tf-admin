@@ -6,7 +6,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import ListSubheader from "@mui/material/ListSubheader";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import EditIcon from "@mui/icons-material/Edit";
+import BarChartIcon from "@mui/icons-material/BarChart";
 
 interface SubListProps {
     setCurPage: React.Dispatch<React.SetStateAction<number>>;
@@ -15,7 +15,21 @@ interface SubListProps {
 const SubList: React.VFC<SubListProps> = ({ setCurPage }) => {
     return (
         <List>
-            <ListSubheader inset>개발 중...</ListSubheader>
+            <ListSubheader inset>기존 카페 폼</ListSubheader>
+
+            {/* Detail Button */}
+            <ListItem
+                button
+                onClick={() => {
+                    setCurPage(1);
+                }}
+            >
+                <ListItemIcon>
+                    <BarChartIcon />
+                </ListItemIcon>
+                <ListItemText primary="v1 카페 폼 목록" />
+            </ListItem>
+
             <ListItem
                 button
                 onClick={() => {
@@ -25,18 +39,7 @@ const SubList: React.VFC<SubListProps> = ({ setCurPage }) => {
                 <ListItemIcon>
                     <VisibilityIcon />
                 </ListItemIcon>
-                <ListItemText primary="뷰어" />
-            </ListItem>
-            <ListItem
-                button
-                onClick={() => {
-                    setCurPage(3);
-                }}
-            >
-                <ListItemIcon>
-                    <EditIcon />
-                </ListItemIcon>
-                <ListItemText primary="에디터" />
+                <ListItemText primary="v1 카페 폼 뷰어" />
             </ListItem>
         </List>
     );
