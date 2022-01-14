@@ -7,8 +7,14 @@ import Loading from "./Loading";
 import V1DetailListPage from "./v1/DetailListPage";
 import V1DetailPage from "./v1/DetailPage";
 
-import { useRecoilValue } from "recoil";
-import { currentPageState, isLoadingState } from "./recoils";
+import { useRecoilState, useRecoilValue } from "recoil";
+import {
+    currentFormContentData,
+    currentPageState,
+    isLoadingState,
+} from "./recoils";
+import SurveyFormPage from "./survey/SurveyListPage";
+import WriteSurveyPage from "./survey/WriteSurveyPage";
 
 interface DataProps {
     reload: () => void;
@@ -28,6 +34,10 @@ const ContentMapper: React.VFC<ContentMapperProps> = ({ idx, props }) => {
             return <V1DetailListPage {...props} />;
         case 2:
             return <V1DetailPage {...props} />;
+        case 3:
+            return <SurveyFormPage />;
+        case 30:
+            return <WriteSurveyPage />;
         default:
             return <Box>404 Not found</Box>;
     }
@@ -35,7 +45,7 @@ const ContentMapper: React.VFC<ContentMapperProps> = ({ idx, props }) => {
 
 const Dashboard: React.VFC<DataProps> = ({ data, reload }) => {
     const [open, setOpen] = useState(true);
-    const [curDatum, setCurDatum] = useState(data?.[0] || {});
+    const [curDatum, setCurDatum] = useRecoilState(currentFormContentData);
     const currentPage = useRecoilValue(currentPageState);
     const isFormDataLoading = useRecoilValue(isLoadingState);
 

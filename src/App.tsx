@@ -1,23 +1,42 @@
-import React, { useState, useEffect } from "react";
-import { useRecoilState } from "recoil";
+import React, { useEffect } from "react";
+import { useRecoilState, useSetRecoilState } from "recoil";
 
 import Dashboard from "./components/Dashboard";
-import { isLoadingState, formContentDataListState } from "./components/recoils";
+import {
+    isLoadingState,
+    formContentDataListState,
+    currentFormContentData,
+    surveyContentDataListState,
+} from "./components/recoils";
 import axios from "axios";
 
 const App = () => {
     const [data, setData] = useRecoilState(formContentDataListState);
-    const [isReloading, setIsReloading] = useRecoilState(isLoadingState);
+    const setCurDatumV1 = useSetRecoilState(currentFormContentData);
+    const setIsReloading = useSetRecoilState(isLoadingState);
+    const setSurveyContentDataList = useSetRecoilState(
+        surveyContentDataListState
+    );
 
     const refresh = () => {
         const fetchData = async () => {
             try {
                 setIsReloading(true);
-                const res = await axios.get(
-                    "https://tmr-founders-cafe-backdeploy.herokuapp.com/form/"
+                // 폼 데이터 불러오기 v1
+                const resv1 = await axios.get(
+                    `${process.env.REACT_APP_V1_BACK}/form/`
                 );
-                const d = res.data;
-                setData(d);
+                setData(resv1.data);
+
+                // 폼데이터 1.0 넣기
+                setCurDatumV1(resv1.data[0] ?? {});
+
+                // 질문형식 불러오기
+                const surveyRes = await axios.get(
+                    `${process.env.REACT_APP_SURVEY_BACK}/survey/`
+                );
+                setSurveyContentDataList(surveyRes.data);
+
                 setIsReloading(false);
             } catch (e) {
                 console.log(e);

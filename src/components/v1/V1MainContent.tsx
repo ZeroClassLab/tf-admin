@@ -1,6 +1,7 @@
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
+import TitleGrid from "../main/TitleGrid";
 
 import Title from "../Title";
 import Chart from "./Chart";
@@ -18,11 +19,7 @@ const V1MainContent: React.VFC<V1MainContentProps> = ({
     return (
         <>
             {/* Section Title */}
-            <Grid item xs={12}>
-                <Typography variant="h4" component="h3">
-                    Cafe Form v.1
-                </Typography>
-            </Grid>
+            <TitleGrid text={"Cafe Form v.1"} />
 
             {/* Chart */}
             <Grid item xs={12} md={6}>

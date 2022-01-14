@@ -15,3 +15,17 @@ export const formContentDataListState = atom<FormContentData[]>({
     key: "formContentDataList",
     default: [],
 });
+
+export const currentFormContentData = atom<FormContentData>({
+    key: "curFormContentData",
+    default: {},
+});
+
+interface SurveyContentData {
+    [key: string]: any;
+}
+
+export const surveyContentDataListState = atom<SurveyContentData[]>({
+    key: "surveyContentDataList",
+    default: [],
+});

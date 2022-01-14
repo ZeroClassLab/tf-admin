@@ -1,67 +1,109 @@
-// import Box from "@mui/material/Box";
-// import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import {
+    sectionState,
+    activeStepState,
+    isSurveyViewModeState,
+} from "./recoils";
+import { useRecoilState, useRecoilValue } from "recoil";
+import BasicBlank from "./BasicBlank";
+import AddFieldButton from "./AddQuestionButton";
+import InfoContent from "./InfoContent";
 // import BasicInputField from "../inputs/BasicInputField";
 // import { BasicInputFieldData, InputFieldTypes } from "../inputs/InputFieldType";
 // import { InfoProps } from "./infotypes";
 
-// const Info: React.VFC<InfoProps> = ({
-//     sectionTitle,
-//     sectionSubtitle,
-//     sectionData,
-//     formState,
-//     control,
-// }) => {
-//     return (
-//         <Box
-//             sx={{
-//                 pb: 2,
-//                 pt: 5,
-//             }}
-//         >
-//             <Typography variant="h4" sx={{ mt: 2, mb: 2 }}>
-//                 {sectionTitle}
-//             </Typography>
+const Info: React.VFC = () => {
+    const [sectionInfos, setSectionInfos] = useRecoilState(sectionState);
+    const activeStep = useRecoilValue(activeStepState);
+    const isViewMode = useRecoilValue(isSurveyViewModeState);
 
-//             <Typography variant="subtitle1" sx={{ mt: 2, mb: 4 }}>
-//                 {sectionSubtitle}
-//             </Typography>
+    const setTitle = (newTitle: string) => {
+        const newInfos = [...sectionInfos];
+        newInfos[activeStep] = {
+            title: newTitle,
+            subtitle: newInfos[activeStep].subtitle,
+        };
+        setSectionInfos(newInfos);
+    };
 
-//             {/* container */}
-//             <Box
-//                 sx={{
-//                     display: "flex",
-//                     flexDirection: "column",
-//                     width: "60%",
-//                 }}
-//             >
-//                 {sectionData.map((datum: BasicInputFieldData) => {
-//                     const isBasic = datum.type === InputFieldTypes.BASIC;
-//                     const isLong = datum.type === InputFieldTypes.LONG;
-//                     if (isBasic || isLong) {
-//                         return (
-//                             <BasicInputField
-//                                 {...datum.data}
-//                                 key={datum.data.name}
-//                                 control={control}
-//                                 formState={formState}
-//                                 isMultiline={isLong ?? true}
-//                             />
-//                         );
-//                     } else {
-//                         return <></>;
-//                     }
-//                 })}
-//             </Box>
-//         </Box>
-//     );
-// };
+    const setSubtitle = (newSubtitle: string) => {
+        const newInfos = [...sectionInfos];
+        newInfos[activeStep] = {
+            title: newInfos[activeStep].title,
+            subtitle: newSubtitle,
+        };
+        setSectionInfos(newInfos);
+    };
 
-// export default Info;
+    return (
+        <Box
+            sx={{
+                pb: 2,
+                pt: 5,
+            }}
+        >
+            {isViewMode ? (
+                <>
+                    <Typography variant="h4" sx={{ mt: 2, mb: 2 }}>
+                        {sectionInfos[activeStep].title}
+                    </Typography>
 
-import React from "react";
-
-const Info = () => {
-    return <div></div>;
+                    <Typography variant="subtitle1" sx={{ mt: 2, mb: 4 }}>
+                        {sectionInfos[activeStep].subtitle}
+                    </Typography>
+                    <InfoContent />
+                </>
+            ) : (
+                <>
+                    {/* 설명 글 */}
+                    <Box
+                        sx={{
+                            display: "flex",
+                            alignItems: "center",
+                        }}
+                    >
+                        <Typography sx={{ mr: 2 }} variant="h4" component="div">
+                            {activeStep + 1} 번째 섹션 정보
+                        </Typography>
+                    </Box>
+                    {/* title */}
+                    <Box
+                        sx={{
+                            display: "flex",
+                            alignItems: "center",
+                        }}
+                    >
+                        <Typography sx={{ mr: 2 }} variant="h5" component="div">
+                            {"제목: "}
+                        </Typography>
+                        <BasicBlank
+                            isStandard
+                            state={sectionInfos[activeStep].title}
+                            setState={setTitle}
+                        />
+                    </Box>
+                    {/* subtitle */}
+                    <Box
+                        sx={{
+                            display: "flex",
+                            alignItems: "center",
+                        }}
+                    >
+                        <Typography sx={{ mr: 2 }} variant="h5" component="div">
+                            {"부제목: "}
+                        </Typography>
+                        <BasicBlank
+                            state={sectionInfos[activeStep].subtitle}
+                            setState={setSubtitle}
+                            isLong
+                        />
+                    </Box>
+                    <InfoContent />
+                </>
+            )}
+        </Box>
+    );
 };
 
 export default Info;
