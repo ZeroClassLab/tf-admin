@@ -38,7 +38,7 @@ const V1MainContent: React.VFC<V1MainContentProps> = ({
                     />
                 </Paper>
             </Grid>
-
+            
             {/* DetailList */}
             <Grid item xs={12} md={6}>
                 <Paper
@@ -47,6 +47,7 @@ const V1MainContent: React.VFC<V1MainContentProps> = ({
                         display: "flex",
                         flexDirection: "column",
                         height: "100%",
+                        minHeight: 330,
                     }}
                 >
                     <Title>제출 목록</Title>

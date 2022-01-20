@@ -11,6 +11,7 @@ import {
     stepperState,
     stepsLengthSelector,
     surveyTypeState,
+    nowSurveyInfoState,
 } from "./recoils";
 import StepperButtons from "./StepperButtons";
 import Info from "./Info";
@@ -40,32 +41,27 @@ const Infos: React.VFC<InfoProps> = () =>
 
         const [steps, setSteps] = useRecoilState(stepperState);
         const stepsLength = useRecoilValue(stepsLengthSelector);
+        const surveyInfo = useRecoilValue(nowSurveyInfoState);
 
         return (
             <>
                 {/* title */}
-                <Typography
-                    variant="h3"
-                    sx={{ textAlign: "center", mb: 6, pt: 3 }}
-                >
-                    내일의 창업 제출 폼
-                </Typography>
+                {isViewMode && (
+                    <Typography
+                        variant="h3"
+                        sx={{ textAlign: "center", mb: 4, pt: 3 }}
+                    >
+                        {surveyInfo.name || "제목을 반드시 입력해주세요."}
+                    </Typography>
+                )}
 
                 {/* stepper */}
                 <HorizontalLinearStepper />
 
                 {/* form */}
                 <Info />
-                {/* <form onSubmit={handleSubmit(onSubmit)}>
-                <Info
-                    {...data[activeStep]}
-                    control={control}
-                    formState={formState}
-                />
-            */}
 
                 {isViewMode && <StepperButtons />}
-                {!isViewMode && <AddFieldButton />}
                 {/* </form>} */}
                 {/* <SubmitAlertModal
                 isOpen={isSubmitAlertModalOpen}

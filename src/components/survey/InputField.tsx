@@ -3,6 +3,7 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import IconButton from "@mui/material/IconButton";
 import SettingsIcon from "@mui/icons-material/Settings";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useSetRecoilState, useRecoilState, useRecoilValue } from "recoil";
 import {
@@ -31,6 +32,23 @@ const InputField: React.VFC<InputFieldProps> = ({ label, type, idx }) => {
         setNowInputFieldIndex(idx);
         setIsSettingsOpened(true);
     };
+    const copySelf = () => {
+        const targetField = contents[activeStep][idx];
+        const newField = {
+            ...contents[activeStep][idx],
+            id: `${targetField.id}-copy`,
+            name: `${targetField.name}Copy`,
+            label: `${targetField.label}의 복사`,
+            autoComplete: `${targetField.autoComplete}Copy`,
+            localStorageValue: `${targetField.localStorageValue}Copy`,
+        };
+        const newContent = [...contents[activeStep]];
+        const newContents = [...contents];
+        newContent.splice(idx + 1, 0, newField);
+        newContents[activeStep] = newContent;
+        setContentsState(newContents);
+        setNowInputFieldIndex(idx + 1);
+    };
     const removeSelf = () => {
         setNowInputFieldIndex(0);
         const newContent = contents[activeStep].filter((content, i) => {
@@ -46,15 +64,20 @@ const InputField: React.VFC<InputFieldProps> = ({ label, type, idx }) => {
         <Paper
             sx={{
                 p: 2,
+                m: 2,
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "left",
             }}
+            elevation={2}
         >
             <Box>{label}</Box>
             <Box>
                 <IconButton onClick={openSettings}>
                     <SettingsIcon />
+                </IconButton>
+                <IconButton onClick={copySelf}>
+                    <ContentCopyIcon />
                 </IconButton>
                 <IconButton onClick={removeSelf}>
                     <DeleteIcon />

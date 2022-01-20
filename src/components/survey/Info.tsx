@@ -1,4 +1,5 @@
 import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import {
     sectionState,
@@ -7,7 +8,6 @@ import {
 } from "./recoils";
 import { useRecoilState, useRecoilValue } from "recoil";
 import BasicBlank from "./BasicBlank";
-import AddFieldButton from "./AddQuestionButton";
 import InfoContent from "./InfoContent";
 // import BasicInputField from "../inputs/BasicInputField";
 // import { BasicInputFieldData, InputFieldTypes } from "../inputs/InputFieldType";
@@ -61,6 +61,7 @@ const Info: React.VFC = () => {
                         sx={{
                             display: "flex",
                             alignItems: "center",
+                            mb: 3,
                         }}
                     >
                         <Typography sx={{ mr: 2 }} variant="h4" component="div">
@@ -68,37 +69,59 @@ const Info: React.VFC = () => {
                         </Typography>
                     </Box>
                     {/* title */}
-                    <Box
+                    <Grid
+                        container
                         sx={{
                             display: "flex",
                             alignItems: "center",
+                            justifyContent: "space-between",
+                            pl: 2,
+                            pr: 10,
                         }}
                     >
-                        <Typography sx={{ mr: 2 }} variant="h5" component="div">
-                            {"제목: "}
-                        </Typography>
-                        <BasicBlank
-                            isStandard
-                            state={sectionInfos[activeStep].title}
-                            setState={setTitle}
-                        />
-                    </Box>
+                        <Grid item xs={2}>
+                            <Typography
+                                sx={{ mr: 2 }}
+                                variant="h5"
+                                component="div"
+                            >
+                                {"제목"}
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={10}>
+                            <BasicBlank
+                                isStandard
+                                state={sectionInfos[activeStep].title}
+                                setState={setTitle}
+                                isFullWidth
+                            />
+                        </Grid>
+                    </Grid>
                     {/* subtitle */}
-                    <Box
+                    <Grid
+                        container
                         sx={{
                             display: "flex",
                             alignItems: "center",
+                            justifyContent: "space-between",
+                            pl: 2,
+                            pr: 10,
                         }}
                     >
-                        <Typography sx={{ mr: 2 }} variant="h5" component="div">
-                            {"부제목: "}
-                        </Typography>
-                        <BasicBlank
-                            state={sectionInfos[activeStep].subtitle}
-                            setState={setSubtitle}
-                            isLong
-                        />
-                    </Box>
+                        <Grid item xs={2}>
+                            <Typography variant="h5" component="div">
+                                {"부제목 "}
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={10}>
+                            <BasicBlank
+                                isFullWidth
+                                state={sectionInfos[activeStep].subtitle}
+                                setState={setSubtitle}
+                                isLong
+                            />
+                        </Grid>
+                    </Grid>
                     <InfoContent />
                 </>
             )}

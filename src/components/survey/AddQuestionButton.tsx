@@ -2,6 +2,7 @@ import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
 
 import { useRecoilState, useSetRecoilState } from "recoil";
+import { InputFieldType } from "./consts";
 import {
     contentsState,
     activeStepState,
@@ -39,7 +40,9 @@ const AddQuestionButton = () => {
                 id: "",
                 name: "",
                 label: "",
-                type: "",
+                type: InputFieldType.BASIC,
+                autoComplete: "",
+                localStorageValueKey: "",
             },
         ];
         console.log(targetContent);
@@ -56,8 +59,9 @@ const AddQuestionButton = () => {
                 openQuestionSettings();
             }}
             variant="contained"
+            fullWidth
         >
-            질문추가하기
+            질문추가
         </Button>
     );
 };

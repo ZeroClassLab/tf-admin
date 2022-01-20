@@ -19,19 +19,14 @@ const SurveyInfoBox = () => {
     const handleSurveyType = (val: string) => {};
 
     return (
-        <Box>
-            <Box sx={{ m: 2 }}>
-                <Typography variant="h4">서베이 제목</Typography>
-            </Box>
-
-            <Box sx={{ m: 2 }}>
-                <BasicBlank
-                    state={nowSurveyInfo.name}
-                    setState={handleSurveyName}
-                    isFullWidth
-                    placeholder="서베이 제목을 반드시 입력해주세요."
-                />
-            </Box>
+        <Box sx={{ mt: 5, mb: 5 }}>
+            <BasicBlank
+                state={nowSurveyInfo.name}
+                setState={handleSurveyName}
+                isFullWidth
+                placeholder="서베이 제목을 반드시 입력해주세요."
+                label="서베이 제목"
+            />
         </Box>
     );
 };

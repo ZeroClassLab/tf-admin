@@ -92,13 +92,6 @@ const HorizontalLinearStepper = () => {
                 </Stepper>
             ) : (
                 <>
-                    <Button
-                        sx={{ mb: 2 }}
-                        variant="contained"
-                        onClick={addNewSection}
-                    >
-                        새로운 섹션 추가
-                    </Button>
                     <Box
                         sx={{
                             display: "flex",
@@ -115,7 +108,13 @@ const HorizontalLinearStepper = () => {
                                     }}
                                 >
                                     <Typography
-                                        sx={{ mr: 2 }}
+                                        sx={{
+                                            mr: 2,
+                                            color:
+                                                activeStep === index
+                                                    ? "#66ccff"
+                                                    : "#666666",
+                                        }}
                                         variant="h5"
                                         component="div"
                                     >
@@ -148,6 +147,13 @@ const HorizontalLinearStepper = () => {
                             );
                         })}
                     </Box>
+                    <Button
+                        sx={{ mt: 4 }}
+                        variant="contained"
+                        onClick={addNewSection}
+                    >
+                        새로운 섹션 추가
+                    </Button>
                 </>
             )}
         </Box>

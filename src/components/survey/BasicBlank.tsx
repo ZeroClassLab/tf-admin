@@ -3,7 +3,7 @@ import TextField from "@mui/material/TextField";
 
 interface BasicBlankProps {
     state: string;
-    setState: (value: string) => void;
+    setState: (value: string, idx?: number) => void;
     onClick?: () => void;
     isLong?: boolean;
     isStandard?: boolean;
