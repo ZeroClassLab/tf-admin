@@ -15,6 +15,7 @@ import {
 } from "./recoils";
 import SurveyFormPage from "./survey/SurveyListPage";
 import WriteSurveyPage from "./survey/WriteSurveyPage";
+import ServiceTypePage from "./servicetype/ServiceTypePage";
 
 interface DataProps {
     reload: () => void;
@@ -38,6 +39,8 @@ const ContentMapper: React.VFC<ContentMapperProps> = ({ idx, props }) => {
             return <SurveyFormPage />;
         case 30:
             return <WriteSurveyPage />;
+        case 4:
+            return <ServiceTypePage />;
         default:
             return <Box>404 Not found</Box>;
     }

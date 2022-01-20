@@ -68,6 +68,10 @@ const theme = createTheme({
             fontWeight: "bold",
             fontSize: "1.125rem",
         },
+        subtitle1: {
+            fontWeight: "bold",
+            fontSize: "1.125rem",
+        },
         fontFamily: [
             "AppleSDGothicNeo",
             "-apple-system",

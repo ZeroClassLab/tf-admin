@@ -5,6 +5,9 @@ import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
+import FormGroup from "@mui/material/FormGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
 import BasicBlank from "./BasicBlank";
 import { useRecoilState, useRecoilValue } from "recoil";
 import {
@@ -69,6 +72,15 @@ const InputFieldSettings = () => {
         } else {
             handleClose();
         }
+    };
+
+    const handleRequired = (val: InputFieldType) => {
+        const newInputField = modifyInputFieldData(val, {
+            ...nowInputField,
+            required: !nowInputField.required,
+        });
+
+        setFieldContent(newInputField);
     };
 
     const handleName = (val: string) => {
@@ -137,7 +149,7 @@ const InputFieldSettings = () => {
         let numVal = Number(val);
         if (Number.isNaN(numVal)) {
             setMaxImagesLengthHelperText("숫자만 입력해주세요!");
-            numVal = Number(nowInputField.maxRowsNum);
+            numVal = Number(nowInputField.maxImageNums);
         } else if (numVal < 1) {
             setMaxImagesLengthHelperText("0보다 큰 숫자를 입력해주세요!");
             numVal = 1;
@@ -162,8 +174,24 @@ const InputFieldSettings = () => {
     };
 
     const returnHandleChoiceText = (idx: number) => (val: string) => {
-        const newVal = [...(nowInputField?.choices ?? [""])];
-        newVal[idx] = val;
+        const newVal = [
+            ...(nowInputField?.choices ?? [{ label: "", value: "" }]),
+        ];
+        newVal[idx] = { label: val, value: newVal[idx].value };
+
+        const newInputField = {
+            ...nowInputField,
+            choices: newVal,
+        };
+
+        setFieldContent(newInputField);
+    };
+
+    const returnHandleChoiceValue = (idx: number) => (val: string) => {
+        const newVal = [
+            ...(nowInputField?.choices ?? [{ label: "", value: "" }]),
+        ];
+        newVal[idx] = { label: newVal[idx].label, value: val };
 
         const newInputField = {
             ...nowInputField,
@@ -174,9 +202,27 @@ const InputFieldSettings = () => {
     };
 
     const removeChoice = (idx: number) => {
-        const newVal = [...(nowInputField?.choices ?? [""])];
+        const newVal = [
+            ...(nowInputField?.choices ?? [{ label: "", value: "" }]),
+        ];
         newVal.splice(idx, 1);
 
+        const newInputField = {
+            ...nowInputField,
+            choices: newVal,
+        };
+
+        setFieldContent(newInputField);
+    };
+
+    const addChoice = (idx: number) => {
+        const newVal = [
+            ...(nowInputField?.choices ?? [{ label: "", value: "" }]),
+        ];
+        newVal.splice(idx + 1, 0, {
+            label: `선택지 ${idx + 2}`,
+            value: `${idx + 2}`,
+        });
         const newInputField = {
             ...nowInputField,
             choices: newVal,
@@ -199,6 +245,8 @@ const InputFieldSettings = () => {
                     transform: "translate(-50%, -50%)",
                     width: 400,
                     minHeight: 300,
+                    maxHeight: "80vh",
+                    overflow: "scroll",
                 }}
             >
                 {nowInputField && (
@@ -232,6 +280,20 @@ const InputFieldSettings = () => {
                     </Grid>
                 )}
 
+                <FormGroup>
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                                checked={nowInputField?.required}
+                                onChange={() =>
+                                    handleRequired(nowInputField?.type)
+                                }
+                            />
+                        }
+                        label="필수"
+                    />
+                </FormGroup>
+
                 <TextField
                     value={nowInputField?.id ?? ""}
                     label={"id"}
@@ -249,6 +311,7 @@ const InputFieldSettings = () => {
                     label="name / ex) cafeOwnerName"
                     sx={{ mt: 2 }}
                     required
+                    disabled={nowInputField?.type === InputFieldType.ITEMTAGGER}
                 />
 
                 <BasicBlank
@@ -301,31 +364,52 @@ const InputFieldSettings = () => {
 
                 {nowInputField?.type === InputFieldType.RADIO &&
                     nowInputField?.choices?.map((choice, idx) => {
-                        <Box key={`choice-${idx}`}>
-                            <Box
-                                sx={{
-                                    display: "flex",
-                                    justifyContent: "space-between",
-                                    alignItems: "center",
-                                    mt: 2,
-                                }}
-                            >
-                                <BasicBlank
-                                    state={nowInputField?.choices ? choice : ""}
-                                    setState={returnHandleChoiceText(idx)}
-                                    label={`선택지 ${idx}`}
-                                    required
-                                />
-                                <Button
-                                    onClick={() => {
-                                        removeChoice(idx);
+                        return (
+                            <Box sx={{ mt: 2 }} key={`choice-${idx}`}>
+                                <Box
+                                    sx={{
+                                        display: "flex",
+                                        justifyContent: "space-between",
+                                        alignItems: "stretch",
+
+                                        gap: 1,
                                     }}
                                 >
-                                    삭제
+                                    <BasicBlank
+                                        state={
+                                            nowInputField?.choices
+                                                ? choice.label
+                                                : ""
+                                        }
+                                        setState={returnHandleChoiceText(idx)}
+                                        label={`선택지 질문 ${idx + 1}`}
+                                        required
+                                    />
+                                    <BasicBlank
+                                        state={
+                                            nowInputField?.choices
+                                                ? choice.value
+                                                : ""
+                                        }
+                                        setState={returnHandleChoiceValue(idx)}
+                                        label={`선택지 값 ${idx + 1}`}
+                                        required
+                                    />
+                                    <Button
+                                        sx={{ width: "30%" }}
+                                        onClick={() => {
+                                            removeChoice(idx);
+                                        }}
+                                        variant="contained"
+                                    >
+                                        삭제
+                                    </Button>
+                                </Box>
+                                <Button onClick={() => addChoice(idx)}>
+                                    선택지 추가
                                 </Button>
                             </Box>
-                            <Button>선택지 추가</Button>
-                        </Box>;
+                        );
                     })}
                 <Box
                     sx={{

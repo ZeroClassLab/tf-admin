@@ -40,6 +40,7 @@ const AddQuestionButton = () => {
                 id: "",
                 name: "",
                 label: "",
+                required: false,
                 type: InputFieldType.BASIC,
                 autoComplete: "",
                 localStorageValueKey: "",

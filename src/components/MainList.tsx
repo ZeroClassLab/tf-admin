@@ -7,6 +7,7 @@ import ListItemText from "@mui/material/ListItemText";
 
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import CreateIcon from "@mui/icons-material/Create";
+import RoomServiceIcon from "@mui/icons-material/RoomService";
 
 interface MainListProps {
     setCurPage: React.Dispatch<React.SetStateAction<number>>;
@@ -38,6 +39,18 @@ const MainList: React.VFC<MainListProps> = ({ setCurPage }) => {
                     <CreateIcon />
                 </ListItemIcon>
                 <ListItemText primary="질문 작성하기" />
+            </ListItem>
+
+            <ListItem
+                button
+                onClick={() => {
+                    setCurPage(4);
+                }}
+            >
+                <ListItemIcon>
+                    <RoomServiceIcon />
+                </ListItemIcon>
+                <ListItemText primary="서비스 확인하기" />
             </ListItem>
         </List>
     );

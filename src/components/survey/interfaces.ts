@@ -9,11 +9,21 @@ export interface SectionData {
     subtitle: string;
 }
 
+export interface ChoiceLabel {
+    value: string;
+    label: string;
+}
+
 export interface ContentsData {
     id: string;
     type: InputFieldType;
     name: string;
     label: string;
+
+    /**
+     * 선택사항?
+     */
+    required: boolean;
 
     /**
      * type 이 텍스트 종류일 경우만 사용하나 편한 사용을 위해 모두 포함함
@@ -33,12 +43,7 @@ export interface ContentsData {
     /**
      * type: radio
      */
-    choices?: string[];
-
-    /**
-     * type: radio
-     */
-    multiselect?: boolean;
+    choices?: ChoiceLabel[];
 
     /**
      * type 이 IMAGE 일 경우

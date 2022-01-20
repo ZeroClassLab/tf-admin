@@ -48,10 +48,19 @@ const Info: React.VFC = () => {
                     <Typography variant="h4" sx={{ mt: 2, mb: 2 }}>
                         {sectionInfos[activeStep].title}
                     </Typography>
-
-                    <Typography variant="subtitle1" sx={{ mt: 2, mb: 4 }}>
-                        {sectionInfos[activeStep].subtitle}
-                    </Typography>
+                    {sectionInfos[activeStep].subtitle
+                        .split("\n")
+                        .map((line, i) => {
+                            return (
+                                <Typography
+                                    key={`${line}-line-${i}`}
+                                    variant="subtitle1"
+                                    sx={{ mt: 2, mb: 2 }}
+                                >
+                                    {line}
+                                </Typography>
+                            );
+                        })}
                     <InfoContent />
                 </>
             ) : (

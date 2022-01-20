@@ -12,6 +12,7 @@ export const modifyInputFieldData = (
                 name: data.name,
                 type: data.type,
                 label: data.label,
+                required: data.required,
                 autoComplete: data.autoComplete,
                 localStorageValueKey: data.localStorageValueKey,
             };
@@ -21,6 +22,7 @@ export const modifyInputFieldData = (
                 name: data.name,
                 type: data.type,
                 label: data.label,
+                required: data.required,
                 autoComplete: data.autoComplete,
                 localStorageValueKey: data.localStorageValueKey,
                 maxRowsNum: data.maxRowsNum ?? "6",
@@ -31,10 +33,12 @@ export const modifyInputFieldData = (
                 name: data.name,
                 type: data.type,
                 label: data.label,
+                required: data.required,
                 autoComplete: data.autoComplete,
                 localStorageValueKey: data.localStorageValueKey,
-                choices: data.choices ?? ["선택지 1"],
-                multiselect: data.multiselect ?? false,
+                choices: data.choices ?? [
+                    { label: "선택지 1", value: "choice1" },
+                ],
             };
         case InputFieldType.PHONE:
             return {
@@ -42,6 +46,7 @@ export const modifyInputFieldData = (
                 name: data.name,
                 type: data.type,
                 label: data.label,
+                required: data.required,
                 autoComplete: data.autoComplete,
                 localStorageValueKey: data.localStorageValueKey,
             };
@@ -51,6 +56,7 @@ export const modifyInputFieldData = (
                 name: data.name,
                 type: data.type,
                 label: data.label,
+                required: data.required,
                 autoComplete: data.autoComplete,
                 localStorageValueKey: data.localStorageValueKey,
                 unitMask: data.unitMask ?? "원",
@@ -61,6 +67,7 @@ export const modifyInputFieldData = (
                 name: data.name,
                 type: data.type,
                 label: data.label,
+                required: data.required,
                 autoComplete: data.autoComplete,
                 localStorageValueKey: data.localStorageValueKey,
             };
@@ -70,18 +77,20 @@ export const modifyInputFieldData = (
                 name: data.name,
                 type: data.type,
                 label: data.label,
+                required: data.required,
                 autoComplete: data.autoComplete,
                 localStorageValueKey: data.localStorageValueKey,
                 maxImageNums: data.maxImageNums ?? "5",
             };
         case InputFieldType.ITEMTAGGER:
             return {
-                id: data.id,
-                name: data.name,
+                id: "tf-itemtagger",
+                name: "tfItemtagger",
                 type: data.type,
                 label: data.label,
-                autoComplete: data.autoComplete,
-                localStorageValueKey: data.localStorageValueKey,
+                required: data.required,
+                autoComplete: "tfItemtagger",
+                localStorageValueKey: "tfItemtagger",
                 maxImageNums: data.maxImageNums ?? "5",
             };
         case InputFieldType.NEU: // TODO new feature
@@ -89,6 +98,7 @@ export const modifyInputFieldData = (
                 id: "",
                 name: "",
                 type: data.type,
+                required: false,
                 label: "",
                 autoComplete: "",
                 localStorageValueKey: "",

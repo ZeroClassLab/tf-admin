@@ -2,6 +2,7 @@ import React from "react";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import IconButton from "@mui/material/IconButton";
+import Chip from "@mui/material/Chip";
 import SettingsIcon from "@mui/icons-material/Settings";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -17,9 +18,15 @@ interface InputFieldProps {
     label: string;
     type: string;
     idx: number;
+    required: boolean;
 }
 
-const InputField: React.VFC<InputFieldProps> = ({ label, type, idx }) => {
+const InputField: React.VFC<InputFieldProps> = ({
+    label,
+    type,
+    idx,
+    required,
+}) => {
     const setIsSettingsOpened = useSetRecoilState(
         isInpuFieldSettingsOpenedState
     );
@@ -67,12 +74,18 @@ const InputField: React.VFC<InputFieldProps> = ({ label, type, idx }) => {
                 m: 2,
                 display: "flex",
                 alignItems: "center",
-                justifyContent: "left",
+                justifyContent: "space-between",
             }}
             elevation={2}
         >
-            <Box>{label}</Box>
-            <Box>
+            <Box sx={{ m: 1 }}>{label}</Box>
+            <Box sx={{ m: 1 }}>
+                <Chip label={type} variant="filled" color="error" />
+                {required && (
+                    <Chip label={"required"} variant="filled" color="success" />
+                )}
+            </Box>
+            <Box sx={{ m: 1 }}>
                 <IconButton onClick={openSettings}>
                     <SettingsIcon />
                 </IconButton>

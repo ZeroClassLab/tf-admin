@@ -14,6 +14,7 @@ interface BasicBlankProps {
     label?: string;
     sx?: any;
     required?: boolean;
+    disabled?: boolean;
 }
 
 const BasicBlank: React.VFC<BasicBlankProps> = ({
@@ -29,6 +30,7 @@ const BasicBlank: React.VFC<BasicBlankProps> = ({
     label,
     sx,
     required,
+    disabled,
 }) => {
     return (
         <TextField
@@ -44,6 +46,7 @@ const BasicBlank: React.VFC<BasicBlankProps> = ({
             label={label}
             sx={sx}
             required={required}
+            disabled={disabled}
         />
     );
 };
