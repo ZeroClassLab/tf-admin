@@ -24,6 +24,7 @@ export const currentFormContentData = atom<FormContentData>({
 
 interface SurveyContentData extends SurveyInfoProps {
     schemaString: string;
+    _id: string;
 }
 
 export const surveyContentDataListState = atom<SurveyContentData[]>({

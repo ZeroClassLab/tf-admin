@@ -5,6 +5,8 @@ import {
     stepperState,
     sectionState,
     contentsState,
+    nowSurveyObjectIdState,
+    nowSurveyInfoState,
 } from "./recoils";
 
 import Box from "@mui/material/Box";
@@ -13,17 +15,6 @@ import TitleGrid from "../main/TitleGrid";
 import AddPaper from "./AddPaper";
 import EditPaper from "./EditPaper";
 
-const mockups = [
-    {
-        name: "예제 폼 이름",
-        authors: "[]",
-        isCoEditbale: true,
-        isPublished: true,
-        isSelected: true,
-        schemaString: "",
-    },
-];
-
 const SurveyFormPage = () => {
     const surveyContentList = useRecoilValue(surveyContentDataListState);
     const setSurveyType = useSetRecoilState(surveyTypeState);
@@ -31,9 +22,20 @@ const SurveyFormPage = () => {
     const setSection = useSetRecoilState(sectionState);
     const setContents = useSetRecoilState(contentsState);
     const setCurPage = useSetRecoilState(currentPageState);
+    const setNowSurveyObjectId = useSetRecoilState(nowSurveyObjectIdState);
+    const setNowSurveyInfo = useSetRecoilState(nowSurveyInfoState);
 
     const openTheSurvey = (idx: number) => {
         const surveyInfo = surveyContentList[idx];
+        setNowSurveyInfo({
+            name: surveyInfo.name,
+            authors: surveyInfo.authors,
+            isCoEditable: surveyInfo.isCoEditable,
+            isPublished: surveyInfo.isPublished,
+            isSelected: surveyInfo.isSelected,
+        });
+
+        setNowSurveyObjectId(surveyInfo._id);
 
         const schema = JSON.parse(surveyInfo.schemaString);
         setSurveyType(schema.type);

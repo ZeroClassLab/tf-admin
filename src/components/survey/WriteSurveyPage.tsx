@@ -1,5 +1,6 @@
+import { useEffect } from "react";
 import Infos from "./Infos";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -16,6 +17,8 @@ import {
     sectionState,
     contentsState,
     surveyTypeState,
+    nowSurveyObjectIdState,
+    selectedSurveyObjectIdState,
 } from "./recoils";
 import axios from "axios";
 import SurveyInfoBox from "./SurveyInfoBox";
@@ -31,8 +34,27 @@ const WriteSurveyPage = () => {
     const section = useRecoilValue(sectionState);
     const contents = useRecoilValue(contentsState);
     const surveyType = useRecoilValue(surveyTypeState);
+    const nowSurveyObjectId = useRecoilValue(nowSurveyObjectIdState);
+    const [selectedSurveyObjectId, setSelectedSurveyObjectId] = useRecoilState(
+        selectedSurveyObjectIdState
+    );
     const theme = useTheme();
     const isOverMd = useMediaQuery(theme.breakpoints.up("md"));
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const d = await axios.get(
+                    `${process.env.REACT_APP_SURVEY_BACK}/survey/selected`
+                );
+                console.log(d.data._id);
+                setSelectedSurveyObjectId(d.data._id);
+            } catch (e) {
+                console.log(e);
+            }
+        };
+        fetchData();
+    }, []);
 
     const saveSurvey = async () => {
         // axios.post(`${process.env.REACT_APP_SURVEY_BACK}/form`, {});
@@ -62,6 +84,13 @@ const WriteSurveyPage = () => {
         } catch (e) {
             console.log(e);
         }
+    };
+
+    const selectSurvey = async () => {
+        await axios.patch(
+            `${process.env.REACT_APP_SURVEY_BACK}/survey/select/${nowSurveyObjectId}`
+        );
+        setSelectedSurveyObjectId(nowSurveyObjectId);
     };
 
     return (
@@ -115,6 +144,20 @@ const WriteSurveyPage = () => {
 
                 <Grid item xs={6} sm={6} md={6} lg={6} xl={isOverMd ? 2 : 3}>
                     {!isViewMode && <AddQuestionButton />}
+                    {isViewMode && (
+                        <Button
+                            onClick={selectSurvey}
+                            variant="contained"
+                            fullWidth
+                            disabled={
+                                selectedSurveyObjectId === nowSurveyObjectId
+                            }
+                        >
+                            {selectedSurveyObjectId === nowSurveyObjectId
+                                ? "선택됨"
+                                : "선택하기"}
+                        </Button>
+                    )}
                 </Grid>
                 <Grid item xs={6} sm={6} md={6} lg={6} xl={isOverMd ? 2 : 3}>
                     <Button variant="contained" fullWidth onClick={saveSurvey}>

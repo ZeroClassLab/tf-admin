@@ -87,6 +87,16 @@ export const nowTargetInputFieldIndexState = atom({
     default: 0,
 });
 
+export const nowSurveyObjectIdState = atom({
+    key: "nowSurveyObjectId",
+    default: "",
+});
+
+export const selectedSurveyObjectIdState = atom({
+    key: "selectedSurveyObjectId",
+    default: "",
+});
+
 // selector
 
 /**
