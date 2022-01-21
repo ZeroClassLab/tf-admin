@@ -1,5 +1,5 @@
 import Infos from "./Infos";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -9,7 +9,14 @@ import Grid from "@mui/material/Grid";
 import Switch from "@mui/material/Switch";
 import Paper from "@mui/material/Paper";
 
-import { isSurveyViewModeState, nowSurveyInfoState } from "./recoils";
+import {
+    isSurveyViewModeState,
+    nowSurveyInfoState,
+    stepperState,
+    sectionState,
+    contentsState,
+    surveyTypeState,
+} from "./recoils";
 import axios from "axios";
 import SurveyInfoBox from "./SurveyInfoBox";
 import InputFieldSettings from "./InputFieldSettings";
@@ -20,12 +27,41 @@ import { useTheme } from "@mui/material/styles";
 const WriteSurveyPage = () => {
     const [isViewMode, setIsViewMode] = useRecoilState(isSurveyViewModeState);
     const [surveyInfo, setSurveyInfo] = useRecoilState(nowSurveyInfoState);
+    const stepper = useRecoilValue(stepperState);
+    const section = useRecoilValue(sectionState);
+    const contents = useRecoilValue(contentsState);
+    const surveyType = useRecoilValue(surveyTypeState);
     const theme = useTheme();
     const isOverMd = useMediaQuery(theme.breakpoints.up("md"));
 
     const saveSurvey = async () => {
         // axios.post(`${process.env.REACT_APP_SURVEY_BACK}/form`, {});
         console.log(surveyInfo);
+        console.log(stepper);
+        console.log(section);
+        console.log(contents);
+        console.log(surveyType);
+        const stringifiedSchema = JSON.stringify({
+            stepper,
+            section,
+            contents,
+            type: surveyType,
+        });
+        const sendingData = {
+            ...surveyInfo,
+            schemaString: stringifiedSchema,
+        };
+
+        console.log(sendingData);
+        try {
+            const d = await axios.post(
+                `${process.env.REACT_APP_SURVEY_BACK}/survey`,
+                sendingData
+            );
+            console.log(d);
+        } catch (e) {
+            console.log(e);
+        }
     };
 
     return (

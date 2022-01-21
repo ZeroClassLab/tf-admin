@@ -70,5 +70,7 @@ export interface SurveyInfoProps {
     isSelected: boolean;
 }
 
-export interface EditPaperProps extends SurveyPaperProps {}
+export interface EditPaperProps extends SurveyPaperProps {
+    title: string;
+}
 export interface AddPaperProps extends SurveyPaperProps {}

@@ -1,14 +1,11 @@
-import { useEffect } from "react";
-import { useRecoilValue } from "recoil";
-import { surveyContentDataListState } from "../recoils";
-// import {
-//     surveyTypeState,
-//     stepperState,
-//     sectionState,
-//     ContentsState,
-//     activeStepState,
-//     isSurveyViewModeState,
-// } from "./recoils";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { currentPageState, surveyContentDataListState } from "../recoils";
+import {
+    surveyTypeState,
+    stepperState,
+    sectionState,
+    contentsState,
+} from "./recoils";
 
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
@@ -29,17 +26,38 @@ const mockups = [
 
 const SurveyFormPage = () => {
     const surveyContentList = useRecoilValue(surveyContentDataListState);
+    const setSurveyType = useSetRecoilState(surveyTypeState);
+    const setStepper = useSetRecoilState(stepperState);
+    const setSection = useSetRecoilState(sectionState);
+    const setContents = useSetRecoilState(contentsState);
+    const setCurPage = useSetRecoilState(currentPageState);
+
+    const openTheSurvey = (idx: number) => {
+        const surveyInfo = surveyContentList[idx];
+
+        const schema = JSON.parse(surveyInfo.schemaString);
+        setSurveyType(schema.type);
+        setStepper(schema.stepper);
+        setSection(schema.section);
+        setContents(schema.contents);
+
+        setCurPage(30);
+    };
+
     // const [] =
     return (
         <Box sx={{ m: 3, p: 2 }}>
             <Grid container>
                 <TitleGrid text={"질문 폼"} />
                 <Grid item xs={12} flexWrap={"wrap"} display={"flex"}>
-                    {mockups.map((surveyContentData, idx) => {
+                    {surveyContentList.map((surveyContentData, idx) => {
                         return (
                             <EditPaper
                                 key={`surveypaper-${idx}`}
-                                onClick={() => {}}
+                                onClick={() => {
+                                    openTheSurvey(idx);
+                                }}
+                                title={surveyContentData.name}
                             />
                         );
                     })}

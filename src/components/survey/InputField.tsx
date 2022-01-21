@@ -47,7 +47,7 @@ const InputField: React.VFC<InputFieldProps> = ({
             name: `${targetField.name}Copy`,
             label: `${targetField.label}의 복사`,
             autoComplete: `${targetField.autoComplete}Copy`,
-            localStorageValue: `${targetField.localStorageValue}Copy`,
+            localStorageValueKey: `${targetField.localStorageValueKey}Copy`,
         };
         const newContent = [...contents[activeStep]];
         const newContents = [...contents];

@@ -13,6 +13,12 @@ import BasicInputField from "./views/BasicInputField";
 import ItemTaggerInputField from "./views/ItemTaggerInputField";
 import { SubmitHandler, useForm } from "react-hook-form";
 import RadioInputField from "./views/RadioInputField";
+import PhoneInputField from "./views/PhoneInputField";
+import MoneyInputField from "./views/MoneyInputField";
+import MainImage from "../itemTaggingComponent/MainImage";
+import { imagesInputState } from "./mock/ImageInputsMockups";
+import KakaoAddressInputField from "./views/KakaoAddressInputField";
+import EmailInputField from "./views/EmailInputField";
 
 const InfoContent = () => {
     const contentsList = useRecoilValue(contentsState);
@@ -75,9 +81,54 @@ const InfoContent = () => {
                                 formState={formState}
                             />
                         );
+                    } else if (field.type === InputFieldType.EMAIL) {
+                        return (
+                            <EmailInputField
+                                key={`viewmode-inputfield-${idx}`}
+                                id={field.id}
+                                name={field.name}
+                                label={field.label}
+                                autoComplete={field.autoComplete}
+                                localStorageValueKey={
+                                    field.localStorageValueKey
+                                }
+                                control={control}
+                                formState={formState}
+                            />
+                        );
+                    } else if (field.type === InputFieldType.PHONE) {
+                        return (
+                            <PhoneInputField
+                                key={`viewmode-inputfield-${idx}`}
+                                id={field.id}
+                                name={field.name}
+                                label={field.label}
+                                autoComplete={field.autoComplete}
+                                localStorageValueKey={
+                                    field.localStorageValueKey
+                                }
+                                control={control}
+                                formState={formState}
+                            />
+                        );
+                    } else if (field.type === InputFieldType.MONEY) {
+                        return (
+                            <MoneyInputField
+                                key={`viewmode-inputfield-${idx}`}
+                                id={field.id}
+                                name={field.name}
+                                label={field.label}
+                                autoComplete={field.autoComplete}
+                                localStorageValueKey={
+                                    field.localStorageValueKey
+                                }
+                                control={control}
+                                formState={formState}
+                            />
+                        );
                     } else if (field.type === InputFieldType.RADIO) {
                         return (
-                            <Box>
+                            <Box key={`viewmode-inputfield-${idx}`}>
                                 <RadioInputField
                                     name={field.name}
                                     id={field.id}
@@ -91,14 +142,42 @@ const InfoContent = () => {
                                 />
                             </Box>
                         );
+                    } else if (field.type === InputFieldType.IMAGE) {
+                        return (
+                            <Box key={`viewmode-inputfield-${idx}`}>
+                                <Typography variant="body1">
+                                    {field.label}
+                                </Typography>
+                                <MainImage
+                                    maxImageNum={Number(field.maxImageNums)}
+                                    mainImageFilesRecoil={imagesInputState}
+                                />
+                            </Box>
+                        );
                     } else if (field.type === InputFieldType.ITEMTAGGER) {
                         return (
-                            <Box>
+                            <Box key={`viewmode-inputfield-${idx}`}>
                                 <Typography variant="body1">
                                     {field.label}
                                 </Typography>
                                 <ItemTaggerInputField
                                     maxImageLength={Number(field.maxImageNums)}
+                                />
+                            </Box>
+                        );
+                    } else if (field.type === InputFieldType.KAKAO_ADDRESS) {
+                        return (
+                            <Box key={`viewmode-inputfield-${idx}`}>
+                                <KakaoAddressInputField
+                                    id={field.id}
+                                    name={field.name}
+                                    label={field.label}
+                                    autoComplete={field.autoComplete}
+                                    localStorageValueKey={
+                                        field.localStorageValueKey
+                                    }
+                                    control={control}
+                                    formState={formState}
                                 />
                             </Box>
                         );

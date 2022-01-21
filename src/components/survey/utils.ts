@@ -50,6 +50,16 @@ export const modifyInputFieldData = (
                 autoComplete: data.autoComplete,
                 localStorageValueKey: data.localStorageValueKey,
             };
+        case InputFieldType.EMAIL:
+            return {
+                id: data.id,
+                name: data.name,
+                type: data.type,
+                label: data.label,
+                required: data.required,
+                autoComplete: data.autoComplete,
+                localStorageValueKey: data.localStorageValueKey,
+            };
         case InputFieldType.MONEY:
             return {
                 id: data.id,

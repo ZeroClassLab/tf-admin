@@ -1,4 +1,5 @@
 import { atom, selector } from "recoil";
+import { SurveyInfoProps } from "./survey/interfaces";
 
 export const currentPageState = atom({ key: "currentPage", default: 0 });
 
@@ -21,8 +22,8 @@ export const currentFormContentData = atom<FormContentData>({
     default: {},
 });
 
-interface SurveyContentData {
-    [key: string]: any;
+interface SurveyContentData extends SurveyInfoProps {
+    schemaString: string;
 }
 
 export const surveyContentDataListState = atom<SurveyContentData[]>({

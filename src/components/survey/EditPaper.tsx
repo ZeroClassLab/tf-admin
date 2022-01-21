@@ -1,10 +1,10 @@
 import { EditPaperProps } from "./interfaces";
 import SurveyPaper from "./SurveyPaper";
 
-const EditPaper: React.VFC<EditPaperProps> = ({ onClick }) => {
+const EditPaper: React.VFC<EditPaperProps> = ({ onClick, title }) => {
     return (
         <SurveyPaper onClick={onClick}>
-            <div>수정화면</div>
+            <div>{title}</div>
         </SurveyPaper>
     );
 };

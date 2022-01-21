@@ -56,9 +56,10 @@ const RadioInputField: React.VFC<RadioInputFieldProps> = ({
                         aria-label={id}
                         name={name}
                     >
-                        {choices?.map((choice) => {
+                        {choices?.map((choice, i) => {
                             return (
                                 <FormControlLabel
+                                    key={`radio-input-view-label-${i}`}
                                     value={choice.value}
                                     control={<Radio />}
                                     label={choice.label}
