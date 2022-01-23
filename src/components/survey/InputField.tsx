@@ -75,6 +75,7 @@ const InputField: React.VFC<InputFieldProps> = ({
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "space-between",
+                width: "100%",
             }}
             elevation={2}
         >

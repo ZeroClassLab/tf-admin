@@ -31,3 +31,8 @@ export const surveyContentDataListState = atom<SurveyContentData[]>({
     key: "surveyContentDataList",
     default: [],
 });
+
+export const isSurveySavingState = atom({
+    key: "isSurveySaving",
+    default: false,
+});

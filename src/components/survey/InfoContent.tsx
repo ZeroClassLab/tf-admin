@@ -40,7 +40,8 @@ const InfoContent = () => {
                 display: "flex",
                 flexDirection: "column",
                 mt: 2,
-                width: "60%",
+
+                width: isViewMode ? "100%" : "70%",
             }}
         >
             {/* <div>
@@ -144,7 +145,10 @@ const InfoContent = () => {
                         );
                     } else if (field.type === InputFieldType.IMAGE) {
                         return (
-                            <Box key={`viewmode-inputfield-${idx}`}>
+                            <Box
+                                sx={{ mt: 4 }}
+                                key={`viewmode-inputfield-${idx}`}
+                            >
                                 <Typography variant="body1">
                                     {field.label}
                                 </Typography>

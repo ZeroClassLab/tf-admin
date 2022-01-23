@@ -11,14 +11,17 @@ import { useSetRecoilState } from "recoil";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import SurveyPaper from "./SurveyPaper";
 import { currentPageState } from "../recoils";
+import { nowSurveyObjectIdState } from "./recoils";
 
 const AddPaper = () => {
     // const useSetRecoilState;
     const setCurPage = useSetRecoilState(currentPageState);
+    const setNowSurveyObjectId = useSetRecoilState(nowSurveyObjectIdState);
 
     return (
         <SurveyPaper
             onClick={() => {
+                setNowSurveyObjectId("");
                 setCurPage(30);
             }}
         >

@@ -36,6 +36,7 @@ const PhoneInputField: React.VFC<PhoneInputFieldProps> = ({
             render={({ field }) => (
                 <FormControl sx={{ mt: 2, mb: 2 }}>
                     <TextField
+                        sx={{ width: "60%" }}
                         id={id}
                         label={label}
                         variant="standard"

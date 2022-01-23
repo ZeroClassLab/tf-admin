@@ -40,6 +40,7 @@ const EmailInputField: React.VFC<EmailInputFieldProps> = ({
                         }}
                     >
                         <TextField
+                            sx={{ width: "60%" }}
                             id={id}
                             label={label}
                             variant={"standard"}

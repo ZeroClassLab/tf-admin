@@ -69,7 +69,6 @@ const theme = createTheme({
             fontSize: "1.125rem",
         },
         subtitle1: {
-            fontWeight: "bold",
             fontSize: "1.125rem",
         },
         fontFamily: [

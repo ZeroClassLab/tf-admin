@@ -55,7 +55,7 @@ const MoneyInputField: React.VFC<MoneyInputFieldProps> = ({
             control={control}
             render={({ field }) => (
                 <FormControl
-                    sx={{ mt: 2, mb: 5 }}
+                    sx={{ mt: 2, mb: 2, width: "60%" }}
                     error={!!formState.errors?.[name]}
                     component="legend"
                 >

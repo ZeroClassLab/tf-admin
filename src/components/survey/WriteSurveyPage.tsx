@@ -26,10 +26,16 @@ import InputFieldSettings from "./InputFieldSettings";
 import AddQuestionButton from "./AddQuestionButton";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
+import {
+    isLoadingState,
+    isSurveySavingState,
+    surveyContentDataListState,
+} from "../recoils";
 
 const WriteSurveyPage = () => {
     const [isViewMode, setIsViewMode] = useRecoilState(isSurveyViewModeState);
     const [surveyInfo, setSurveyInfo] = useRecoilState(nowSurveyInfoState);
+
     const stepper = useRecoilValue(stepperState);
     const section = useRecoilValue(sectionState);
     const contents = useRecoilValue(contentsState);
@@ -40,6 +46,11 @@ const WriteSurveyPage = () => {
     );
     const theme = useTheme();
     const isOverMd = useMediaQuery(theme.breakpoints.up("md"));
+    const setSurveyContentDataList = useSetRecoilState(
+        surveyContentDataListState
+    );
+    const setIsReloading = useSetRecoilState(isLoadingState);
+    const setIsSurveySaving = useSetRecoilState(isSurveySavingState);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -76,12 +87,34 @@ const WriteSurveyPage = () => {
 
         console.log(sendingData);
         try {
-            const d = await axios.post(
-                `${process.env.REACT_APP_SURVEY_BACK}/survey`,
-                sendingData
+            setIsSurveySaving(true);
+            setIsReloading(true);
+
+            if (nowSurveyObjectId === "") {
+                const d = await axios.post(
+                    `${process.env.REACT_APP_SURVEY_BACK}/survey`,
+                    sendingData
+                );
+                console.log(d);
+            } else {
+                const d = await axios.put(
+                    `${process.env.REACT_APP_SURVEY_BACK}/survey/${nowSurveyObjectId}`,
+                    sendingData
+                );
+                console.log(d);
+            }
+
+            // 질문형식 불러오기
+
+            const surveyRes = await axios.get(
+                `${process.env.REACT_APP_SURVEY_BACK}/survey/`
             );
-            console.log(d);
+            setSurveyContentDataList(surveyRes.data);
+            setIsReloading(false);
+            setIsSurveySaving(false);
         } catch (e) {
+            setIsReloading(false);
+            setIsSurveySaving(false);
             console.log(e);
         }
     };
@@ -102,72 +135,108 @@ const WriteSurveyPage = () => {
                 pb: 4,
                 overflow: "scroll",
                 height: "80vh",
-                display: "relative",
+                position: "relative",
             }}
         >
-            {/* <Box sx={{ height: 100 }}></Box> */}
-            <Grid
-                container
-                spacing={2}
-                sx={{
-                    position: "sticky",
-                    top: 0,
-                    backgroundColor: "rgba(255,255,255, 0.9)",
-                    zIndex: 99,
-                    pb: 3,
-                }}
+            <Box
+                sx={
+                    isViewMode
+                        ? {
+                              display: "flex",
+                              flexDirection: "column",
+                              justifyContent: "center",
+                              alignItems: "center",
+                          }
+                        : {}
+                }
             >
-                <Grid item xs={11} sm={10} md={10} lg={4} xl={isOverMd ? 3 : 4}>
-                    <FormGroup>
-                        <FormControlLabel
-                            control={
-                                <Switch
-                                    checked={isViewMode}
-                                    onChange={() => {
-                                        setIsViewMode(!isViewMode);
-                                    }}
-                                />
-                            }
-                            label="미리보기"
-                        />
-                    </FormGroup>
-                </Grid>
-
                 <Grid
-                    item
-                    xs={1}
-                    sm={2}
-                    md={2}
-                    lg={2}
-                    xl={isOverMd ? 5 : 2}
-                ></Grid>
+                    container
+                    spacing={2}
+                    sx={{
+                        position: "sticky",
+                        top: 0,
+                        backgroundColor: "rgba(255,255,255, 0.9)",
+                        zIndex: 99,
+                        pb: 3,
+                    }}
+                >
+                    <Grid
+                        item
+                        xs={11}
+                        sm={10}
+                        md={10}
+                        lg={4}
+                        xl={isOverMd ? 3 : 4}
+                    >
+                        <FormGroup>
+                            <FormControlLabel
+                                control={
+                                    <Switch
+                                        checked={isViewMode}
+                                        onChange={() => {
+                                            setIsViewMode(!isViewMode);
+                                        }}
+                                    />
+                                }
+                                label="미리보기"
+                            />
+                        </FormGroup>
+                    </Grid>
 
-                <Grid item xs={6} sm={6} md={6} lg={6} xl={isOverMd ? 2 : 3}>
-                    {!isViewMode && <AddQuestionButton />}
-                    {isViewMode && (
+                    <Grid
+                        item
+                        xs={1}
+                        sm={2}
+                        md={2}
+                        lg={2}
+                        xl={isOverMd ? 5 : 2}
+                    ></Grid>
+
+                    <Grid
+                        item
+                        xs={6}
+                        sm={6}
+                        md={6}
+                        lg={6}
+                        xl={isOverMd ? 2 : 3}
+                    >
+                        {!isViewMode && <AddQuestionButton />}
+                        {isViewMode && (
+                            <Button
+                                onClick={selectSurvey}
+                                variant="contained"
+                                fullWidth
+                                disabled={
+                                    selectedSurveyObjectId === nowSurveyObjectId
+                                }
+                            >
+                                {selectedSurveyObjectId === nowSurveyObjectId
+                                    ? "선택됨"
+                                    : "선택하기"}
+                            </Button>
+                        )}
+                    </Grid>
+                    <Grid
+                        item
+                        xs={6}
+                        sm={6}
+                        md={6}
+                        lg={6}
+                        xl={isOverMd ? 2 : 3}
+                    >
                         <Button
-                            onClick={selectSurvey}
                             variant="contained"
                             fullWidth
-                            disabled={
-                                selectedSurveyObjectId === nowSurveyObjectId
-                            }
+                            onClick={saveSurvey}
                         >
-                            {selectedSurveyObjectId === nowSurveyObjectId
-                                ? "선택됨"
-                                : "선택하기"}
+                            저장하기
                         </Button>
-                    )}
+                    </Grid>
                 </Grid>
-                <Grid item xs={6} sm={6} md={6} lg={6} xl={isOverMd ? 2 : 3}>
-                    <Button variant="contained" fullWidth onClick={saveSurvey}>
-                        저장하기
-                    </Button>
-                </Grid>
-            </Grid>
-            {!isViewMode && <SurveyInfoBox />}
-
-            <Infos />
+                {!isViewMode && <SurveyInfoBox />}
+                <Infos />
+            </Box>
             <InputFieldSettings />
         </Paper>
     );

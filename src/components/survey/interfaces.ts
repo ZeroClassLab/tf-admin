@@ -58,6 +58,13 @@ export interface ContentsData {
     [key: string]: any;
 }
 
+export interface SurveySchema {
+    type: string;
+    stepper: StepperData[];
+    section: SectionData[];
+    contents: ContentsData[][];
+}
+
 export interface SurveyPaperProps {
     onClick: () => void;
 }
@@ -68,9 +75,16 @@ export interface SurveyInfoProps {
     isCoEditable: boolean;
     isPublished: boolean;
     isSelected: boolean;
+    modifiedDate?: string;
 }
 
 export interface EditPaperProps extends SurveyPaperProps {
     title: string;
+    preview: {
+        section: SectionData;
+        contents: ContentsData[];
+        modifiedDate: string;
+    };
+    surveyType: string;
 }
 export interface AddPaperProps extends SurveyPaperProps {}

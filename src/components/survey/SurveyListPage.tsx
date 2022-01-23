@@ -1,4 +1,4 @@
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState, useRecoilState } from "recoil";
 import { currentPageState, surveyContentDataListState } from "../recoils";
 import {
     surveyTypeState,
@@ -14,12 +14,13 @@ import Grid from "@mui/material/Grid";
 import TitleGrid from "../main/TitleGrid";
 import AddPaper from "./AddPaper";
 import EditPaper from "./EditPaper";
+import { SurveySchema } from "./interfaces";
 
 const SurveyFormPage = () => {
     const surveyContentList = useRecoilValue(surveyContentDataListState);
-    const setSurveyType = useSetRecoilState(surveyTypeState);
+    const [surveyType, setSurveyType] = useRecoilState(surveyTypeState);
     const setStepper = useSetRecoilState(stepperState);
-    const setSection = useSetRecoilState(sectionState);
+    const [section, setSection] = useRecoilState(sectionState);
     const setContents = useSetRecoilState(contentsState);
     const setCurPage = useSetRecoilState(currentPageState);
     const setNowSurveyObjectId = useSetRecoilState(nowSurveyObjectIdState);
@@ -37,13 +38,28 @@ const SurveyFormPage = () => {
 
         setNowSurveyObjectId(surveyInfo._id);
 
-        const schema = JSON.parse(surveyInfo.schemaString);
+        const schema = JSON.parse(surveyInfo.schemaString) as SurveySchema;
         setSurveyType(schema.type);
         setStepper(schema.stepper);
         setSection(schema.section);
         setContents(schema.contents);
 
         setCurPage(30);
+    };
+
+    const showPreview = (idx: number) => {
+        const surveyInfo = surveyContentList[idx];
+        const schema = JSON.parse(surveyInfo.schemaString) as SurveySchema;
+        console.log(surveyInfo?.modifiedDate);
+        const modifiedDate = surveyInfo?.modifiedDate
+            ? new Date(surveyInfo.modifiedDate).toLocaleDateString("ko-KR")
+            : "";
+        console.log(modifiedDate);
+        return {
+            section: schema.section[0],
+            contents: schema.contents[0],
+            modifiedDate,
+        };
     };
 
     // const [] =
@@ -60,6 +76,17 @@ const SurveyFormPage = () => {
                                     openTheSurvey(idx);
                                 }}
                                 title={surveyContentData.name}
+                                preview={
+                                    showPreview(idx) ?? {
+                                        section: {
+                                            title: "",
+                                            subtitle: "",
+                                            lastModified: "",
+                                        },
+                                        type: [{ label: "" }],
+                                    }
+                                }
+                                surveyType={surveyType}
                             />
                         );
                     })}

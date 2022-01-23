@@ -44,7 +44,11 @@ const Infos: React.VFC<InfoProps> = () =>
         const surveyInfo = useRecoilValue(nowSurveyInfoState);
 
         return (
-            <>
+            <Box
+                sx={{
+                    minWidth: isViewMode ? 720 : "none",
+                }}
+            >
                 {/* title */}
                 {isViewMode && (
                     <Typography
@@ -69,7 +73,7 @@ const Infos: React.VFC<InfoProps> = () =>
                 cafeLocationSet={cafeLocation !== ""}
                 handleClose={setIsSubmitAlertModalOpen}
             /> */}
-            </>
+            </Box>
         );
     };
 

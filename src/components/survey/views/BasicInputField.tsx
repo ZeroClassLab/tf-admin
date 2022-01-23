@@ -46,6 +46,7 @@ const BasicInputField: React.VFC<BasicInputFieldProps> = ({
                         }}
                     >
                         <TextField
+                            sx={{ width: isMultiline ? "100%" : "60%" }}
                             id={id}
                             label={label}
                             variant={isMultiline ? "outlined" : "standard"}

@@ -87,11 +87,17 @@ export const nowTargetInputFieldIndexState = atom({
     default: 0,
 });
 
+/**
+ * 지금 프론트 상에서 선택된 서베이 폼
+ */
 export const nowSurveyObjectIdState = atom({
     key: "nowSurveyObjectId",
     default: "",
 });
 
+/**
+ * 지금 선택되어있는 서베이폼
+ */
 export const selectedSurveyObjectIdState = atom({
     key: "selectedSurveyObjectId",
     default: "",

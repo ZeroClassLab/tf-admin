@@ -1,11 +1,11 @@
 import React from "react";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import Typography from "@mui/material/Typography";
-import IconButton from "@mui/material/IconButton";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 
 import { useRecoilValue, useRecoilState } from "recoil";
@@ -96,6 +96,8 @@ const HorizontalLinearStepper = () => {
                         sx={{
                             display: "flex",
                             alignItems: "center",
+                            flexWrap: "wrap",
+                            gap: 2,
                         }}
                     >
                         {steps.map((step, index) => {
@@ -114,6 +116,7 @@ const HorizontalLinearStepper = () => {
                                                 activeStep === index
                                                     ? "#66ccff"
                                                     : "#666666",
+                                            minWidth: 16,
                                         }}
                                         variant="h5"
                                         component="div"
@@ -126,6 +129,7 @@ const HorizontalLinearStepper = () => {
                                         onClick={() => {
                                             setActiveStep(index);
                                         }}
+                                        sx={{ width: 140 }}
                                     />
                                     {stepsLength !== 1 && (
                                         <IconButton
@@ -137,7 +141,7 @@ const HorizontalLinearStepper = () => {
                                         </IconButton>
                                     )}
                                     <Typography
-                                        sx={{ ml: 2, mr: 2 }}
+                                        sx={{ ml: 1, mr: 1 }}
                                         variant="h5"
                                         component="div"
                                     >
@@ -146,14 +150,11 @@ const HorizontalLinearStepper = () => {
                                 </Box>
                             );
                         })}
+
+                        <IconButton onClick={addNewSection}>
+                            <AddCircleOutlineIcon></AddCircleOutlineIcon>
+                        </IconButton>
                     </Box>
-                    <Button
-                        sx={{ mt: 4 }}
-                        variant="contained"
-                        onClick={addNewSection}
-                    >
-                        새로운 섹션 추가
-                    </Button>
                 </>
             )}
         </Box>

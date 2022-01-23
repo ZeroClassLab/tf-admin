@@ -84,7 +84,7 @@ const KakaoAddressInputField: React.VFC<KakaoAddressInputFieldProps> = ({
                 </>
             ) : (
                 <>
-                    <Box sx={{ mt: 4, mb: 2, width: "100%" }}>
+                    <Box sx={{ mt: 2, mb: 2, width: "60%" }}>
                         <TextField
                             id={id}
                             label={label}
@@ -116,7 +116,7 @@ const KakaoAddressInputField: React.VFC<KakaoAddressInputFieldProps> = ({
                         name={`${name}Details`}
                         control={control}
                         render={({ field }) => (
-                            <FormControl sx={{ mt: 0, mb: 4 }}>
+                            <FormControl sx={{ mt: 0, mb: 2, width: "60%" }}>
                                 <TextField
                                     id={`${id}-details`}
                                     label={`${label} (상세)`}

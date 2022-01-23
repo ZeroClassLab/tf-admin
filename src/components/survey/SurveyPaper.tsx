@@ -11,10 +11,12 @@ const SurveyPaper: React.FC<SurveyPaperProps> = ({ children, onClick }) => {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
+                flexDirection: "column",
                 cursor: "pointer",
                 "&:hover": {
                     background: "rgba(212,212,212,50)",
                 },
+                position: "relative",
             }}
             onClick={onClick}
         >
