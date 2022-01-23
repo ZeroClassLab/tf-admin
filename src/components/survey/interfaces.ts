@@ -86,6 +86,7 @@ export interface EditPaperProps extends SurveyPaperProps {
         contents: ContentsData[];
         modifiedDate: string;
         surveyType: string;
+        isSelected: boolean;
     };
 }
 export interface AddPaperProps extends SurveyPaperProps {}

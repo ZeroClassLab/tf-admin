@@ -61,6 +61,7 @@ const SurveyFormPage = () => {
             contents: schema.contents[0],
             modifiedDate,
             surveyType: schema.type,
+            isSelected: surveyInfo.isSelected,
         };
     };
 
@@ -84,8 +85,9 @@ const SurveyFormPage = () => {
                                             title: "",
                                             subtitle: "",
                                             lastModified: "",
+                                            type: "",
+                                            isSelected: false,
                                         },
-                                        type: [{ label: "" }],
                                     }
                                 }
                             />

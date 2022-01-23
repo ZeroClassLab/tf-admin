@@ -89,6 +89,17 @@ const EditPaper: React.VFC<EditPaperProps> = ({ onClick, title, preview }) => {
                         badgeContent={preview.surveyType}
                         color={typeIdx() === 0 ? "primary" : "info"}
                     ></Badge>
+                    {preview.isSelected && (
+                        <Badge
+                            sx={{
+                                position: "absolute",
+                                left: 35,
+                                top: 27,
+                            }}
+                            badgeContent={"V"}
+                            color={"error"}
+                        ></Badge>
+                    )}
                     <Typography
                         sx={{
                             position: "absolute",
