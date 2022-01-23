@@ -50,23 +50,24 @@ const SurveyFormPage = () => {
     const showPreview = (idx: number) => {
         const surveyInfo = surveyContentList[idx];
         const schema = JSON.parse(surveyInfo.schemaString) as SurveySchema;
-        console.log(surveyInfo?.modifiedDate);
+        // console.log(surveyInfo?.modifiedDate);
         const modifiedDate = surveyInfo?.modifiedDate
-            ? new Date(surveyInfo.modifiedDate).toLocaleDateString("ko-KR")
+            ? new Date(surveyInfo.modifiedDate).toLocaleString("ko-KR")
             : "";
-        console.log(modifiedDate);
+        // console.log(modifiedDate);
         return {
             section: schema.section[0],
             contents: schema.contents[0],
             modifiedDate,
+            surveyType: schema.type,
         };
     };
 
     // const [] =
     return (
-        <Box sx={{ m: 3, p: 2 }}>
+        <Box sx={{ mt: 4, mb: 4 }}>
             <Grid container>
-                <TitleGrid text={"질문 폼"} />
+                <TitleGrid sx={{ ml: 3 }} text={"인터뷰 질문들"} />
                 <Grid item xs={12} flexWrap={"wrap"} display={"flex"}>
                     {surveyContentList.map((surveyContentData, idx) => {
                         return (
@@ -86,7 +87,6 @@ const SurveyFormPage = () => {
                                         type: [{ label: "" }],
                                     }
                                 }
-                                surveyType={surveyType}
                             />
                         );
                     })}

@@ -31,6 +31,7 @@ import {
     isSurveySavingState,
     surveyContentDataListState,
 } from "../recoils";
+import FormTypeListDropdown from "../servicetype/FormTypeListDropdown";
 
 const WriteSurveyPage = () => {
     const [isViewMode, setIsViewMode] = useRecoilState(isSurveyViewModeState);
@@ -190,8 +191,12 @@ const WriteSurveyPage = () => {
                         sm={2}
                         md={2}
                         lg={2}
-                        xl={isOverMd ? 5 : 2}
+                        xl={isOverMd ? 3 : 0}
                     ></Grid>
+
+                    <Grid item xs={12} sm={12} md={12} lg={12} xl={2}>
+                        <FormTypeListDropdown />
+                    </Grid>
 
                     <Grid
                         item

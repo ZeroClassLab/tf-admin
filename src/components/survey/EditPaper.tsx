@@ -3,13 +3,25 @@ import SurveyPaper from "./SurveyPaper";
 import Box from "@mui/material/Box";
 import Badge from "@mui/material/Badge";
 import Typography from "@mui/material/Typography";
+import { formTypeListState } from "../servicetype/recoils";
+import { useRecoilValue } from "recoil";
+import { serviceBadgeColors } from "../servicetype/serviceBadgeColors";
 
-const EditPaper: React.VFC<EditPaperProps> = ({
-    onClick,
-    title,
-    preview,
-    surveyType,
-}) => {
+const EditPaper: React.VFC<EditPaperProps> = ({ onClick, title, preview }) => {
+    const formTypeList = useRecoilValue(formTypeListState);
+
+    /**
+     * TODO 커스텀 뱃지 컬러
+     * @returns
+     */
+    const typeIdx = () => {
+        for (let i = 0; i < formTypeList.length; i++) {
+            if (formTypeList[i].name === preview.surveyType) {
+                return i;
+            }
+        }
+        return -1;
+    };
     return (
         <>
             <SurveyPaper onClick={onClick}>
@@ -69,15 +81,28 @@ const EditPaper: React.VFC<EditPaperProps> = ({
                         );
                     })}
                     <Badge
-                        sx={{ position: "absolute", right: 35, top: 27 }}
-                        badgeContent={surveyType}
-                        color="primary"
+                        sx={{
+                            position: "absolute",
+                            right: 35,
+                            top: 27,
+                        }}
+                        badgeContent={preview.surveyType}
+                        color={typeIdx() === 0 ? "primary" : "info"}
                     ></Badge>
                     <Typography
-                        sx={{ position: "absolute", bottom: 10, right: 10 }}
+                        sx={{
+                            position: "absolute",
+                            bottom: 10,
+                            right: 10,
+                            display: "inline-block",
+                            textOverflow: "ellipsis",
+                            whiteSpace: "nowrap",
+                            overflow: "hidden",
+                            width: 190,
+                        }}
                         variant="body2"
                     >
-                        Edited: {preview.modifiedDate}
+                        수정: {preview.modifiedDate}
                     </Typography>
                 </Box>
             </SurveyPaper>

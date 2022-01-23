@@ -125,6 +125,7 @@ const InfoContent = () => {
                                 }
                                 control={control}
                                 formState={formState}
+                                unitMask={field.unitMask ?? "원"}
                             />
                         );
                     } else if (field.type === InputFieldType.RADIO) {

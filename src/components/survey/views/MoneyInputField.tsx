@@ -16,6 +16,8 @@ interface MoneyInputFieldProps {
 
     control: any;
     formState: any;
+
+    unitMask: string;
 }
 
 const MoneyInputField: React.VFC<MoneyInputFieldProps> = ({
@@ -27,6 +29,7 @@ const MoneyInputField: React.VFC<MoneyInputFieldProps> = ({
 
     control,
     formState,
+    unitMask,
 }) => {
     const [value, setValue] = useLocalStorage(localStorageValueKey, "");
 
@@ -77,7 +80,7 @@ const MoneyInputField: React.VFC<MoneyInputFieldProps> = ({
                         InputProps={{
                             endAdornment: (
                                 <InputAdornment position="end">
-                                    원
+                                    {unitMask}
                                 </InputAdornment>
                             ),
                         }}

@@ -84,7 +84,7 @@ export interface EditPaperProps extends SurveyPaperProps {
         section: SectionData;
         contents: ContentsData[];
         modifiedDate: string;
+        surveyType: string;
     };
-    surveyType: string;
 }
 export interface AddPaperProps extends SurveyPaperProps {}

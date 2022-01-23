@@ -9,6 +9,7 @@ import {
     surveyContentDataListState,
 } from "./components/recoils";
 import axios from "axios";
+import { formTypeListState } from "./components/servicetype/recoils";
 
 const App = () => {
     const [data, setData] = useRecoilState(formContentDataListState);
@@ -17,6 +18,8 @@ const App = () => {
     const setSurveyContentDataList = useSetRecoilState(
         surveyContentDataListState
     );
+
+    const setFormTypeList = useSetRecoilState(formTypeListState);
 
     const refresh = () => {
         const fetchData = async () => {
@@ -36,6 +39,12 @@ const App = () => {
                     `${process.env.REACT_APP_SURVEY_BACK}/survey/`
                 );
                 setSurveyContentDataList(surveyRes.data);
+
+                // 서비스 타입들 불러오기
+                const d2 = await axios.get(
+                    `${process.env.REACT_APP_SURVEY_BACK}/formtype`
+                );
+                setFormTypeList(d2.data);
 
                 setIsReloading(false);
             } catch (e) {

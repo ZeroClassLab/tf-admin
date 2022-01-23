@@ -42,7 +42,14 @@ const ContentMapper: React.VFC<ContentMapperProps> = ({ idx, props }) => {
         case 4:
             return <ServiceTypePage />;
         default:
-            return <Box>404 Not found</Box>;
+            return (
+                <Box sx={{ m: 3 }}>
+                    <p>
+                        404 Not found (개발 중인 페이지거나 잘못된 접근입니다.)
+                    </p>
+                    <p>page code: {idx}</p>
+                </Box>
+            );
     }
 };
 

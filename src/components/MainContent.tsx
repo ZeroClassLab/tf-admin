@@ -14,8 +14,24 @@ interface MainContentProps {
 
 const MainContent: React.VFC<MainContentProps> = ({ data, setCurDatum }) => {
     return (
-        <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-            <Grid container spacing={3}>
+        <Container maxWidth="lg">
+            <Grid container spacing={3} sx={{ mt: 1, mb: 4 }}>
+                <TitleGrid text={"Form Service v2.0"} />
+                <Grid item xs={12}>
+                    <Paper
+                        sx={{
+                            minHeight: 300,
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                        }}
+                    >
+                        <Typography variant="h2">준비중...</Typography>
+                    </Paper>
+                </Grid>
+            </Grid>
+
+            <Grid container spacing={3} sx={{ mt: 4, mb: 3 }}>
                 <V1MainCotent data={data} setCurDatum={setCurDatum} />
             </Grid>
 

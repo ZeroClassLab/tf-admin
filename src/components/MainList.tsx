@@ -9,6 +9,10 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import CreateIcon from "@mui/icons-material/Create";
 import RoomServiceIcon from "@mui/icons-material/RoomService";
 
+import PreviewIcon from "@mui/icons-material/Preview";
+import ListAltIcon from "@mui/icons-material/ListAlt";
+import FormatColorTextIcon from "@mui/icons-material/FormatColorText";
+
 interface MainListProps {
     setCurPage: React.Dispatch<React.SetStateAction<number>>;
 }
@@ -51,6 +55,42 @@ const MainList: React.VFC<MainListProps> = ({ setCurPage }) => {
                     <RoomServiceIcon />
                 </ListItemIcon>
                 <ListItemText primary="서비스 확인하기" />
+            </ListItem>
+            {/* Detail Button */}
+            <ListItem
+                button
+                onClick={() => {
+                    setCurPage(50);
+                }}
+            >
+                <ListItemIcon>
+                    <ListAltIcon />
+                </ListItemIcon>
+                <ListItemText primary="폼 목록" />
+            </ListItem>
+
+            <ListItem
+                button
+                onClick={() => {
+                    setCurPage(51);
+                }}
+            >
+                <ListItemIcon>
+                    <PreviewIcon />
+                </ListItemIcon>
+                <ListItemText primary="폼 뷰어" />
+            </ListItem>
+
+            <ListItem
+                button
+                onClick={() => {
+                    setCurPage(52);
+                }}
+            >
+                <ListItemIcon>
+                    <FormatColorTextIcon />
+                </ListItemIcon>
+                <ListItemText primary="폼 에디터" />
             </ListItem>
         </List>
     );

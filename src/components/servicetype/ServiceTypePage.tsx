@@ -8,25 +8,21 @@ import Paper from "@mui/material/Paper";
 import TitleGrid from "../main/TitleGrid";
 import ServicePanel from "./ServicePanel";
 import axios from "axios";
-
-interface Service {
-    name: string;
-    isValid: boolean;
-    id: string;
-}
+import { formTypeListState } from "./recoils";
+import { useRecoilState } from "recoil";
 
 const ServiceTypePage = () => {
-    const [panelData, setPanelData] = useState<Service[]>([]);
-    useEffect(() => {
-        const fetchData = async () => {
-            const data = await axios.get(
-                `${process.env.REACT_APP_SURVEY_BACK}/formtype`
-            );
-            console.log(data.data);
-            setPanelData(data.data);
-        };
-        fetchData();
-    }, []);
+    const [formTypeList, setFormTypeList] = useRecoilState(formTypeListState);
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //         const data = await axios.get(
+    //             `${process.env.REACT_APP_SURVEY_BACK}/formtype`
+    //         );
+    //         console.log(data.data);
+    //         setPanelData(data.data);
+    //     };
+    //     fetchData();
+    // }, []);
     return (
         <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Grid container spacing={3} sx={{ mb: 3 }}>
@@ -36,7 +32,7 @@ const ServiceTypePage = () => {
                         <Typography sx={{ mb: 3 }} variant="h3">
                             Service List
                         </Typography>
-                        {panelData.map((panelDatum, idx) => {
+                        {formTypeList.map((panelDatum, idx) => {
                             return (
                                 <ServicePanel
                                     key={`service-panel-${idx}`}

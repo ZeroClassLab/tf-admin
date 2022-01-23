@@ -15,7 +15,7 @@ const ServicePanel: React.VFC<ServicePanelProps> = ({ name, isValid }) => {
                     <Typography sx={{ fontSize: 20 }}>서비스 중!</Typography>
                 ) : (
                     <Typography sx={{ fontSize: 20 }}>
-                        배포되지 않음...
+                        서비스 중단...
                     </Typography>
                 )
             }
