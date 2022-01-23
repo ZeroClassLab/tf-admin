@@ -69,6 +69,7 @@ export const nowSurveyInfoState = atom<SurveyInfoProps>({
         isCoEditable: true,
         isPublished: true,
         isSelected: false,
+        type: "",
     },
 });
 

@@ -57,7 +57,7 @@ const WriteSurveyPage = () => {
         const fetchData = async () => {
             try {
                 const d = await axios.get(
-                    `${process.env.REACT_APP_SURVEY_BACK}/survey/selected`
+                    `${process.env.REACT_APP_SURVEY_BACK}/survey/${surveyType}/selected`
                 );
                 console.log(d.data._id);
                 setSelectedSurveyObjectId(d.data._id);
@@ -122,7 +122,7 @@ const WriteSurveyPage = () => {
 
     const selectSurvey = async () => {
         await axios.patch(
-            `${process.env.REACT_APP_SURVEY_BACK}/survey/select/${nowSurveyObjectId}`
+            `${process.env.REACT_APP_SURVEY_BACK}/survey/${surveyType}/select/${nowSurveyObjectId}`
         );
         setSelectedSurveyObjectId(nowSurveyObjectId);
     };

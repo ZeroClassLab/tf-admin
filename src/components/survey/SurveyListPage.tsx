@@ -34,6 +34,7 @@ const SurveyFormPage = () => {
             isCoEditable: surveyInfo.isCoEditable,
             isPublished: surveyInfo.isPublished,
             isSelected: surveyInfo.isSelected,
+            type: surveyInfo.type ?? "cafe", // NOTE 스키마를 수정하는 바람에 어쩔 수 없이 넣은 literal 값. 추후에 수정
         });
 
         setNowSurveyObjectId(surveyInfo._id);

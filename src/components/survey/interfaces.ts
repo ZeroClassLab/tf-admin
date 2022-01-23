@@ -75,6 +75,7 @@ export interface SurveyInfoProps {
     isCoEditable: boolean;
     isPublished: boolean;
     isSelected: boolean;
+    type: string;
     modifiedDate?: string;
 }
 
