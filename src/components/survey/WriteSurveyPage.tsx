@@ -121,9 +121,19 @@ const WriteSurveyPage = () => {
     };
 
     const selectSurvey = async () => {
+        setIsSurveySaving(true);
+        setIsReloading(true);
         await axios.patch(
             `${process.env.REACT_APP_SURVEY_BACK}/survey/${surveyType}/select/${nowSurveyObjectId}`
         );
+
+        const surveyRes = await axios.get(
+            `${process.env.REACT_APP_SURVEY_BACK}/survey/`
+        );
+        setSurveyContentDataList(surveyRes.data);
+
+        setIsReloading(false);
+        setIsSurveySaving(false);
         setSelectedSurveyObjectId(nowSurveyObjectId);
     };
 
