@@ -14,7 +14,7 @@ import ItemTaggerInputField from "./views/ItemTaggerInputField";
 import { SubmitHandler, useForm } from "react-hook-form";
 import RadioInputField from "./views/RadioInputField";
 import PhoneInputField from "./views/PhoneInputField";
-import MoneyInputField from "./views/MoneyInputField";
+import NumberUnitInputField from "./views/NumberUnitInputField";
 import MainImage from "../itemTaggingComponent/MainImage";
 import { imagesInputState } from "./mock/ImageInputsMockups";
 import KakaoAddressInputField from "./views/KakaoAddressInputField";
@@ -112,9 +112,9 @@ const InfoContent = () => {
                                 formState={formState}
                             />
                         );
-                    } else if (field.type === InputFieldType.MONEY) {
+                    } else if (field.type === InputFieldType.NUMUNIT) {
                         return (
-                            <MoneyInputField
+                            <NumberUnitInputField
                                 key={`viewmode-inputfield-${idx}`}
                                 id={field.id}
                                 name={field.name}

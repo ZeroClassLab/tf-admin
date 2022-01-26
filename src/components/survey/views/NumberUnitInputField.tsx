@@ -7,7 +7,7 @@ import FormHelperText from "@mui/material/FormHelperText";
 import InputAdornment from "@mui/material/InputAdornment";
 import { useLocalStorage } from "./useLocalStorage";
 
-interface MoneyInputFieldProps {
+interface NumberUnitInputFieldProps {
     id: string;
     name: string;
     label: string;
@@ -20,7 +20,7 @@ interface MoneyInputFieldProps {
     unitMask: string;
 }
 
-const MoneyInputField: React.VFC<MoneyInputFieldProps> = ({
+const NumberUnitInputField: React.VFC<NumberUnitInputFieldProps> = ({
     id,
     name,
     label,
@@ -95,4 +95,4 @@ const MoneyInputField: React.VFC<MoneyInputFieldProps> = ({
     );
 };
 
-export default MoneyInputField;
+export default NumberUnitInputField;

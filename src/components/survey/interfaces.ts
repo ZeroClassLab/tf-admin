@@ -51,7 +51,7 @@ export interface ContentsData {
     maxImageNums?: string;
 
     /**
-     * type: money
+     * type: numunit
      */
     unitMask?: string;
 

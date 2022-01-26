@@ -165,6 +165,15 @@ const InputFieldSettings = () => {
         setFieldContent(newInputField);
     };
 
+    const handleUnitMask = (val: string) => {
+        const newInputField = {
+            ...nowInputField,
+            unitMask: val,
+        };
+
+        setFieldContent(newInputField);
+    };
+
     const setFieldContent = (newInputField: ContentsData) => {
         const targetContent = [...contents[activeStep]];
         targetContent[nowTargetInputFieldIndex] = newInputField;
@@ -350,10 +359,10 @@ const InputFieldSettings = () => {
                     />
                 )}
 
-                {nowInputField?.type === InputFieldType.MONEY && (
+                {nowInputField?.type === InputFieldType.NUMUNIT && (
                     <BasicBlank
                         state={nowInputField?.unitMask ?? ""}
-                        setState={handleMaxImagesLength}
+                        setState={handleUnitMask}
                         helperText={"ex) $"}
                         isFullWidth
                         label="단위"

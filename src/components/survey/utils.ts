@@ -60,7 +60,7 @@ export const modifyInputFieldData = (
                 autoComplete: data.autoComplete,
                 localStorageValueKey: data.localStorageValueKey,
             };
-        case InputFieldType.MONEY:
+        case InputFieldType.NUMUNIT:
             return {
                 id: data.id,
                 name: data.name,
