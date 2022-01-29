@@ -94,13 +94,13 @@ export const modifyInputFieldData = (
             };
         case InputFieldType.ITEMTAGGER:
             return {
-                id: "tf-itemtagger",
-                name: "tfItemtagger",
+                id: data.id,
+                name: data.name,
                 type: data.type,
                 label: data.label,
                 required: data.required,
-                autoComplete: "tfItemtagger",
-                localStorageValueKey: "tfItemtagger",
+                autoComplete: data.autoComplete,
+                localStorageValueKey: data.localStorageValueKey,
                 maxImageNums: data.maxImageNums ?? "5",
             };
         case InputFieldType.NEU: // TODO new feature

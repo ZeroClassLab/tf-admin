@@ -320,7 +320,6 @@ const InputFieldSettings = () => {
                     label="name / ex) cafeOwnerName"
                     sx={{ mt: 2 }}
                     required
-                    disabled={nowInputField?.type === InputFieldType.ITEMTAGGER}
                 />
 
                 <BasicBlank
