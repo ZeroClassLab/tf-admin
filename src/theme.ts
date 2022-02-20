@@ -9,8 +9,8 @@ declare module "@mui/material/styles" {
         md: true;
         lg: true;
         xl: true;
-        xxl: true;
-        mobile: true; // adds the `mobile` breakpoint
+        // xxl: true;
+        // mobile: true; // adds the `mobile` breakpoint
     }
 }
 
@@ -23,8 +23,8 @@ const theme = createTheme({
             md: 900,
             lg: 1200,
             xl: 1536,
-            xxl: 1500,
-            mobile: 718,
+            // xxl: 1500,
+            // mobile: 718,
         },
     },
     palette: {
@@ -85,6 +85,7 @@ const theme = createTheme({
             '"Segoe UI Symbol"',
         ].join(","),
     },
+    components: {},
 });
 
 export default theme;
