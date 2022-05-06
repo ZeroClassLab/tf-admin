@@ -16,6 +16,7 @@ import {
 import SurveyFormPage from "./survey/SurveyListPage";
 import WriteSurveyPage from "./survey/WriteSurveyPage";
 import ServiceTypePage from "./servicetype/ServiceTypePage";
+import FormEditPage from "./editor/FormEditPage";
 
 interface DataProps {
     reload: () => void;
@@ -41,6 +42,8 @@ const ContentMapper: React.VFC<ContentMapperProps> = ({ idx, props }) => {
             return <WriteSurveyPage />;
         case 4:
             return <ServiceTypePage />;
+        case 52:
+            return <FormEditPage />;
         default:
             return (
                 <Box sx={{ m: 3 }}>

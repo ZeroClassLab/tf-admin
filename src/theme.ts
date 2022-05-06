@@ -88,4 +88,6 @@ const theme = createTheme({
     components: {},
 });
 
+export const MOBILE_BREAKPOINT = "(min-width:718)";
+
 export default theme;

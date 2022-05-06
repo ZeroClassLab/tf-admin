@@ -386,6 +386,7 @@ const ProductTagView: React.VFC<ProductTag> = ({
     return (
         <>
             <Typography variant="h6">{productName}</Typography>
+
             <Typography sx={{ fontStyle: "italic" }} variant="body1">
                 {brand}
             </Typography>
@@ -453,6 +454,25 @@ const AboutImageItemTagger: React.VFC<DetailPageProps> = ({ curDatum }) => {
                                                 {curDatum[aboutItemTagger[1]][
                                                     idx
                                                 ] || "설명이 없습니다."}
+                                            </Typography>
+                                        </Box>
+
+                                        {/* 다운링크 */}
+                                        <Box
+                                            sx={{
+                                                m: 2,
+                                                width: 200,
+                                                height: 180,
+                                                overflow: "auto",
+                                            }}
+                                        >
+                                            <Typography>
+                                                <a
+                                                    href={image}
+                                                    download="new-image-name.jpg"
+                                                >
+                                                    다운
+                                                </a>
                                             </Typography>
                                         </Box>
                                         {/* tag 설명들 */}
