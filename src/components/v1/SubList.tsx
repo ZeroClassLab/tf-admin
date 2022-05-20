@@ -41,6 +41,18 @@ const SubList: React.VFC<SubListProps> = ({ setCurPage }) => {
                 </ListItemIcon>
                 <ListItemText primary="v1 카페 폼 뷰어" />
             </ListItem>
+
+            <ListItem
+                button
+                onClick={() => {
+                    setCurPage(54);
+                }}
+            >
+                <ListItemIcon>
+                    <VisibilityIcon />
+                </ListItemIcon>
+                <ListItemText primary="에디터테스트" />
+            </ListItem>
         </List>
     );
 };

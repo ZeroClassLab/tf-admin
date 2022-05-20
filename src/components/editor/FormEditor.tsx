@@ -1,18 +1,19 @@
 import React, { useState } from "react";
 import { TNode, AnyObject } from "@udecode/plate-core";
-import { EditableProps } from "slate-react/dist/components/editable";
 import BalloonToolbarMarks from "./toolbar/BalloonToolbarMarks";
 import ValueDev from "./dev/ValueDev";
 import HeadToolbar from "./toolbar/HeadToolbar";
 import { components } from "./compostyles/plateUi";
 
+import FormTitleInput from "./FormTitleInput";
+
 import {
     Plate,
-    createImagePlugin,
     createPlugins,
     ELEMENT_IMAGE,
     createSelectOnBackspacePlugin,
     createAutoformatPlugin,
+    createParagraphPlugin,
     createBoldPlugin,
     createItalicPlugin,
     createHighlightPlugin,
@@ -22,49 +23,47 @@ import {
     createSuperscriptPlugin,
     createFontColorPlugin,
     createFontBackgroundColorPlugin,
-    createPlateUI,
-    createHeadingPlugin,
+    createFontSizePlugin,
     createBlockquotePlugin,
-    createAlignPlugin,
     createListPlugin,
+    createAlignPlugin,
+    createTablePlugin,
 } from "@udecode/plate";
 import { autoformatRules } from "./autoformat/autoformatRules";
-// import { createHeadingPlugin } from "./plugins/createHeadingPlugin";
+import { ALIGN_OPTIONS } from "./plugins/constants";
+import { createHeadingPlugin } from "./plugins/createHeadingPlugin";
+import { createImagePlugin } from "./plugins/createImagePlugin";
+// import { createAlignPlugin } from "./plugins/creaetAlignPlugin";
+import { E_PROPS, E_VALUES } from "./editorConfig";
+import { useRecoilState } from "recoil";
+import { formContentState } from "./recoils";
 
-const VALUES = {
-    plainText: [
-        {
-            children: [{ text: "" }],
-        },
-    ],
-};
+interface FormEditorProps {
+    readOnly?: boolean;
+}
 
-const E_PROPS: EditableProps = {
-    style: {
-        padding: "15px",
-        backgroundColor: "white",
-        width: "100%",
-        height: "400px",
-        overflowY: "auto",
-    },
-    placeholder: "내용을 입력해주세요...",
-};
-
-const FormEditor = () => {
+const FormEditor: React.FC<FormEditorProps> = ({ readOnly = false }) => {
     const [debugValue, setDebugValue] = useState<TNode<AnyObject>[]>();
+    const [formContentValue, setFormContentValue] =
+        useRecoilState(formContentState);
+
+    (window as any).debugValue = debugValue;
+
     const plugins = createPlugins(
         [
+            createParagraphPlugin(),
             createHeadingPlugin(),
             createBlockquotePlugin(),
-            createAlignPlugin(),
+            createAlignPlugin(ALIGN_OPTIONS),
             createListPlugin(),
-            createSubscriptPlugin(),
-            createSuperscriptPlugin(),
+
             createImagePlugin(),
             createSelectOnBackspacePlugin({
                 options: { query: { allow: [ELEMENT_IMAGE] } },
             }),
             createAutoformatPlugin({ options: { rules: autoformatRules } }),
+
+            // 진하게, 이탈릭 등등
             createBoldPlugin(),
             createItalicPlugin(),
             createHighlightPlugin(),
@@ -72,18 +71,26 @@ const FormEditor = () => {
             createStrikethroughPlugin(),
             createSubscriptPlugin(),
             createSuperscriptPlugin(),
+
+            // font 색, 사이즈 관련
             createFontColorPlugin(),
             createFontBackgroundColorPlugin(),
+            createFontSizePlugin(),
+
+            // table 관련
+            createTablePlugin(),
         ],
         { components }
     );
     return (
         <>
+            <FormTitleInput />
             <Plate
-                initialValue={VALUES.plainText}
-                editableProps={E_PROPS}
+                initialValue={E_VALUES.plainText}
+                editableProps={{ ...E_PROPS, readOnly }}
                 onChange={(newValue) => {
                     setDebugValue(newValue);
+                    setFormContentValue(newValue);
                 }}
                 plugins={plugins}
             >

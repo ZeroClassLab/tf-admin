@@ -1,20 +1,20 @@
 import React from "react";
 import Paper from "@mui/material/Paper";
-import Typography from "@mui/material/Typography";
+import SubmitButton from "./sidebar/SubmitButton";
 
-const RepImage = () => {
+const Bottom = () => {
     return (
         <Paper
             sx={{
                 height: "100%",
-                minHeight: 400,
                 width: "100%",
                 textAlign: "center",
+                pt: 3,
             }}
         >
-            <Typography variant="h5">대표이미지 설정</Typography>
+            <SubmitButton />
         </Paper>
     );
 };
 
-export default RepImage;
+export default Bottom;

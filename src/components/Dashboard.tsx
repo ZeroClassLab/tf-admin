@@ -17,6 +17,8 @@ import SurveyFormPage from "./survey/SurveyListPage";
 import WriteSurveyPage from "./survey/WriteSurveyPage";
 import ServiceTypePage from "./servicetype/ServiceTypePage";
 import FormEditPage from "./editor/FormEditPage";
+import FormReadPage from "./editor/FormReadPage";
+import FormTestPage from "./editor/FormTestPage";
 
 interface DataProps {
     reload: () => void;
@@ -44,6 +46,10 @@ const ContentMapper: React.VFC<ContentMapperProps> = ({ idx, props }) => {
             return <ServiceTypePage />;
         case 52:
             return <FormEditPage />;
+        case 53:
+            return <FormReadPage />;
+        case 54:
+            return <FormTestPage />;
         default:
             return (
                 <Box sx={{ m: 3 }}>
@@ -63,43 +69,49 @@ const Dashboard: React.VFC<DataProps> = ({ data, reload }) => {
     const isFormDataLoading = useRecoilValue(isLoadingState);
 
     return (
-        <Box sx={{ display: "flex" }}>
-            <Sidebar open={open} setOpen={setOpen} />
-            <Box
-                component="main"
-                sx={{
-                    backgroundColor: (theme) =>
-                        theme.palette.mode === "light"
-                            ? theme.palette.grey[100]
-                            : theme.palette.grey[900],
-                    flexGrow: 1,
-                    height: "100vh",
-                    overflow: "auto",
-                }}
-            >
-                {/* header */}
-                <HeaderBar
-                    open={open}
-                    setOpen={setOpen}
-                    reload={reload}
-                    isReloading={isFormDataLoading}
-                />
-
-                {/* contents */}
-                {isFormDataLoading ? (
-                    <Loading />
-                ) : (
-                    <ContentMapper
-                        idx={currentPage}
-                        props={{
-                            data: data ?? [{}],
-                            curDatum: curDatum,
-                            setCurDatum: setCurDatum,
+        <>
+            {currentPage === 54 ? (
+                <FormTestPage />
+            ) : (
+                <Box sx={{ display: "flex" }}>
+                    <Sidebar open={open} setOpen={setOpen} />
+                    <Box
+                        component="main"
+                        sx={{
+                            backgroundColor: (theme) =>
+                                theme.palette.mode === "light"
+                                    ? theme.palette.grey[100]
+                                    : theme.palette.grey[900],
+                            flexGrow: 1,
+                            height: "100vh",
+                            overflow: "auto",
                         }}
-                    />
-                )}
-            </Box>
-        </Box>
+                    >
+                        {/* header */}
+                        <HeaderBar
+                            open={open}
+                            setOpen={setOpen}
+                            reload={reload}
+                            isReloading={isFormDataLoading}
+                        />
+
+                        {/* contents */}
+                        {isFormDataLoading ? (
+                            <Loading />
+                        ) : (
+                            <ContentMapper
+                                idx={currentPage}
+                                props={{
+                                    data: data ?? [{}],
+                                    curDatum: curDatum,
+                                    setCurDatum: setCurDatum,
+                                }}
+                            />
+                        )}
+                    </Box>
+                </Box>
+            )}
+        </>
     );
 };
 

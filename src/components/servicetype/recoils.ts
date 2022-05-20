@@ -1,12 +1,12 @@
 import { atom } from "recoil";
+import { BoardType, ServiceType } from "./types";
 
-interface FormType {
-    _id: string;
-    name: string;
-    isValid: boolean;
-}
+export const serviceTypeListState = atom<ServiceType[]>({
+    key: "serviceTypeList",
+    default: [],
+});
 
-export const formTypeListState = atom<FormType[]>({
-    key: "formTypeList",
+export const boardTypeListState = atom<BoardType[]>({
+    key: "boardTypeList",
     default: [],
 });

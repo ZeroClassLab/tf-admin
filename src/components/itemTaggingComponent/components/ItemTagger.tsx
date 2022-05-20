@@ -15,6 +15,7 @@ import "rc-slider/assets/index.css";
 
 import { Point, Area } from "react-easy-crop/types";
 import { Size } from "../interfaces/types";
+import { mobileMaxWidthMediaQuery } from "@zclab/mui-utils";
 
 import {
     Grid,
@@ -63,8 +64,7 @@ export const ItemTagger: React.VFC<ItemTaggerProps> = ({
         height: height || 0,
     });
 
-    const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down("mobile"));
+    const isMobile = useMediaQuery(mobileMaxWidthMediaQuery);
     /**
      * States for tags
      */

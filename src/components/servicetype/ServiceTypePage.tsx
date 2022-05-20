@@ -8,11 +8,12 @@ import Paper from "@mui/material/Paper";
 import TitleGrid from "../main/TitleGrid";
 import ServicePanel from "./ServicePanel";
 import axios from "axios";
-import { formTypeListState } from "./recoils";
+import { serviceTypeListState } from "./recoils";
 import { useRecoilState } from "recoil";
 
 const ServiceTypePage = () => {
-    const [formTypeList, setFormTypeList] = useRecoilState(formTypeListState);
+    const [formTypeList, setFormTypeList] =
+        useRecoilState(serviceTypeListState);
     // useEffect(() => {
     //     const fetchData = async () => {
     //         const data = await axios.get(

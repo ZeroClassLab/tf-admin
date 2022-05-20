@@ -11,7 +11,8 @@ import {
 import { MdCrop } from "react-icons/md";
 import getCroppedImg from "./cropImage";
 import { RecoilState, useRecoilState } from "recoil";
-import { Grid, Box, Button, useTheme, useMediaQuery } from "@mui/material";
+import { Grid, Button, useMediaQuery } from "@mui/material";
+import { mobileMaxWidthMediaQuery } from "@zclab/mui-utils";
 
 declare global {
     interface Array<T> {
@@ -54,8 +55,7 @@ const CroppableItemTagger = ({
     const [readOnly, setReadOnly] = useState(true);
     const [isCropping, setIsCropping] = useState(false);
 
-    const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down("mobile"));
+    const isMobile = useMediaQuery(mobileMaxWidthMediaQuery);
 
     const getTags = (tags: ProductTag[]) => {
         setTaggedImages(

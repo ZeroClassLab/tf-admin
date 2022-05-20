@@ -16,8 +16,6 @@ import {
     ELEMENT_H2,
     ELEMENT_H3,
     ELEMENT_H4,
-    ELEMENT_H5,
-    ELEMENT_H6,
     ELEMENT_BLOCKQUOTE,
     getPluginType,
     getPreventDefaultHandler,
@@ -29,6 +27,7 @@ import {
     MARK_SUPERSCRIPT,
     MARK_SUBSCRIPT,
     MARK_UNDERLINE,
+    TableToolbarButton,
 } from "@udecode/plate";
 import {
     Check,
@@ -59,53 +58,63 @@ import {
     Code,
     Superscript,
     Subscript,
+    BorderAll,
+    BorderBottom,
+    BorderTop,
+    BorderLeft,
+    BorderRight,
+    BorderClear,
 } from "@mui/icons-material";
 import FormatColorText from "@mui/icons-material/FormatColorText";
+import {
+    insertTable,
+    deleteTable,
+    addRow,
+    deleteRow,
+    addColumn,
+    deleteColumn,
+} from "@udecode/plate";
+import { customColorSet } from "../plugins/color/colorSet";
 
+/**
+ * H4 까지만 (Typography hierarchy)
+ * @returns
+ */
 export const BasicElementToolbarButtons = () => {
     const editor = usePlateEditorRef();
-
     return (
         <>
             <BlockToolbarButton
                 type={getPluginType(editor, ELEMENT_H1)}
                 icon={<LooksOne />}
+                tooltip={{ content: "헤딩1 ⌘+⌥+1" }}
             />
             <BlockToolbarButton
                 type={getPluginType(editor, ELEMENT_H2)}
                 icon={<LooksTwo />}
+                tooltip={{ content: "헤딩2 ⌘+⌥+2" }}
             />
             <BlockToolbarButton
                 type={getPluginType(editor, ELEMENT_H3)}
                 icon={<Looks3 />}
+                tooltip={{ content: "헤딩3 ⌘+⌥+3" }}
             />
             <BlockToolbarButton
                 type={getPluginType(editor, ELEMENT_H4)}
                 icon={<Looks4 />}
+                tooltip={{ content: "헤딩4 ⌘+⌥+4" }}
             />
-            <BlockToolbarButton
-                type={getPluginType(editor, ELEMENT_H5)}
-                icon={<Looks5 />}
-            />
-            <BlockToolbarButton
-                type={getPluginType(editor, ELEMENT_H6)}
-                icon={<Looks6 />}
-            />
+
+            {/* 인용구 */}
             <BlockToolbarButton
                 type={getPluginType(editor, ELEMENT_BLOCKQUOTE)}
                 icon={<FormatQuote />}
             />
-            {/* <CodeBlockToolbarButton
-                type={getPluginType(editor, ELEMENT_CODE_BLOCK)}
-                icon={<CodeBlock />}
-            /> */}
         </>
     );
 };
 
 export const IndentToolbarButtons = () => {
-    const editor = usePlateEditorRef();
-
     return (
         <>
             <ToolbarButton
@@ -138,6 +147,7 @@ export const ListToolbarButtons = () => {
 };
 
 export const AlignToolbarButtons = () => {
+    const editor = usePlateEditorRef();
     return (
         <>
             <AlignToolbarButton value="left" icon={<FormatAlignLeft />} />
@@ -168,10 +178,6 @@ export const BasicMarkToolbarButtons = () => {
             <MarkToolbarButton
                 type={getPluginType(editor, MARK_STRIKETHROUGH)}
                 icon={<FormatStrikethrough />}
-            />
-            <MarkToolbarButton
-                type={getPluginType(editor, MARK_CODE)}
-                icon={<Code />}
             />
             <MarkToolbarButton
                 type={getPluginType(editor, MARK_SUPERSCRIPT)}
@@ -211,6 +217,21 @@ const HistoryToolbarButtons = () => {
     );
 };
 
+/**
+ * TODO: 고치기
+ * @returns 
+ */
+const TableToolbarButtons = () => (
+    <>
+        <TableToolbarButton icon={<BorderAll />} transform={insertTable} />
+        <TableToolbarButton icon={<BorderClear />} transform={deleteTable} />
+        <TableToolbarButton icon={<BorderBottom />} transform={addRow} />
+        <TableToolbarButton icon={<BorderTop />} transform={deleteRow} />
+        <TableToolbarButton icon={<BorderLeft />} transform={addColumn} />
+        <TableToolbarButton icon={<BorderRight />} transform={deleteColumn} />
+    </>
+);
+
 const UploadImageButton = () => {
     return (
         <ToolbarButton
@@ -232,6 +253,7 @@ const HeadToolbar = () => {
             }}
         >
             <BasicElementToolbarButtons />
+            <AlignToolbarButtons />
             <ListToolbarButtons />
             <IndentToolbarButtons />
             <BasicMarkToolbarButtons />
@@ -240,19 +262,22 @@ const HeadToolbar = () => {
                 pluginKey={MARK_COLOR}
                 icon={<FormatColorText />}
                 selectedIcon={<Check />}
+                customColors={customColorSet}
                 tooltip={{ content: "글자색" }}
             />
             <ColorPickerToolbarDropdown
                 pluginKey={MARK_BG_COLOR}
                 icon={<FontDownload />}
                 selectedIcon={<Check />}
+                customColors={customColorSet}
                 tooltip={{ content: "배경색" }}
             />
             <ImageToolbarButton
                 icon={<Image />}
                 tooltip={{ content: "이미지 삽입" }}
             />
-            <UploadImageButton />
+            {/* <TableToolbarButtons /> */}
+            {/* <UploadImageButton /> */}
         </HeadingToolbar>
     );
 };

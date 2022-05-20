@@ -3,12 +3,12 @@ import SurveyPaper from "./SurveyPaper";
 import Box from "@mui/material/Box";
 import Badge from "@mui/material/Badge";
 import Typography from "@mui/material/Typography";
-import { formTypeListState } from "../servicetype/recoils";
+import { serviceTypeListState } from "../servicetype/recoils";
 import { useRecoilValue } from "recoil";
 import { serviceBadgeColors } from "../servicetype/serviceBadgeColors";
 
 const EditPaper: React.VFC<EditPaperProps> = ({ onClick, title, preview }) => {
-    const formTypeList = useRecoilValue(formTypeListState);
+    const formTypeList = useRecoilValue(serviceTypeListState);
 
     /**
      * TODO 커스텀 뱃지 컬러

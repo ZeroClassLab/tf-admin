@@ -8,12 +8,12 @@ import { HeadingPlugin, HeadingsPlugin } from "./types";
 
 /**
  * Enables support for headings with configurable levels
- * (from 1 to 6).
+ * (from 1 to 4).
  */
 export const createHeadingPlugin = createPluginFactory<HeadingsPlugin>({
     key: "heading",
     options: {
-        levels: 6,
+        levels: 4,
     },
     then: (editor, { options: { levels } = {} }) => {
         const plugins: PlatePlugin<{}, HeadingPlugin>[] = [];
@@ -28,9 +28,6 @@ export const createHeadingPlugin = createPluginFactory<HeadingsPlugin>({
                     rules: [
                         {
                             validNodeName: `H${level}`,
-                            validStyle: {
-                                fontSize: "30px",
-                            },
                         },
                     ],
                 },

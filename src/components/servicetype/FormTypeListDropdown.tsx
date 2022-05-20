@@ -6,11 +6,11 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 
 import { useRecoilState, useRecoilValue } from "recoil";
-import { formTypeListState } from "./recoils";
+import { serviceTypeListState } from "./recoils";
 import { surveyTypeState } from "../survey/recoils";
 
 const FormTypeListDropdown = () => {
-    const formTypeList = useRecoilValue(formTypeListState);
+    const formTypeList = useRecoilValue(serviceTypeListState);
     const [nowSurveyType, setNowSurveyType] = useRecoilState(surveyTypeState);
 
     const handleChange = (val: string) => {
