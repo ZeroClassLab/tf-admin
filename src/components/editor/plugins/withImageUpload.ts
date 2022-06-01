@@ -1,7 +1,9 @@
 import {
     getInjectedPlugins,
     pipeInsertDataQuery,
-    WithOverride,
+    PlateEditor,
+    Value,
+    WithPlatePlugin,
 } from "@udecode/plate-core";
 import { insertImage } from "./image/insertImage";
 import { isImageUrl } from "./image/isImageUrl";
@@ -16,9 +18,12 @@ let imageCount = 1;
  * @param options.type
  * @param options.uploadImage
  */
-export const withImageUpload: WithOverride<{}, ImagePlugin> = (
-    editor,
-    plugin
+export const withImageUpload = <
+    V extends Value = Value,
+    E extends PlateEditor<V> = PlateEditor<V>
+>(
+    editor: E,
+    plugin: WithPlatePlugin<ImagePlugin, V, E>
 ) => {
     const {
         options: { uploadImage },
@@ -31,16 +36,20 @@ export const withImageUpload: WithOverride<{}, ImagePlugin> = (
         const text = dataTransfer.getData("text/plain");
         let { files } = dataTransfer;
         const isTextImageUrl = isImageUrl(text);
+
         if ((files && files.length > 0) || isTextImageUrl) {
             // as a editor data format
-            const injectedPlugins = getInjectedPlugins(editor, plugin);
+            const injectedPlugins = getInjectedPlugins<{}, V, E>(
+                editor,
+                plugin
+            );
+
             if (
-                !pipeInsertDataQuery(injectedPlugins, {
+                !pipeInsertDataQuery<{}, V, E>(injectedPlugins, {
                     data: text,
                     dataTransfer,
                 })
             ) {
-                console.log("first case runned!");
                 return insertData(dataTransfer);
             }
 

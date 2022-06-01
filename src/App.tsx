@@ -20,7 +20,7 @@ import {
     assignedUserListState,
     currentAssignedUserState,
 } from "./components/editor/recoils";
-import { USER_ROLE } from "./components/editor/constants";
+import { USER_ROLE } from "./components/editor/configs/constants";
 
 const App = () => {
     const [data, setData] = useRecoilState(formContentDataListState);

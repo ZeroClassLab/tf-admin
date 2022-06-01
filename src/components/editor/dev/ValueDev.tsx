@@ -1,8 +1,8 @@
 import React from "react";
-import { TNode, AnyObject } from "@udecode/plate-core";
+import { Value } from "@udecode/plate-core";
 
 interface ValueDevProps {
-    debugValue: TNode<AnyObject>[] | undefined;
+    debugValue: Value | undefined;
 }
 
 const ValueDev: React.VFC<ValueDevProps> = ({ debugValue }) => {

@@ -2,7 +2,7 @@ import React from "react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
-import FormEditor from "./FormEditor";
+// import FormEditor from "./FormEditor";
 
 const FormReadPage = () => {
     return (
@@ -25,7 +25,7 @@ const FormReadPage = () => {
                             display: "block",
                         }}
                     >
-                        <FormEditor readOnly />
+                        {/* <FormEditor readOnly /> */}
                     </Paper>
                 </Grid>
             </Grid>

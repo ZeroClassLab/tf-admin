@@ -3,9 +3,13 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 
-import FormThumbnailUploader from "./sidebar/FormThumbnailUploader";
-import FormMobileThumbnailUploader from "./sidebar/FormMobileThumbnailUploader";
+import FormThumbnailUploader from "../sidebar/FormThumbnailUploader";
+import FormMobileThumbnailUploader from "../sidebar/FormMobileThumbnailUploader";
 
+/**
+ * 편집페이지에서 오른쪽에 부분
+ * @returns
+ */
 const Side = () => {
     return (
         <Paper

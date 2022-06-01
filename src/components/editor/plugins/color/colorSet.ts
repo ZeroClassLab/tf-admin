@@ -52,13 +52,19 @@ const WHITE: ColorType = {
     isBrightColor: true,
 };
 
-const TAG_COLOR: ColorType = {
+/**
+ * @deprecated
+ */
+export const TAG_COLOR: ColorType = {
     name: "tag_color",
     value: "#6DD0B8",
     isBrightColor: true,
 };
 
-const TABLE_BACKGROUND_COLOR: ColorType = {
+/**
+ * @deprecated
+ */
+export const TABLE_BACKGROUND_COLOR: ColorType = {
     name: "table_background_color",
     value: "#FAFCFE",
     isBrightColor: true,
@@ -82,7 +88,7 @@ const TMR_COLORS: ColorType[] = [
     },
 ];
 
-const POINT: ColorType = {
+export const POINT: ColorType = {
     name: "point_01",
     value: "#83ECD2",
     isBrightColor: true,

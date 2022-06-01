@@ -5,15 +5,19 @@ import Paper from "@mui/material/Paper";
 
 import { useRecoilValue } from "recoil";
 
-import FormBoardSelect from "./topbar/FormBoardSelect";
-import FormCustomUserCheckbox from "./topbar/FormCustomUserCheckbox";
-import FormLocation from "./topbar/FormLocation";
-import FormServiceTypeSelect from "./topbar/FormServiceTypeSelect";
-import FormCafeSelect from "./topbar/FormCafeSelect";
-import FormCafeInput from "./topbar/FormCafeInput";
-import { formBoardTypeState, isCustomUserState } from "./recoils";
-import FormEditorSelect from "./topbar/FormEditorSelect";
+import FormBoardSelect from "../topbar/FormBoardSelect";
+import FormCustomUserCheckbox from "../topbar/FormCustomUserCheckbox";
+import FormLocation from "../topbar/FormLocation";
+import FormServiceTypeSelect from "../topbar/FormServiceTypeSelect";
+import FormCafeSelect from "../topbar/FormCafeSelect";
+import FormCafeInput from "../topbar/FormCafeInput";
+import { formBoardTypeState, isCustomUserState } from "../recoils";
+import FormEditorSelect from "../topbar/FormEditorSelect";
 
+/**
+ * 편집페이지에서 윗부분
+ * @returns
+ */
 const Top = () => {
     const isCustomCafename = useRecoilValue(isCustomUserState);
     const formBoardType = useRecoilValue(formBoardTypeState);
@@ -25,6 +29,7 @@ const Top = () => {
                 display: "flex",
                 minHeight: 30,
             }}
+            elevation={0}
         >
             <Box sx={{ flex: 2 }}>
                 <FormBoardSelect />

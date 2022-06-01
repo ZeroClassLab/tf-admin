@@ -14,42 +14,41 @@ import {
 } from "@udecode/plate";
 
 const BalloonToolbarMarks = () => {
-    const editor = usePlateEditorRef();
+    const editor = usePlateEditorRef()!;
 
     const arrow = false;
     const theme = "dark";
-    const popperOptions = {
-        placement: "top" as "top",
-    };
-    const tooltip = {
+    const tooltip: any = {
         arrow: true,
         delay: 0,
-        duration: [200, 0] as [number, number],
+        duration: [200, 0],
         hideOnClick: false,
-        offset: [0, 17] as [number, number],
-        placement: "top" as "top",
+        offset: [0, 17],
+        placement: "top",
     };
 
     return (
         <BalloonToolbar
-            popperOptions={popperOptions}
+            popperOptions={{
+                placement: "top",
+            }}
             theme={theme}
             arrow={arrow}
         >
             <MarkToolbarButton
                 type={getPluginType(editor, MARK_BOLD)}
                 icon={<FormatBold />}
-                tooltip={{ content: "Bold (⌘B)", ...tooltip }}
+                tooltip={{ content: "진하게 (⌘B)", ...tooltip }}
             />
             <MarkToolbarButton
                 type={getPluginType(editor, MARK_ITALIC)}
                 icon={<FormatItalic />}
-                tooltip={{ content: "Italic (⌘I)", ...tooltip }}
+                tooltip={{ content: "기울게 (⌘I)", ...tooltip }}
             />
             <MarkToolbarButton
                 type={getPluginType(editor, MARK_UNDERLINE)}
                 icon={<FormatUnderlined />}
-                tooltip={{ content: "Underline (⌘U)", ...tooltip }}
+                tooltip={{ content: "밑줄 (⌘U)", ...tooltip }}
             />
         </BalloonToolbar>
     );

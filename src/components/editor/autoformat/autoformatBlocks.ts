@@ -11,12 +11,11 @@ import {
     ELEMENT_H6,
     ELEMENT_HR,
     getPluginType,
+    insertElements,
     insertEmptyCodeBlock,
-    insertNodes,
-    PlateEditor,
-    setNodes,
+    setElements,
 } from "@udecode/plate";
-import { preFormat } from "./autoformatUtils";
+import { clearBlockFormat as preFormat } from "./autoformatUtils";
 
 export const autoformatBlocks: AutoformatRule[] = [
     {
@@ -63,29 +62,27 @@ export const autoformatBlocks: AutoformatRule[] = [
     },
     {
         mode: "block",
-        type: ELEMENT_CODE_BLOCK,
-        match: "```",
-        triggerAtBlockStart: false,
+        type: ELEMENT_HR,
+        match: ["---", "—-"],
         preFormat,
         format: (editor) => {
-            insertEmptyCodeBlock(editor as PlateEditor, {
-                defaultType: getPluginType(
-                    editor as PlateEditor,
-                    ELEMENT_DEFAULT
-                ),
-                insertNodesOptions: { select: true },
+            setElements(editor, { type: ELEMENT_HR });
+            insertElements(editor, {
+                type: ELEMENT_DEFAULT,
+                children: [{ text: "" }],
             });
         },
     },
     {
         mode: "block",
-        type: ELEMENT_HR,
-        match: ["---", "—-", "___ "],
+        type: ELEMENT_CODE_BLOCK,
+        match: "```",
+        triggerAtBlockStart: false,
+        preFormat,
         format: (editor) => {
-            setNodes(editor, { type: ELEMENT_HR });
-            insertNodes(editor, {
-                type: ELEMENT_DEFAULT,
-                children: [{ text: "" }],
+            insertEmptyCodeBlock(editor, {
+                defaultType: getPluginType(editor, ELEMENT_DEFAULT),
+                insertNodesOptions: { select: true },
             });
         },
     },

@@ -2,7 +2,7 @@ import { BackgroundImage } from "@zclab/react-item-tagger/dist/esm/itemTaggingCo
 import axios from "axios";
 import { atom, selector } from "recoil";
 import { BoardType, ServiceType } from "../servicetype/types";
-import { EditorUser, USER_ROLE } from "./constants";
+import { EditorUser, USER_ROLE } from "./configs/constants";
 
 export const formTitleState = atom({
     key: "formTitleEditor",
@@ -85,7 +85,6 @@ export const formHashtagListState = atom({
     key: "formHashtagsListEditor",
     default: [],
 });
-
 
 export const assignedUserListState = atom<EditorUser[]>({
     key: "assignedUserListEditor",

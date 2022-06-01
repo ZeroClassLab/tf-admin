@@ -3,12 +3,11 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 
-import FormEditor from "./FormEditor";
-import Side from "./Side";
-import Bottom from "./Bottom";
-import Top from "./Top";
+import Side from "./bars/Side";
+import Bottom from "./bars/Bottom";
+import Top from "./bars/Top";
 
-import "tippy.js/dist/tippy.css";
+import EditorWrapper from "./EditorWrapper";
 
 const FormEditPage = () => {
     return (
@@ -32,10 +31,9 @@ const FormEditPage = () => {
                             backgroundColor: "white",
                             display: "block",
                         }}
+                        elevation={2}
                     >
-                        <FormEditor />
-                    </Paper>
-                    <Paper>
+                        <EditorWrapper />
                         <Bottom />
                     </Paper>
                 </Grid>

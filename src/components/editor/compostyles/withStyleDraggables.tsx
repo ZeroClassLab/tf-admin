@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
-// import { css } from "@emotion/react";
+import React from "react";
 import DragIndicator from "@mui/icons-material/DragIndicator";
+import Tippy from "@tippyjs/react";
 import {
     ELEMENT_BLOCKQUOTE,
     ELEMENT_CODE_BLOCK,
@@ -17,31 +18,20 @@ import {
     ELEMENT_TABLE,
     ELEMENT_TODO_LI,
     ELEMENT_UL,
+    grabberTooltipProps,
     withDraggables,
+    DragHandleProps,
 } from "@udecode/plate";
-import Tippy from "@tippyjs/react";
-import { TippyProps } from "@tippyjs/react";
-// import "twin.macro";
+import { css } from "styled-components";
+import tw from "twin.macro";
 
-const GrabberTooltipContent = () => (
-    <div style={{ fontSize: 12 }}>
-        <div>
-            Drag{" "}
-            <span style={{ color: "rgba(255, 255, 255, 0.45)" }}>to move</span>
-        </div>
-    </div>
-);
-
-export const grabberTooltipProps: TippyProps = {
-    content: <GrabberTooltipContent />,
-    placement: "bottom",
-    arrow: false,
-    offset: [0, 0],
-    delay: [300, 0],
-    duration: [0, 0],
-    hideOnClick: true,
-    theme: "small",
-};
+/**
+ * styles의 타입인 CSSProps 타입과 호환이 되지 않는 문제가 있어 any 로 래핑
+ * 이에 더해  @emotion/react 의 css 소스를 임포팅해서 htmlelement 에 대한 래핑을 해줌.
+ */
+interface DragHandlePropsExtended extends DragHandleProps {
+    styles?: any;
+}
 
 export const withStyledDraggables = (components: any) => {
     return withDraggables(components, [
@@ -67,98 +57,79 @@ export const withStyledDraggables = (components: any) => {
                 ELEMENT_MEDIA_EMBED,
                 ELEMENT_CODE_BLOCK,
             ],
-
-            onRenderDragHandle: ({ className, styles }) => {
-                return (
-                    <Tippy {...grabberTooltipProps}>
-                        <button
-                            type="button"
-                            className={className}
-                            css={styles}
-                        >
-                            <DragIndicator
-                                style={{
-                                    width: 18,
-                                    height: 18,
-                                    color: "rgba(55, 53, 47, 0.3)",
-                                    marginLeft: 10,
-                                }}
-                            />
-                        </button>
-                    </Tippy>
-                );
-            },
+            onRenderDragHandle: ({
+                styles,
+                ...props
+            }: DragHandlePropsExtended) => (
+                <Tippy {...grabberTooltipProps}>
+                    <button type="button" {...props} css={styles}>
+                        <DragIndicator
+                            style={{
+                                width: 18,
+                                height: 18,
+                                color: "rgba(55, 53, 47, 0.3)",
+                            }}
+                        />
+                    </button>
+                </Tippy>
+            ),
         },
         {
             key: ELEMENT_H1,
             styles: {
-                gutterLeft: {
-                    padding: "2em 0 4px",
-                    fontSize: "1.875em",
-                },
-                blockToolbarWrapper: {
-                    height: "1.3em",
-                },
+                gutterLeft: css`
+                    padding: 2em 0 4px;
+                    font-size: 1.875em;
+                `,
+                blockToolbarWrapper: tw`height[1.3em]`,
             },
         },
         {
             key: ELEMENT_H2,
             styles: {
-                gutterLeft: {
-                    padding: "1.4em 0 1px",
-                    fontSize: "1.5em",
-                },
-                blockToolbarWrapper: {
-                    height: "1.3em",
-                },
+                gutterLeft: css`
+                    padding: 1.4em 0 1px;
+                    font-size: 1.5em;
+                `,
+                blockToolbarWrapper: tw`height[1.3em]`,
             },
         },
         {
             key: ELEMENT_H3,
             styles: {
-                gutterLeft: {
-                    padding: "1em 0 1px",
-                    fontSize: "1.25em",
-                },
-                blockToolbarWrapper: {
-                    height: "1.3em",
-                },
+                gutterLeft: css`
+                    padding: 1em 0 1px;
+                    font-size: 1.25em;
+                `,
+                blockToolbarWrapper: tw`height[1.3em]`,
             },
         },
         {
             keys: [ELEMENT_H4, ELEMENT_H5, ELEMENT_H6],
             styles: {
-                gutterLeft: {
-                    padding: "0.75em 0 0",
-                    fontSize: "1.1em",
-                },
-                blockToolbarWrapper: {
-                    height: "1.3em",
-                },
+                gutterLeft: css`
+                    padding: 0.75em 0 0;
+                    font-size: 1.1em;
+                `,
+                blockToolbarWrapper: tw`height[1.3em]`,
             },
         },
         {
             keys: [ELEMENT_PARAGRAPH, ELEMENT_UL, ELEMENT_OL],
             styles: {
-                gutterLeft: {
-                    padding: "4px 0 0",
-                },
+                gutterLeft: tw`pt-1`,
             },
         },
         {
             key: ELEMENT_BLOCKQUOTE,
             styles: {
-                gutterLeft: {
-                    padding: "18px 0 0",
-                },
+                gutterLeft: tw`paddingTop[18px]`,
             },
         },
         {
             key: ELEMENT_CODE_BLOCK,
             styles: {
-                gutterLeft: {
-                    padding: "12px 0 0",
-                },
+                gutterLeft: tw`pt-3`,
             },
         },
     ]);

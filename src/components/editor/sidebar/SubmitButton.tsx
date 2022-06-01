@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import { useRecoilValue } from "recoil";
@@ -14,7 +14,7 @@ import {
     formHashtagListState,
 } from "../recoils";
 import axios from "axios";
-import { urltoFile } from "../uploadUtils";
+import { urltoFile } from "../utils/upload";
 import { Buffer } from "buffer";
 
 const Base58 = require("base-58");

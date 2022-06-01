@@ -750,7 +750,7 @@ export const ItemTagger: React.VFC<ItemTaggerProps> = ({
                     </Fade>
                 )}
             </div>
-            {isCropping && (
+            {/* {isCropping && (
                 <Slider
                     style={{ marginTop: "10px" }}
                     min={1}
@@ -761,7 +761,7 @@ export const ItemTagger: React.VFC<ItemTaggerProps> = ({
                     trackStyle={{ backgroundColor: "#1ECCA2" }}
                     handleStyle={{ borderColor: "#1ECCA2" }}
                 />
-            )}
+            )} */}
         </>
     );
 };

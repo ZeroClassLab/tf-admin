@@ -1,5 +1,3 @@
-import { ELEMENT_DEFAULT } from "@udecode/plate";
-
 export const ELEMENT_H1 = "h1";
 export const ELEMENT_H2 = "h2";
 export const ELEMENT_H3 = "h3";
@@ -19,17 +17,22 @@ export const KEYS_HEADING = [
 
 export const KEY_ALIGN = "align";
 
-export const ALIGN_OPTIONS = {
-    inject: {
-        props: {
-            validTypes: [
-                ELEMENT_H1,
-                ELEMENT_H2,
-                ELEMENT_H3,
-                ELEMENT_H4,
-                ELEMENT_PARAGRAPH,
-                ELEMENT_DEFAULT,
-            ],
-        },
-    },
-};
+export const ELEMENT_BLOCKQUOTE = "blockquote";
+
+export const ELEMENT_TODO_LI = "action_item";
+
+// basic marks
+
+export const MARK_BOLD = "bold";
+export const MARK_ITALIC = "italic";
+export const MARK_STRIKETHROUGH = "strikethrough";
+export const MARK_CODE = "code";
+export const MARK_UNDERLINE = "underline";
+export const MARK_SUPERSCRIPT = "superscript";
+export const MARK_SUBSCRIPT = "subscript";
+
+// autoformat
+export const KEY_AUTOFORMAT = "autoformat";
+
+// image
+export const ELEMENT_IMAGE = "img";

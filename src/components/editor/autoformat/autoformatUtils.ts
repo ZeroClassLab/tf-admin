@@ -2,41 +2,74 @@ import {
     AutoformatBlockRule,
     ELEMENT_CODE_BLOCK,
     ELEMENT_CODE_LINE,
-    getParent,
+    getParentNode,
     isElement,
     isType,
     PlateEditor,
-    TEditor,
     toggleList,
     unwrapList,
+    Value,
 } from "@udecode/plate";
 
-export const preFormat: AutoformatBlockRule["preFormat"] = (editor) =>
-    unwrapList(editor as PlateEditor);
+/**
+ * 블록 포맷 리셋해주는 유틸 함수
+ * @param editor
+ * @returns
+ */
+export const clearBlockFormat: AutoformatBlockRule["preFormat"] = (editor) =>
+    unwrapList(editor);
 
-export const format = (editor: TEditor, customFormatting: any) => {
+/**
+ * 포매팅 공통 로직 유틸함수
+ *
+ * @param editor
+ * @param customFormatting
+ * @returns
+ */
+export const format = <V extends Value>(
+    editor: PlateEditor<V>,
+    customFormatting: any
+) => {
     if (editor.selection) {
-        const parentEntry = getParent(editor, editor.selection);
+        const parentEntry = getParentNode(editor, editor.selection);
         if (!parentEntry) return;
         const [node] = parentEntry;
         if (
             isElement(node) &&
-            !isType(editor as PlateEditor, node, ELEMENT_CODE_BLOCK) &&
-            !isType(editor as PlateEditor, node, ELEMENT_CODE_LINE)
+            !isType(editor, node, ELEMENT_CODE_BLOCK) &&
+            !isType(editor, node, ELEMENT_CODE_LINE)
         ) {
             customFormatting();
         }
     }
 };
 
-export const formatList = (editor: TEditor, elementType: string) => {
+/**
+ * 리스트 형태 블록 포맷 함수
+ *
+ * @param editor
+ * @param elementType
+ */
+export const formatList = <V extends Value>(
+    editor: PlateEditor<V>,
+    elementType: string
+) => {
     format(editor, () =>
-        toggleList(editor as PlateEditor, {
+        toggleList(editor, {
             type: elementType,
         })
     );
 };
 
-export const formatText = (editor: TEditor, text: string) => {
+/**
+ * 텍스트 블록 포맷 함수
+ *
+ * @param editor
+ * @param text
+ */
+export const formatText = <V extends Value>(
+    editor: PlateEditor<V>,
+    text: string
+) => {
     format(editor, () => editor.insertText(text));
 };

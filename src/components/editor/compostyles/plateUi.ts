@@ -8,6 +8,7 @@ import {
     withProps,
     ELEMENT_PARAGRAPH,
 } from "@udecode/plate";
+import { withStyledDraggables } from "./withStyleDraggables";
 
 const basicComponents = createPlateUI({
     [ELEMENT_H1]: withProps(StyledElement, {

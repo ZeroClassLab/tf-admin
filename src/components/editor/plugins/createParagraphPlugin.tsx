@@ -4,9 +4,8 @@ import {
     onKeyDownToggleElement,
 } from "@udecode/plate-core";
 import { ELEMENT_PARAGRAPH } from "./constants";
-
 /**
- * Enables support for paragraphs.
+ * 패러그래프 커스텀플러그인
  */
 export const createParagraphPlugin = createPluginFactory<HotkeyPlugin>({
     key: ELEMENT_PARAGRAPH,
