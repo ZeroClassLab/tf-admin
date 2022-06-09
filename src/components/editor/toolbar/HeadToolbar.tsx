@@ -31,35 +31,35 @@ import {
     outdentList,
     indent,
 } from "@udecode/plate";
-import {
-    Check,
-    FontDownload,
-    Image,
-    AddPhotoAlternate,
-    Restore,
-    Update,
-    FormatAlignLeft,
-    FormatAlignCenter,
-    FormatAlignRight,
-    FormatAlignJustify,
-    FormatListBulleted,
-    FormatListNumbered,
-    LooksOne,
-    LooksTwo,
-    Looks3,
-    Looks4,
-    FormatQuote,
-    FormatIndentDecrease,
-    FormatIndentIncrease,
-    FormatBold,
-    FormatItalic,
-    FormatUnderlined,
-    FormatStrikethrough,
-    Code as CodeBlock,
-    IntegrationInstructionsOutlined as CodeAlt,
-    Superscript,
-    Subscript,
-} from "@mui/icons-material";
+
+// icons for bundling optimzation
+import Check from "@mui/icons-material/Check";
+import FontDownload from "@mui/icons-material/FontDownload";
+import Image from "@mui/icons-material/Image";
+import AddPhotoAlternate from "@mui/icons-material/AddPhotoAlternate";
+import Restore from "@mui/icons-material/Restore";
+import Update from "@mui/icons-material/Update";
+import FormatAlignLeft from "@mui/icons-material/FormatAlignLeft";
+import FormatAlignCenter from "@mui/icons-material/FormatAlignCenter";
+import FormatAlignRight from "@mui/icons-material/FormatAlignRight";
+import FormatAlignJustify from "@mui/icons-material/FormatAlignJustify";
+import FormatListBulleted from "@mui/icons-material/FormatListBulleted";
+import FormatListNumbered from "@mui/icons-material/FormatListNumbered";
+import LooksOne from "@mui/icons-material/LooksOne";
+import LooksTwo from "@mui/icons-material/LooksOne";
+import Looks3 from "@mui/icons-material/Looks3";
+import Looks4 from "@mui/icons-material/Looks4";
+import FormatQuote from "@mui/icons-material/FormatQuote";
+import FormatIndentDecrease from "@mui/icons-material/FormatIndentDecrease";
+import FormatIndentIncrease from "@mui/icons-material/FormatIndentIncrease";
+import FormatBold from "@mui/icons-material/FormatBold";
+import FormatItalic from "@mui/icons-material/FormatItalic";
+import FormatUnderlined from "@mui/icons-material/FormatUnderlined";
+import FormatStrikethrough from "@mui/icons-material/FormatStrikethrough";
+import Code from "@mui/icons-material/Code";
+import IntegrationInstructionsOutlined from "@mui/icons-material/IntegrationInstructionsOutlined";
+import Superscript from "@mui/icons-material/Superscript";
+import Subscript from "@mui/icons-material/Superscript";
 import FormatColorText from "@mui/icons-material/FormatColorText";
 import { customColorSet } from "../plugins/color/colorSet";
 
@@ -103,7 +103,7 @@ export const BasicElementToolbarButtons = () => {
             {/* 코드블록 */}
             <CodeBlockToolbarButton
                 type={getPluginType(editor, ELEMENT_CODE_BLOCK)}
-                icon={<CodeBlock />}
+                icon={<Code />}
             />
         </>
     );
@@ -196,7 +196,7 @@ export const BasicMarkToolbarButtons = () => {
             />
             <MarkToolbarButton
                 type={getPluginType(editor, MARK_CODE)}
-                icon={<CodeAlt />}
+                icon={<IntegrationInstructionsOutlined />}
                 tooltip={{ content: "코드마크 ⌘+E" }}
             />
             <MarkToolbarButton

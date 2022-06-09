@@ -1,21 +1,57 @@
 import React from "react";
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import FormEditor from "./core/FormEditor";
+import { useRecoilValue, useRecoilState } from "recoil";
+import { Editor, Viewer } from "@zclab/tmr-react-editor";
 import ValueDev from "./dev/ValueDev";
 import FormTitleInput from "./FormTitleInput";
-import { formContentState } from "./recoils";
+import { formContentState, isPreviewState } from "./recoils";
 
 import "tippy.js/dist/tippy.css";
 import "prismjs/themes/prism.css";
 
 const EditorWrapper = () => {
-    const formConetnetValue = useRecoilValue(formContentState);
-    const setFormContentValue = useSetRecoilState(formContentState);
+    const [formContentValue, setFormContentValue] =
+        useRecoilState(formContentState);
+    const isPreview = useRecoilValue(isPreviewState);
     return (
         <>
             <FormTitleInput />
-            <FormEditor setValues={setFormContentValue} />
-            <ValueDev debugValue={formConetnetValue} />
+            <Editor
+                configs={{
+                    containerStyle: {
+                        minHeight: 500,
+                        maxHeight: 500,
+                        overflowY: "auto",
+                        display: isPreview ? "none" : "",
+                    },
+                    editableProps: {
+                        style: {
+                            fontFamily: "Apple",
+                            padding: "15px",
+                            backgroundColor: "white",
+                            height: "100%",
+                        },
+                    },
+                    initialValue: formContentValue.length
+                        ? formContentValue
+                        : undefined,
+                }}
+                setValues={setFormContentValue}
+            />
+            {isPreview && (
+                <Viewer
+                    configs={{
+                        containerStyle: {
+                            minHeight: 500,
+                            maxHeight: 500,
+                            overflowY: "auto",
+                            display: !isPreview ? "none" : "",
+                        },
+                        initialValue: formContentValue,
+                    }}
+                />
+            )}
+
+            {/* <ValueDev debugValue={formContentValue} /> */}
         </>
     );
 };

@@ -1,0 +1,12 @@
+@font-face {
+    font-family: "AppleSDGothicNeo";
+    src: local("AppleSDGothicNeo"),
+        url(./fonts/AppleSDGothicNeoM.woff2) format("woff2");
+    /* other formats include: 'woff2', 'truetype, 'opentype',
+                              'embedded-opentype', and 'svg' */
+}
+
+@font-face {
+    font-family: "Apple";
+    src: local("Apple"), url(./fonts/AppleSDGothicNeoM.ttf) format("truetype");
+}

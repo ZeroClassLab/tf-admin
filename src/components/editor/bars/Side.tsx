@@ -2,9 +2,8 @@ import React from "react";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
-
-import FormThumbnailUploader from "../sidebar/FormThumbnailUploader";
-import FormMobileThumbnailUploader from "../sidebar/FormMobileThumbnailUploader";
+import ThumbnailUploaders from "../sidebar/ThumbnailUploaders";
+import InfoTable from "../infotable/InfoTable";
 
 /**
  * 편집페이지에서 오른쪽에 부분
@@ -16,19 +15,15 @@ const Side = () => {
             sx={{
                 height: "100%",
                 minHeight: 400,
+                maxHeight: 672.5,
                 width: "100%",
                 textAlign: "center",
                 pt: 3,
+                overflowY: "auto",
             }}
         >
-            <Typography variant="h5">섬네일 설정</Typography>
-            <Box sx={{ p: 2 }}>
-                <FormThumbnailUploader />
-            </Box>
-            <Typography variant="h5">모바일 섬네일 설정</Typography>
-            <Box sx={{ p: 2 }}>
-                <FormMobileThumbnailUploader />
-            </Box>
+            <ThumbnailUploaders />
+            <InfoTable />
         </Paper>
     );
 };

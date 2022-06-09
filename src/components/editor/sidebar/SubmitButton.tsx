@@ -214,7 +214,7 @@ const SubmitButton = () => {
         }
     };
     return (
-        <Box sx={{ m: 2 }}>
+        <Box sx={{ m: 2, flex: 1 }}>
             <Button fullWidth variant="contained" onClick={handleClick}>
                 포스팅
             </Button>

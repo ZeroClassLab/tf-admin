@@ -95,3 +95,8 @@ export const currentAssignedUserState = atom<EditorUser | undefined>({
     key: "currentAssignedUserEditor",
     default: undefined,
 });
+
+export const isPreviewState = atom<boolean>({
+    key: "isPreviewEditor",
+    default: false,
+});
