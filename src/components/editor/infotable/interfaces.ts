@@ -6,6 +6,7 @@ export interface InfoTableRow {
 export interface InfoRowProps {
     k: string;
     v: string;
+    rowIndex: number;
 }
 
 export type InfoTableData = InfoTableRow[];

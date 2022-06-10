@@ -12,4 +12,5 @@ export interface BoardType {
     thumbnailHeight: number;
     mobileThumbnailWidth: number;
     mobileThumbnailHeight: number;
+    autoIncrement: number;
 }

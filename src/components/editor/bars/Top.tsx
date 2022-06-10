@@ -5,7 +5,7 @@ import Paper from "@mui/material/Paper";
 
 import { useRecoilValue } from "recoil";
 
-import FormBoardSelect from "../topbar/FormBoardSelect";
+import FormBoardSelect from "../../form-tools/FormBoardSelect";
 import FormCustomUserCheckbox from "../topbar/FormCustomUserCheckbox";
 import FormLocation from "../topbar/FormLocation";
 import FormServiceTypeSelect from "../topbar/FormServiceTypeSelect";
@@ -13,6 +13,7 @@ import FormCafeSelect from "../topbar/FormCafeSelect";
 import FormCafeInput from "../topbar/FormCafeInput";
 import { formBoardTypeState, isCustomUserState } from "../recoils";
 import FormEditorSelect from "../topbar/FormEditorSelect";
+import FormDeleteButton from "../topbar/FormDeleteButton";
 
 /**
  * 편집페이지에서 윗부분
@@ -72,8 +73,19 @@ const Top = () => {
                 </Box>
             )}
 
-            <Box sx={{ flex: 2 }}>
+            <Box sx={{ flex: 1 }}>
                 <FormServiceTypeSelect />
+            </Box>
+            <Box
+                sx={{
+                    flex: 1,
+                    justifyContent: "center",
+                    alignItems: "center",
+                    display: "flex",
+                    padding: 2,
+                }}
+            >
+                <FormDeleteButton />
             </Box>
         </Paper>
     );

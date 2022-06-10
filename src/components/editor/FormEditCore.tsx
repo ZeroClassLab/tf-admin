@@ -2,13 +2,21 @@ import React from "react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
-// import FormEditor from "./FormEditor";
 
-const FormReadPage = () => {
+import Side from "./bars/Side";
+import Bottom from "./bars/Bottom";
+import Top from "./bars/Top";
+
+import EditorWrapper from "./EditorWrapper";
+
+const FormEditCore = () => {
     return (
         <Box sx={{ m: 3 }}>
             <Grid container spacing={1}>
-                {/* <TitleGrid text="수정하기" /> */}
+                <Grid item xs={12}>
+                    {/* top */}
+                    <Top />
+                </Grid>
                 <Grid
                     item
                     xs={12}
@@ -18,19 +26,23 @@ const FormReadPage = () => {
                         flexDirection: "column",
                     }}
                 >
-                    <Box sx={{ width: "100%" }}></Box>
                     <Paper
                         sx={{
                             backgroundColor: "white",
                             display: "block",
                         }}
+                        elevation={2}
                     >
-                        {/* <FormEditor readOnly /> */}
+                        <EditorWrapper />
+                        <Bottom />
                     </Paper>
+                </Grid>
+                <Grid item xs={12} md={3}>
+                    <Side />
                 </Grid>
             </Grid>
         </Box>
     );
 };
 
-export default FormReadPage;
+export default FormEditCore;

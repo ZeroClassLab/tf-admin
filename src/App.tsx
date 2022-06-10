@@ -92,6 +92,11 @@ const App = () => {
                 ];
                 setAssignedUserList(assignedUserList);
                 setCurrentAssignedUser(assignedUserList[0]);
+
+                // 해시태그 목록 가져오기
+                const hashtagList = await axios.get(
+                    `${process.env.REACT_APP_MAIN_BACK}/user/all?role=${USER_ROLE.ADM}`
+                );
                 setIsReloading(false);
             } catch (e) {
                 console.log(e);

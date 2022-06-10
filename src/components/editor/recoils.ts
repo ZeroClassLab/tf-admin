@@ -3,6 +3,7 @@ import axios from "axios";
 import { atom, selector } from "recoil";
 import { BoardType, ServiceType } from "../servicetype/types";
 import { EditorUser, USER_ROLE } from "./configs/constants";
+import { ContentValue } from "@zclab/tmr-react-editor";
 
 export const formTitleState = atom({
     key: "formTitleEditor",
@@ -52,7 +53,7 @@ export const formCurrentUserState = atom<EditorUser | undefined>({
     default: undefined,
 });
 
-export const formContentState = atom<any>({
+export const formContentState = atom<ContentValue | undefined>({
     key: "formContentEditor",
     default: [],
 });
@@ -81,7 +82,18 @@ export const isCustomUserState = atom({
     default: false,
 });
 
-export const formHashtagListState = atom({
+export const currentHashtagsState = atom<string[]>({
+    key: "currentHashtagsEditor",
+    default: [],
+});
+
+interface Hashtag {
+    _id: string;
+    board: string;
+    name: string;
+}
+
+export const formHashtagListState = atom<Hashtag[]>({
     key: "formHashtagsListEditor",
     default: [],
 });
@@ -99,4 +111,24 @@ export const currentAssignedUserState = atom<EditorUser | undefined>({
 export const isPreviewState = atom<boolean>({
     key: "isPreviewEditor",
     default: false,
+});
+
+// 서브밋
+
+export const postIDwhenEditModeState = atom<number>({
+    key: "postIDwhenEditMode",
+    default: -1,
+});
+
+/**
+ * 제출모드
+ */
+export enum SubmitMode {
+    EDIT = "edit",
+    CREATE = "create",
+}
+
+export const editorSubmitModeState = atom<SubmitMode>({
+    key: "editorSubmitMode",
+    default: SubmitMode.EDIT,
 });

@@ -16,9 +16,10 @@ import {
 import SurveyFormPage from "./survey/SurveyListPage";
 import WriteSurveyPage from "./survey/WriteSurveyPage";
 import ServiceTypePage from "./servicetype/ServiceTypePage";
+import FormWritePage from "./editor/FormWritePage";
 import FormEditPage from "./editor/FormEditPage";
-import FormReadPage from "./editor/FormReadPage";
-import FormTestPage from "./editor/FormTestPage";
+// import FormTestPage from "./editor/FormTestPage";
+import StoryListPage from "./story/StoryList";
 
 interface DataProps {
     reload: () => void;
@@ -44,12 +45,12 @@ const ContentMapper: React.VFC<ContentMapperProps> = ({ idx, props }) => {
             return <WriteSurveyPage />;
         case 4:
             return <ServiceTypePage />;
+        case 50:
+            return <StoryListPage />;
         case 52:
-            return <FormEditPage />;
+            return <FormWritePage />;
         case 53:
-            return <FormReadPage />;
-        case 54:
-            return <FormTestPage />;
+            return <FormEditPage />;
         default:
             return (
                 <Box sx={{ m: 3 }}>
@@ -70,47 +71,43 @@ const Dashboard: React.VFC<DataProps> = ({ data, reload }) => {
 
     return (
         <>
-            {currentPage === 54 ? (
-                <FormTestPage />
-            ) : (
-                <Box sx={{ display: "flex" }}>
-                    <Sidebar open={open} setOpen={setOpen} />
-                    <Box
-                        component="main"
-                        sx={{
-                            backgroundColor: (theme) =>
-                                theme.palette.mode === "light"
-                                    ? theme.palette.grey[100]
-                                    : theme.palette.grey[900],
-                            flexGrow: 1,
-                            height: "100vh",
-                            overflow: "auto",
-                        }}
-                    >
-                        {/* header */}
-                        <HeaderBar
-                            open={open}
-                            setOpen={setOpen}
-                            reload={reload}
-                            isReloading={isFormDataLoading}
-                        />
+            <Box sx={{ display: "flex" }}>
+                <Sidebar open={open} setOpen={setOpen} />
+                <Box
+                    component="main"
+                    sx={{
+                        backgroundColor: (theme) =>
+                            theme.palette.mode === "light"
+                                ? theme.palette.grey[100]
+                                : theme.palette.grey[900],
+                        flexGrow: 1,
+                        height: "100vh",
+                        overflow: "auto",
+                    }}
+                >
+                    {/* header */}
+                    <HeaderBar
+                        open={open}
+                        setOpen={setOpen}
+                        reload={reload}
+                        isReloading={isFormDataLoading}
+                    />
 
-                        {/* contents */}
-                        {isFormDataLoading ? (
-                            <Loading />
-                        ) : (
-                            <ContentMapper
-                                idx={currentPage}
-                                props={{
-                                    data: data ?? [{}],
-                                    curDatum: curDatum,
-                                    setCurDatum: setCurDatum,
-                                }}
-                            />
-                        )}
-                    </Box>
+                    {/* contents */}
+                    {isFormDataLoading ? (
+                        <Loading />
+                    ) : (
+                        <ContentMapper
+                            idx={currentPage}
+                            props={{
+                                data: data ?? [{}],
+                                curDatum: curDatum,
+                                setCurDatum: setCurDatum,
+                            }}
+                        />
+                    )}
                 </Box>
-            )}
+            </Box>
         </>
     );
 };

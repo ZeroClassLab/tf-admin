@@ -11,154 +11,55 @@ import {
     formBoardTypeState,
     formCustomCafeNameState,
     formMobileThumbnailState,
-    formHashtagListState,
+    currentAssignedUserState,
+    currentHashtagsState,
+    editorSubmitModeState,
+    SubmitMode,
 } from "../recoils";
 import axios from "axios";
-import { urltoFile } from "../utils/upload";
-import { Buffer } from "buffer";
-
-const Base58 = require("base-58");
-
-let imageCount = 0;
+import { infoTableKeyValueState } from "../infotable/recoils";
+import {
+    uploadImage,
+    checkObjectAndUploadImages as checkContentsAndUploadRelatedImages,
+} from "./utils";
+import { WillCreatePostData } from "../../story/interfaces";
 
 const SubmitButton = () => {
     const title = useRecoilValue(formTitleState);
-    const curUser = useRecoilValue(formCurrentUserState);
-    const customCafeName = useRecoilValue(formCustomCafeNameState);
+    const assignedUser = useRecoilValue(currentAssignedUserState);
     const curBoard = useRecoilValue(formBoardTypeState);
-    const location = useRecoilValue(formLocationState);
-    const hashtags = useRecoilValue(formHashtagListState);
+    const hashtags = useRecoilValue(currentHashtagsState);
     const contentsObj = useRecoilValue(formContentState);
     const thumbnailImageFile = useRecoilValue(formThumbnailState);
     const mobileThumbnailImageFile = useRecoilValue(formMobileThumbnailState);
-
-    const uploadImage = async (
-        userID: number,
-        imageFile: File | undefined,
-        postName: string,
-        imageType: string
-    ) => {
-        if (!imageFile) {
-            return "";
-        }
-
-        const boardPath = curBoard?.name || "ERROR";
-
-        const filenameArr = imageFile.name.split("."); // 확장자를 찾기위한 스플릿
-        const fileext = filenameArr[filenameArr.length - 1]; // 확장자
-        const filepath = `${userID}/${boardPath}/${postName}/${imageType}.${fileext}`; // 폼 데이터에 넣어줄...
-        const fullpath = `${process.env.REACT_APP_IMAGE_SERVER_URL}/${filepath}`; // 서버url 포함 파일 경로
-
-        const imageForm = new FormData();
-        imageForm.append("files", imageFile);
-        imageForm.append("paths", filepath);
-
-        console.log(imageForm);
-        console.log(imageFile);
-        console.log(filepath);
-
-        try {
-            await axios.post<any, any>(
-                `${process.env.REACT_APP_MAIN_BACK}/s3upload`,
-                imageForm,
-                {
-                    headers: {
-                        "Content-Type": "multipart/form-data",
-                    },
-                }
-            );
-        } catch (e) {
-            console.error(e);
-            alert(`${imageType} 사진 업로드 중 실패!`);
-        }
-        // upload thumnail
-        // full path should be thumbnailImage
-        return fullpath;
-    };
-
-    const checkObjectAndUploadImages = async (
-        userID: number,
-        postName: string
-    ) => {
-        const deepCopiedObj = JSON.parse(JSON.stringify(contentsObj));
-        try {
-            const modified = await checkObjectAndUploadImagesHelper(
-                deepCopiedObj,
-                userID,
-                postName
-            );
-            imageCount = 0;
-            return JSON.stringify(modified);
-        } catch (e) {
-            console.error(e);
-            alert("안에 있는 이미지를 올리는데 실패하였습니다!");
-            imageCount = 0;
-            return "";
-        }
-    };
-    const checkObjectAndUploadImagesHelper = async (
-        obj: any,
-        userID: number,
-        postName: string
-    ): Promise<any> => {
-        if (Array.isArray(obj)) {
-            const newArr = [];
-            for (const ele of obj) {
-                newArr.push(
-                    await checkObjectAndUploadImagesHelper(
-                        ele,
-                        userID,
-                        postName
-                    )
-                );
-            }
-            return newArr;
-        } else if (typeof obj === "object" && "type" in obj && "url" in obj) {
-            imageCount++;
-            const url = obj["url"];
-            let urlSplit = url.split(".");
-            if (url[0] === "d") {
-                urlSplit = url.split(";")[0];
-                urlSplit = urlSplit.split("/");
-            }
-            const ext = urlSplit[urlSplit.length - 1];
-            const filename = `${imageCount}`;
-            const filenameWithExt = `${imageCount}.${ext}`;
-            const f = await urltoFile(
-                obj["url"],
-                filenameWithExt,
-                `image/${ext}`
-            );
-            const path = await uploadImage(userID, f, postName, filename);
-            obj["url"] = path;
-            return obj;
-        } else if (typeof obj === "object") {
-            const anyObj: { [key: string]: any } = {};
-            for (const key in obj) {
-                anyObj[key] = await checkObjectAndUploadImagesHelper(
-                    obj[key],
-                    userID,
-                    postName
-                );
-            }
-            return anyObj;
-        } else {
-            return obj;
-        }
-    };
+    const infoTableArray = useRecoilValue(infoTableKeyValueState);
+    // 카페 스토리만 있는 것들
+    const curUser = useRecoilValue(formCurrentUserState);
+    const customCafeName = useRecoilValue(formCustomCafeNameState);
+    const location = useRecoilValue(formLocationState);
+    // 현재 서브밋모드
+    const submitMode = useRecoilValue(editorSubmitModeState);
 
     const handleClick = async () => {
         try {
             // data prepare
-            const userID = curUser?.userID || -1;
+            let userID;
+            console.log("현재유저", curUser);
+            console.log("또는 현재유저", assignedUser);
             const board = curBoard?.name;
+            const srcPath = curBoard?.autoIncrement ?? -1;
 
             const cafeName = curUser?.cafeName || customCafeName;
-            const postName: string = Base58.encode(Buffer.from(title));
 
-            if (!cafeName) {
-                alert("작성자를 선택해주시거나 입력해주세요!");
-                return;
+            // NOTE 나중에는 사용자가 작성할줄 아는 보드 종류에 속하면 하기
+            if (board === "story") {
+                if (!cafeName) {
+                    alert("작성자를 선택해주시거나 입력해주세요!");
+                    return;
+                }
+                userID = curUser?.userID ?? -1;
+            } else {
+                userID = assignedUser?.userID ?? -1;
             }
 
             if (!board) {
@@ -166,49 +67,70 @@ const SubmitButton = () => {
                 return;
             }
 
+            if (!contentsObj) {
+                alert("글의 콘텐츠가 없습니다!");
+                return;
+            }
+
+            // 이미지들 업로드
             const thumbnailImage = await uploadImage(
                 userID,
+                board,
                 thumbnailImageFile,
-                postName,
+                srcPath,
                 "thumbnail"
             );
 
             const mobileThumbnailImage = await uploadImage(
                 userID,
+                board,
                 mobileThumbnailImageFile,
-                postName,
+                srcPath,
                 "mobileThumbnail"
             );
 
-            const contents: string = await checkObjectAndUploadImages(
+            const contents: string = await checkContentsAndUploadRelatedImages(
+                contentsObj,
                 userID,
-                postName
+                board,
+                srcPath
             );
 
+            // 기타
             const isStory = board === "story";
+            const infoTable = JSON.stringify(infoTableArray);
 
-            let body: { [key: string]: any } = {
+            let body: WillCreatePostData = {
                 title,
                 userID,
+                hashtags,
                 thumbnailImage,
                 mobileThumbnailImage,
                 contents,
                 board,
+                infoTable,
+                srcPath,
             };
 
             if (isStory) {
                 body["cafeName"] = cafeName;
                 body["location"] = location;
             }
-            console.log(body);
 
-            // post story
-            await axios.post(
-                `${process.env.REACT_APP_MAIN_BACK}/story${
-                    isStory ? "" : "/" + board
-                }`,
-                body
-            );
+            console.log("body: ", body);
+
+            if (submitMode === SubmitMode.CREATE) {
+                // post story
+                await axios.post(
+                    `${process.env.REACT_APP_MAIN_BACK}/story`,
+                    body
+                );
+            } else {
+                await axios.patch(
+                    `${process.env.REACT_APP_MAIN_BACK}/story`,
+                    body
+                );
+            }
         } catch (e) {
             console.log(e);
         }

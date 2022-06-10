@@ -12,7 +12,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 const FormCustomUserCheckbox = () => {
     const [value, setValue] = useRecoilState(isCustomUserState);
 
-    const resetCurCafeName = useResetRecoilState(formCurrentUserState);
+    const resetCurUserName = useResetRecoilState(formCurrentUserState);
     const resetCustomCafename = useResetRecoilState(formCustomCafeNameState);
     return (
         <FormGroup>
@@ -22,7 +22,7 @@ const FormCustomUserCheckbox = () => {
                         checked={value}
                         onChange={(e) => {
                             setValue(!value);
-                            resetCurCafeName();
+                            resetCurUserName();
                             resetCustomCafename();
                         }}
                     />

@@ -12,6 +12,7 @@ import RoomServiceIcon from "@mui/icons-material/RoomService";
 import PreviewIcon from "@mui/icons-material/Preview";
 import ListAltIcon from "@mui/icons-material/ListAlt";
 import FormatColorTextIcon from "@mui/icons-material/FormatColorText";
+import AddBoxIcon from "@mui/icons-material/AddBox";
 
 interface MainListProps {
     setCurPage: React.Dispatch<React.SetStateAction<number>>;
@@ -72,26 +73,26 @@ const MainList: React.VFC<MainListProps> = ({ setCurPage }) => {
             <ListItem
                 button
                 onClick={() => {
-                    setCurPage(51);
+                    setCurPage(52);
                 }}
             >
                 <ListItemIcon>
-                    <PreviewIcon />
+                    <AddBoxIcon />
                 </ListItemIcon>
-                <ListItemText primary="폼 뷰어" />
+                <ListItemText primary="폼 작성하기" />
             </ListItem>
 
-            <ListItem
+            {/* <ListItem
                 button
                 onClick={() => {
-                    setCurPage(52);
+                    setCurPage(53);
                 }}
             >
                 <ListItemIcon>
                     <FormatColorTextIcon />
                 </ListItemIcon>
-                <ListItemText primary="폼 에디터" />
-            </ListItem>
+                <ListItemText primary="폼 수정하기" />
+            </ListItem> */}
         </List>
     );
 };

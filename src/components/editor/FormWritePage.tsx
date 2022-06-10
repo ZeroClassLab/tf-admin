@@ -4,14 +4,14 @@ import SubmitModeAlertToast from "../form-tools/SubmitModeAlertToast";
 import FormEditCore from "./FormEditCore";
 import { editorSubmitModeState, SubmitMode } from "./recoils";
 
-const FormEditPage = () => {
+const FormWritePage = () => {
     const setSubmitMode = useSetRecoilState(editorSubmitModeState);
     const [open, setOpen] = useState(false);
     const handleClose = () => {
         setOpen(false);
     };
     useEffect(() => {
-        setSubmitMode(SubmitMode.EDIT);
+        setSubmitMode(SubmitMode.CREATE);
         setOpen(true);
     }, []);
     return (
@@ -22,4 +22,4 @@ const FormEditPage = () => {
     );
 };
 
-export default FormEditPage;
+export default FormWritePage;

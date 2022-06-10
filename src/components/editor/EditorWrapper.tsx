@@ -30,8 +30,9 @@ const EditorWrapper = () => {
                             backgroundColor: "white",
                             height: "100%",
                         },
+                        placeholder: "Enter...",
                     },
-                    initialValue: formContentValue.length
+                    initialValue: formContentValue?.length
                         ? formContentValue
                         : undefined,
                 }}
