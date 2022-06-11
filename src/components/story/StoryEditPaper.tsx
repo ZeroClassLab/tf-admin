@@ -63,6 +63,9 @@ const StoryEditPaper: React.VFC<StoryEditPaperProps> = ({
     // );
     const setInfoTableArray = useSetRecoilState(infoTableKeyValueState);
 
+    const curBoard = useRecoilValue(formBoardTypeState);
+    const formUserList = useRecoilValue(formUserListState);
+
     const moveTo = async () => {
         const res = await axios.get<PostData>(
             `${process.env.REACT_APP_MAIN_BACK}/story?userID=${userID}&postID=${postID}`
@@ -70,26 +73,30 @@ const StoryEditPaper: React.VFC<StoryEditPaperProps> = ({
         const storyData = res.data;
         console.log(storyData);
 
-        // 보드 NOTE: 필요없음
-        // setCurBoard(storyData.board);
-
         // 제목
         setTitle(storyData.title);
 
         // 현재 포스트아이디
         setCurrentPostID(postID);
 
+        console.log("userID: ", userID);
         // 유저
         if (userID === -1) {
             setCurUser(undefined);
             setAssignedUser(undefined);
             setIsCustomUserState(true);
         } else {
-            if (storyData.board.name === "story") {
+            if (curBoard?.name === "story") {
                 const selectedUser = userList.filter(
                     (user) => user.userID === userID
                 )[0];
-                setCurUser(selectedUser);
+                console.log("userID", userID);
+                if (formUserList.indexOf(selectedUser) !== -1) {
+                    setCurUser(selectedUser);
+                } else {
+                    setIsCustomUserState(true);
+                    setCustomCafeName(storyData?.cafeName ?? "");
+                }
             } else {
                 const selectedUser = assignedUserList.filter(
                     (user) => user.userID === userID
