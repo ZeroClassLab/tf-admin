@@ -3769,10 +3769,10 @@
   dependencies:
     "@mui/material" "~5.5.2"
 
-"@zclab/react-item-tagger@^0.5.5":
-  version "0.5.6"
-  resolved "https://registry.yarnpkg.com/@zclab/react-item-tagger/-/react-item-tagger-0.5.6.tgz#138b8c3bef6ba039c8669d7c7c0f78a5740c51c0"
-  integrity sha512-r3RXu6TSO+OrYwPLGUJY2JeArPqY+QEZPU4mFUai/hk1rZtrDn/HquCF80xls/ibxR66BtRHGcXLy9kDYu8lhQ==
+"@zclab/react-item-tagger@^0.5.7":
+  version "0.5.7"
+  resolved "https://registry.yarnpkg.com/@zclab/react-item-tagger/-/react-item-tagger-0.5.7.tgz#c278e517dbff98bfa1cb29d0dc49a4d3a6dfa081"
+  integrity sha512-QHwEuLdfWNFw+KHjKhf9xK7ySUugidIMnj5x2NG9NQOeR25EYWB9umgGBo0xTavSW2/PpNiksUZl+pXuIbwnZg==
   dependencies:
     "@mui/icons-material" "^5.6.2"
     "@mui/material" "5.5.2"
