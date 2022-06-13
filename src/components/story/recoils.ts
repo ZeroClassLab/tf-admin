@@ -12,3 +12,13 @@ export const currentStoryListState = atom<PostDataInList[]>({
     key: "currentStoryList",
     default: [],
 });
+
+export const readThumbnailSourceState = atom<string>({
+    key: "readThumbnailSource",
+    default: "",
+});
+
+export const readMobileThumbnailSourceState = atom<string>({
+    key: "readMobileThumbnailSource",
+    default: "",
+});

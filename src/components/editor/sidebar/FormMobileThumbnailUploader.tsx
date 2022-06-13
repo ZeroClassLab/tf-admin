@@ -2,6 +2,7 @@ import React from "react";
 import { SimpleImageUploader } from "@zclab/react-item-tagger";
 import { useSetRecoilState, useRecoilValue } from "recoil";
 import { formBoardTypeState, formMobileThumbnailState } from "../recoils";
+import { readMobileThumbnailSourceState } from "../../story/recoils";
 
 const FormMobileThumbnailUploader = () => {
     const boardType = useRecoilValue(formBoardTypeState);

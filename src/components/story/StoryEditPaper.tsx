@@ -23,6 +23,10 @@ import axios from "axios";
 import { infoTableKeyValueState } from "../editor/infotable/recoils";
 import { PostData } from "./interfaces";
 import { formUserListState } from "../editor/recoils";
+import {
+    readMobileThumbnailSourceState,
+    readThumbnailSourceState,
+} from "./recoils";
 
 interface StoryEditPaperProps {
     title: string;
@@ -61,6 +65,10 @@ const StoryEditPaper: React.VFC<StoryEditPaperProps> = ({
     // const setMobileThumbnailImageFile = useSetRecoilState(
     //     formMobileThumbnailState
     // );
+    const setReadThumbnailSource = useSetRecoilState(readThumbnailSourceState);
+    const setReadMobileThumbnailSource = useSetRecoilState(
+        readMobileThumbnailSourceState
+    );
     const setInfoTableArray = useSetRecoilState(infoTableKeyValueState);
 
     const curBoard = useRecoilValue(formBoardTypeState);
@@ -122,9 +130,9 @@ const StoryEditPaper: React.VFC<StoryEditPaperProps> = ({
         // 해시태그
         setHashtags(storyData.hashtags);
 
-        // TODO: 안에 데이터 넣는 거 적용하기
-        // setThumbnailImageFile(storyData.thumbnailImage)
-        // setMobileThumbnailImageFile(storyData.mobileThumbnailImage)
+        // 읽어온 썸네일 소스
+        setReadThumbnailSource(storyData.thumbnailImage);
+        setReadMobileThumbnailSource(storyData.mobileThumbnailImage);
 
         // table info
         if (storyData.infoTable) {

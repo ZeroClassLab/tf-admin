@@ -40,6 +40,8 @@ const SubmitButton = () => {
     // 현재 서브밋모드
     const submitMode = useRecoilValue(editorSubmitModeState);
 
+    // 에딧모드에서 보이던 섬네일 리셋
+
     const handleClick = async () => {
         try {
             // data prepare
@@ -59,11 +61,16 @@ const SubmitButton = () => {
                 }
                 userID = curUser?.userID ?? -1;
             } else {
-                userID = assignedUser?.userID ?? -1;
+                userID = assignedUser?.userID;
             }
 
             if (!board) {
                 alert("게시판 종류가 설정이 안되어 있습니다!");
+                return;
+            }
+
+            if (userID === undefined) {
+                alert("작성자를 선택해주세요!");
                 return;
             }
 
@@ -126,13 +133,18 @@ const SubmitButton = () => {
                     body
                 );
             } else {
+                // edit story
                 await axios.patch(
                     `${process.env.REACT_APP_MAIN_BACK}/story`,
                     body
                 );
+                
             }
+
+            alert("잘 제출 되었습니다! :)");
         } catch (e) {
             console.log(e);
+            return;
         }
     };
     return (
