@@ -132,3 +132,20 @@ export const editorSubmitModeState = atom<SubmitMode>({
     key: "editorSubmitMode",
     default: SubmitMode.EDIT,
 });
+
+// middleBar && 아이템 태거
+
+export const isMiddlebarOpenState = atom({
+    key: "isMiddlebarOpenEditor",
+    default: false,
+});
+
+export const itemTaggerDataState = atom({
+    key: "itemTaggerData",
+    default: "",
+});
+
+export const itemTaggerUploadedFileState = atom<File | undefined>({
+    key: "itemTaggerUploadedFile",
+    default: undefined,
+});
