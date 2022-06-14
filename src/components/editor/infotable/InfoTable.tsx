@@ -59,7 +59,6 @@ const InfoCell: React.VFC<InfoCellProps> = ({ v, rowIndex, colIndex }) => {
             onChange={(e) => {
                 handleChange(e.target.value);
             }}
-            maxLength={20}
         />
     );
 };

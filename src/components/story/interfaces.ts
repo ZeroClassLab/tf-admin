@@ -37,6 +37,7 @@ export interface PostDataInList extends QuasiPostData {
  */
 export interface WillCreatePostData extends DefaultPostData {
     board: string;
+    postID?: number;
 }
 
 /**

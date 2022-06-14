@@ -15,6 +15,7 @@ import {
     currentHashtagsState,
     editorSubmitModeState,
     SubmitMode,
+    postIDwhenEditModeState,
 } from "../recoils";
 import axios from "axios";
 import { infoTableKeyValueState } from "../infotable/recoils";
@@ -39,6 +40,7 @@ const SubmitButton = () => {
     const location = useRecoilValue(formLocationState);
     // 현재 서브밋모드
     const submitMode = useRecoilValue(editorSubmitModeState);
+    const currentPostID = useRecoilValue(postIDwhenEditModeState);
 
     // 에딧모드에서 보이던 섬네일 리셋
 
@@ -133,12 +135,12 @@ const SubmitButton = () => {
                     body
                 );
             } else {
+                body["postID"] = currentPostID;
                 // edit story
                 await axios.patch(
                     `${process.env.REACT_APP_MAIN_BACK}/story`,
                     body
                 );
-                
             }
 
             alert("잘 제출 되었습니다! :)");
