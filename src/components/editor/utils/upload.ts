@@ -35,7 +35,8 @@ export const urltoFile = (
     filename: string,
     mimeType: string
 ): Promise<File> => {
-    return fetch(url)
+    const random = new Date().getTime();
+    return fetch(`${url}?timestamp=${random}`)
         .then(function (res) {
             return res.arrayBuffer();
         })

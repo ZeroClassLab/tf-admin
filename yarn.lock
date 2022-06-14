@@ -4232,10 +4232,10 @@
     react-easy-crop "^4.1.3"
     recoil "^0.6.1"
 
-"@zclab/tmr-react-editor@^0.0.29":
-  version "0.0.29"
-  resolved "https://registry.yarnpkg.com/@zclab/tmr-react-editor/-/tmr-react-editor-0.0.29.tgz#3e35a27161fe4b8810449ab460b153044a9ac7e2"
-  integrity sha512-GC6SsQQjD0w39nOIPzGMN9HqTb8qWflHRH/mE2QTyaDVnd0xsCfy4xhfTSgcK/3iVM/6i2vHT7GK1cWTlYjIoA==
+"@zclab/tmr-react-editor@^0.0.33":
+  version "0.0.33"
+  resolved "https://registry.yarnpkg.com/@zclab/tmr-react-editor/-/tmr-react-editor-0.0.33.tgz#aa11d955de0d7b8a57d99045f749b74bd09a255b"
+  integrity sha512-XNLWTfpB0sy6EVs95Y/mwLNl2rRrg7VaHyxj/8yMFVg5aAmNlxKFzEZlGyZM2Yn3E6CEH8LSfNbmxIpZ7Bzg7A==
   dependencies:
     "@types/node" "16.11.26"
     "@udecode/plate-break" "^11.2.1"

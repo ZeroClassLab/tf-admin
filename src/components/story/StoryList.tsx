@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
+import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 
@@ -49,6 +50,26 @@ const StoryList = () => {
         <Box>
             <Paper sx={{ m: 2 }}>
                 <FormBoardSelect />
+            </Paper>
+            <Paper
+                sx={{ m: 2, display: "flex", justifyContent: "space-between" }}
+            >
+                <IconButton
+                    onClick={() => {
+                        setCurrentPageNumber((prev) => prev - 1);
+                    }}
+                    disabled={currentPageNumber === 0}
+                >
+                    <ArrowCircleLeftOutlinedIcon />
+                </IconButton>
+                <IconButton
+                    onClick={() => {
+                        setCurrentPageNumber((prev) => prev + 1);
+                    }}
+                    disabled={storyList.length !== 12}
+                >
+                    <ArrowCircleRightOutlinedIcon />
+                </IconButton>
             </Paper>
             <Grid container>
                 <Grid item xs={12} flexWrap={"wrap"} display={"flex"}>
