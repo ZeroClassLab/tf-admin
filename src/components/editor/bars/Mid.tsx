@@ -4,9 +4,7 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 
-import { useRecoilValue, useRecoilState } from "recoil";
-
-import FormBoardSelect from "../../form-tools/FormBoardSelect";
+import { useRecoilState } from "recoil";
 
 import { isMiddlebarOpenState } from "../recoils";
 
@@ -24,25 +22,46 @@ const Mid = () => {
             sx={{
                 backgroundColor: "white",
                 display: "flex",
+                flexDirection: "column",
                 minHeight: 30,
             }}
             elevation={0}
         >
             {isOpen ? (
                 <>
-                    <Box sx={{ height: 400, width: "100%", flex: 4 }}>
-                        <ITCon />
+                    <Box>
+                        <Button
+                            onClick={() => {
+                                setIsOpen((prev) => !prev);
+                            }}
+                            variant="contained"
+                            fullWidth
+                        >
+                            아이템 태거 닫기
+                        </Button>
                     </Box>
                     <Box
                         sx={{
-                            flex: 1,
+                            backgroundColor: "white",
                             display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            backgroundColor: "rgb(200,200,200)",
+                            minHeight: 30,
+                            width: "100%",
                         }}
                     >
-                        <ITConUploader />
+                        <Box sx={{ height: 400, width: "100%", flex: 4 }}>
+                            <ITCon />
+                        </Box>
+                        <Box
+                            sx={{
+                                flex: 1,
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                backgroundColor: "rgb(200,200,200)",
+                            }}
+                        >
+                            <ITConUploader />
+                        </Box>
                     </Box>
                 </>
             ) : (
