@@ -7,6 +7,8 @@ import { ThemeProvider } from "@mui/material/styles";
 import theme from "./theme";
 import "./font.css";
 
+import { app as _app } from "./firebase";
+
 ReactDOM.render(
     <React.StrictMode>
         <RecoilRoot>
