@@ -23,6 +23,7 @@
     "base-58": "^0.0.1",
     "base58-encode": "^0.2.0",
     "buffer": "^6.0.3",
+    "firebase": "^9.8.3",
     "rc-slider": "9.7.5",
     "react": "^17.0.2",
     "react-daum-postcode": "^3.0.1",
@@ -55,7 +56,8 @@
     "start": "PORT=3003 react-app-rewired start",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy": "yarn build && firebase deploy"
   },
   "browserslist": {
     "production": [
@@ -72,7 +74,6 @@
   "devDependencies": {
     "@types/styled-components": "^5.1.25",
     "eslint-plugin-react-hooks": "^4.5.0",
-    "firebase": "^9.8.3",
     "react-app-rewired": "^2.2.1"
   },
   "resolutions": {

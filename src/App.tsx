@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { app as _app } from "./firebase";
 import { useRecoilState, useSetRecoilState } from "recoil";
 
 import Dashboard from "./components/Dashboard";
