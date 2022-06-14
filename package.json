@@ -57,23 +57,6 @@
     "test": "react-app-rewired test",
     "eject": "react-scripts eject"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ],
-    "plugins": [
-      "react-hooks"
-    ],
-    "rules": {
-      "react-hooks/exhaustive-deps": [
-        "warn",
-        {
-          "additionalHooks": "useRecoilCallback"
-        }
-      ]
-    }
-  },
   "browserslist": {
     "production": [
       ">0.2%",
@@ -89,8 +72,8 @@
   "devDependencies": {
     "@types/styled-components": "^5.1.25",
     "eslint-plugin-react-hooks": "^4.5.0",
-    "react-app-rewired": "^2.2.1",
-    "rollup-plugin-dts": "^4.2.2"
+    "firebase": "^9.8.3",
+    "react-app-rewired": "^2.2.1"
   },
   "resolutions": {
     "@types/react": "^17.0.0",
