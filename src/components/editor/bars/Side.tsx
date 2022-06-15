@@ -29,7 +29,7 @@ const Side = () => {
     const [infoTable, setInfoTable] = useRecoilState(infoTableKeyValueState);
 
     useEffect(() => {
-        if (infoTable.length < 0) {
+        if (infoTable.length <= 0) {
             if (curBoard?.name === "story") {
                 setInfoTable(infoTableDefaultValue);
             } else if (curBoard) {
