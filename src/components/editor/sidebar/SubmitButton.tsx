@@ -39,6 +39,13 @@ import {
 } from "./utils";
 import { WillCreatePostData } from "../../story/interfaces";
 import CircularProgress from "@mui/material/CircularProgress";
+import {
+    currentPageState,
+    isLoadingState,
+    loadingMessageState,
+} from "../../recoils";
+
+const willBeUploadedFiles: FileAndPath[] = [];
 
 const SubmitButton = () => {
     // 리셋
@@ -79,35 +86,46 @@ const SubmitButton = () => {
     // TODO 에딧모드에서 보이던 섬네일 리셋
 
     // uploadedFiles
-    const [willBeUploadedFiles, setWillBeUploadedFiles] = useRecoilState(
-        willBeUploadedFilesState
-    );
+    // const [willBeUploadedFiles, setWillBeUploadedFiles] = useRecoilState(
+    //     willBeUploadedFilesState
+    // );
+
+    // 로딩
+    const setIsLoading = useSetRecoilState(isLoadingState);
+    const setLoadingMessage = useSetRecoilState(loadingMessageState);
+    const setCurPage = useSetRecoilState(currentPageState);
+
+    // 지역변수
+    const [isUploading, setIsUploading] = useState(false);
+    const [isUploadFinished, setIsUploadFinished] = useState(false);
 
     const pushFileAndPath = (fileAndPath: FileAndPath) => {
-        setWillBeUploadedFiles((prev) => [...prev, fileAndPath]);
+        console.log("추가되고 있는 와따시..", fileAndPath);
+        willBeUploadedFiles.push(fileAndPath);
     };
 
     useEffect(() => {
-        if (submitMode === SubmitMode.CREATE) {
-            resetTitle();
-            resetAssignedUser();
-            resetCurBoard();
-            resetHashtags();
-            resetContentsObj();
-            resetThumbnailImageFile();
-            resetMobileThumbnailImageFile();
-            resetInfoTableArray();
-            resetCurUser();
-            resetCustomCafeName();
-            resetLocation();
-            resetCurrentPostID();
+        if (isUploadFinished) {
+            while (willBeUploadedFiles.length > 0) {
+                willBeUploadedFiles.pop();
+            }
         }
-    }, [submitMode]);
+    }, [isUploadFinished]);
 
-    const [isUploading, setIsUploading] = useState(false);
+    // useEffect(() => {
+    //     console.log("모아두고 있는 파일들: ", willBeUploadedFiles);
+    // }, [willBeUploadedFiles]);
+
+    useEffect(() => {
+        if (infoTableArray) {
+            console.log("infotablearray: ", infoTableArray);
+        }
+    }, [infoTableArray]);
 
     const handleClick = async () => {
         try {
+            setLoadingMessage(() => "필수 항목 다 채웠는지 검사중..");
+            setIsLoading(true);
             setIsUploading((prev) => true);
             // data prepare
             let userID;
@@ -121,6 +139,7 @@ const SubmitButton = () => {
             if (board === "story") {
                 if (!cafeName) {
                     alert("작성자를 선택해주시거나 입력해주세요!");
+                    setIsLoading(false);
                     return;
                 }
                 userID = curUser?.userID ?? -1;
@@ -130,20 +149,27 @@ const SubmitButton = () => {
 
             if (!board) {
                 alert("게시판 종류가 설정이 안되어 있습니다!");
+                setIsLoading(false);
                 return;
             }
 
             if (userID === undefined) {
                 alert("작성자를 선택해주세요!");
+                setIsLoading(false);
                 return;
             }
 
             if (!contentsObj) {
                 alert("글의 콘텐츠가 없습니다!");
+                setIsLoading(false);
                 return;
             }
 
             const prevPath = createParentPath(userID, board, POST_ID_FLAG);
+
+            console.log("~~~~이전 parent 패스~~~~", prevPath);
+
+            setLoadingMessage(() => "글 내용 검사 중");
 
             const contents: string = await checkContentsAndUploadRelatedImages(
                 contentsObj,
@@ -189,32 +215,37 @@ const SubmitButton = () => {
 
             let postID = -1;
 
+            setLoadingMessage(() => "포스팅 중");
             if (submitMode === SubmitMode.CREATE) {
                 // post story
                 const createRes = await axios.post(
                     `${process.env.REACT_APP_MAIN_BACK}/story`,
                     body
                 );
-                postID = createRes.data.id;
+                postID = createRes.data.postID;
             } else {
                 // edit story
                 const editRes = await axios.patch(
                     `${process.env.REACT_APP_MAIN_BACK}/story/${currentPostID}`,
                     body
                 );
-                postID = editRes.data.id;
+                postID = editRes.data.postID;
             }
 
             if (postID === -1) {
                 alert("글이 제대로 올라가지 않았습니다 :(");
+                setIsLoading(false);
                 return;
             }
 
+            setLoadingMessage(() => "썸네일 업로드 중");
             const afterImageParentPath = createParentPath(
                 userID,
                 board,
                 postID
             );
+            console.log("~~~~이후 parent 패스~~~~", afterImageParentPath);
+
             // thumbnail 업로드
             const afterThumbnailImagePath = createPath(
                 thumbnailImageFile,
@@ -233,19 +264,23 @@ const SubmitButton = () => {
                 afterMobileThumbnailImagePath
             );
 
+            setLoadingMessage(() => "나머지 이미지들 업로드 중");
             // 이미지 전체 올리기
-            await uploadImages(willBeUploadedFiles);
-
-            // 올린 후 초기화
-            setWillBeUploadedFiles((prev) => []);
+            console.log("직전에 모아두고 파일들", willBeUploadedFiles);
+            await uploadImages(willBeUploadedFiles, postID);
 
             alert("잘 제출 되었습니다! :)");
+            setIsLoading(false);
             setIsUploading((prev) => false);
+            setIsUploadFinished(true);
+            // setCurPage(0);
         } catch (e) {
             console.log(e);
+            setIsLoading(false);
             return;
         }
     };
+
     return (
         <Box sx={{ m: 2, flex: 1 }}>
             <Button fullWidth variant="contained" onClick={handleClick}>

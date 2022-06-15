@@ -21,11 +21,11 @@ const Loading: React.VFC = () => {
                 top: 0,
                 left: 0,
                 zIndex: 999,
-                backgroundColor: "rgba(100,100,100,0.3)",
+                backgroundColor: "rgba(50,50,50,0.5)",
                 backdropFilter: "blur(5px)",
             }}
         >
-            <Typography sx={{ mb: 2 }} variant="h3">
+            <Typography sx={{ mb: 2, color: "rgb(233,233,233)" }} variant="h3">
                 {isSurveySaving
                     ? "저장하는 중"
                     : loadingMessaage || "불러오는 중"}

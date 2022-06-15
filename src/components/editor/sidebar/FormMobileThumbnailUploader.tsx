@@ -10,6 +10,7 @@ const FormMobileThumbnailUploader = () => {
     const ratio =
         (boardType?.mobileThumbnailHeight || 0) /
         (boardType?.mobileThumbnailWidth || 4);
+    const thumbnailSource = useRecoilValue(readMobileThumbnailSourceState);
 
     return (
         <SimpleImageUploader
@@ -17,6 +18,7 @@ const FormMobileThumbnailUploader = () => {
                 setFile(file);
             }}
             ratio={ratio}
+            src={thumbnailSource}
         />
     );
 };

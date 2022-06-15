@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import Paper from "@mui/material/Paper";
 import ThumbnailUploaders from "../sidebar/ThumbnailUploaders";
 import InfoTable from "../infotable/InfoTable";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilValue, useRecoilState } from "recoil";
 import { formBoardTypeState } from "../recoils";
 import { infoTableKeyValueState } from "../infotable/recoils";
 import HashtagChipSelect from "../../form-tools/HashtagChipSelect";
@@ -26,15 +26,17 @@ const infoTableDefaultValue = [
  */
 const Side = () => {
     const curBoard = useRecoilValue(formBoardTypeState);
-    const setInfoTable = useSetRecoilState(infoTableKeyValueState);
+    const [infoTable, setInfoTable] = useRecoilState(infoTableKeyValueState);
 
     useEffect(() => {
-        if (curBoard?.name === "story") {
-            setInfoTable(infoTableDefaultValue);
-        } else {
-            setInfoTable([]);
+        if (infoTable.length < 0) {
+            if (curBoard?.name === "story") {
+                setInfoTable(infoTableDefaultValue);
+            } else if (curBoard) {
+                setInfoTable([]);
+            }
         }
-    }, [curBoard]);
+    }, [curBoard, infoTable]);
     return (
         <Paper
             sx={{

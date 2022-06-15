@@ -3,7 +3,11 @@ import Typography from "@mui/material/Typography";
 import Badge from "@mui/material/Badge";
 import StoryPaper from "./StoryPaper";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { currentPageState } from "../recoils";
+import {
+    currentPageState,
+    isLoadingState,
+    loadingMessageState,
+} from "../recoils";
 import {
     assignedUserListState,
     currentAssignedUserState,
@@ -74,99 +78,110 @@ const StoryEditPaper: React.VFC<StoryEditPaperProps> = ({
 
     const curBoard = useRecoilValue(formBoardTypeState);
     const formUserList = useRecoilValue(formUserListState);
+    const setIsLoading = useSetRecoilState(isLoadingState);
+    const setLoadingMessage = useSetRecoilState(loadingMessageState);
 
     const moveTo = async () => {
-        const res = await axios.get<PostData>(
-            `${process.env.REACT_APP_MAIN_BACK}/story?userID=${userID}&postID=${postID}`
-        );
-        const storyData = res.data;
-        console.log(storyData);
+        try {
+            setLoadingMessage("포스팅 데이터 불러오는 중");
+            setIsLoading(true);
+            const res = await axios.get<PostData>(
+                `${process.env.REACT_APP_MAIN_BACK}/story?userID=${userID}&postID=${postID}`
+            );
+            const storyData = res.data;
+            console.log(storyData);
 
-        // 제목
-        setTitle(storyData.title);
+            // 제목
+            setTitle(storyData.title);
 
-        // 현재 포스트아이디
-        setCurrentPostID(postID);
+            // 현재 포스트아이디
+            setCurrentPostID(postID);
 
-        console.log("userID: ", userID);
-        // 유저
-        if (userID === -1) {
-            setCurUser(undefined);
-            setAssignedUser(undefined);
-            setIsCustomUserState(true);
-        } else {
-            if (curBoard?.name === "story") {
-                const selectedUser = userList.filter(
-                    (user) => user.userID === userID
-                )[0];
-                console.log("userID", userID);
-                if (formUserList.indexOf(selectedUser) !== -1) {
-                    setCurUser(selectedUser);
-                } else {
-                    setIsCustomUserState(true);
-                    setCustomCafeName(storyData?.cafeName ?? "");
-                }
+            console.log("userID: ", userID);
+            // 유저
+            if (userID === -1) {
+                setCurUser(undefined);
+                setAssignedUser(undefined);
+                setIsCustomUserState(true);
             } else {
-                const selectedUser = assignedUserList.filter(
-                    (user) => user.userID === userID
-                )[0];
-                setAssignedUser(selectedUser);
+                if (curBoard?.name === "story") {
+                    const selectedUser = userList.filter(
+                        (user) => user.userID === userID
+                    )[0];
+                    console.log("userID", userID);
+                    if (formUserList.indexOf(selectedUser) !== -1) {
+                        setCurUser(selectedUser);
+                    } else {
+                        setIsCustomUserState(true);
+                        setCustomCafeName(storyData?.cafeName ?? "");
+                    }
+                } else {
+                    const selectedUser = assignedUserList.filter(
+                        (user) => user.userID === userID
+                    )[0];
+                    setAssignedUser(selectedUser);
+                }
             }
+
+            // cafename과 location (story 만해당)
+            if (storyData.cafeName) {
+                setCustomCafeName(storyData.cafeName);
+            }
+            if (storyData.location) {
+                setLocation(storyData.location);
+            }
+
+            // 콘텐츠
+            if (storyData.contents) {
+                const contentsObj = JSON.parse(storyData.contents);
+                setContentsObj(contentsObj);
+            }
+
+            // 해시태그
+            console.log("읽어온 해시태그들", storyData.hashtags);
+            setHashtags(storyData.hashtags);
+
+            // 읽어온 썸네일 소스
+            setReadThumbnailSource(storyData.thumbnailImage);
+            setReadMobileThumbnailSource(storyData.mobileThumbnailImage);
+
+            // table info
+            if (storyData.infoTable) {
+                const infoTableObj = JSON.parse(storyData.infoTable);
+                console.log("읽어온 인포테이블", infoTableObj);
+                setInfoTableArray(infoTableObj);
+            }
+
+            const thumbnailURL = storyData.thumbnailImage;
+            const thumbnailStringList = thumbnailURL.split(".");
+            const thumbnailExt =
+                thumbnailStringList[thumbnailStringList.length - 1];
+
+            const thumbnailFile = await urltoFile(
+                thumbnailURL,
+                `thumbnail.${thumbnailExt}`,
+                `image/${thumbnailExt}`
+            );
+
+            const mobileThumbnailURL = storyData.mobileThumbnailImage;
+            const mobileThumbnailStringList = mobileThumbnailURL.split(".");
+            const mobileThumbnailExt =
+                mobileThumbnailStringList[mobileThumbnailStringList.length - 1];
+
+            const mobileThumbnailFile = await urltoFile(
+                mobileThumbnailURL,
+                `thumbnail.${mobileThumbnailExt}`,
+                `image/${mobileThumbnailExt}`
+            );
+
+            setThumbnailImageFile(thumbnailFile);
+            setMobileThumbnailImageFile(mobileThumbnailFile);
+
+            setCurPage(53);
+            setIsLoading(false);
+        } catch (e) {
+            console.error(e);
         }
-
-        // cafename과 location (story 만해당)
-        if (storyData.cafeName) {
-            setCustomCafeName(storyData.cafeName);
-        }
-        if (storyData.location) {
-            setLocation(storyData.location);
-        }
-
-        // 콘텐츠
-        if (storyData.contents) {
-            const contentsObj = JSON.parse(storyData.contents);
-            setContentsObj(contentsObj);
-        }
-
-        // 해시태그
-        setHashtags(storyData.hashtags);
-
-        // 읽어온 썸네일 소스
-        setReadThumbnailSource(storyData.thumbnailImage);
-        setReadMobileThumbnailSource(storyData.mobileThumbnailImage);
-
-        // table info
-        if (storyData.infoTable) {
-            const infoTableObj = JSON.parse(storyData.infoTable);
-            setInfoTableArray(infoTableObj);
-        }
-
-        const thumbnailURL = storyData.thumbnailImage;
-        const thumbnailStringList = thumbnailURL.split(".");
-        const thumbnailExt =
-            thumbnailStringList[thumbnailStringList.length - 1];
-
-        const thumbnailFile = await urltoFile(
-            thumbnailURL,
-            `thumbnail.${thumbnailExt}`,
-            `image/${thumbnailExt}`
-        );
-
-        const mobileThumbnailURL = storyData.mobileThumbnailImage;
-        const mobileThumbnailStringList = mobileThumbnailURL.split(".");
-        const mobileThumbnailExt =
-            mobileThumbnailStringList[mobileThumbnailStringList.length - 1];
-
-        const mobileThumbnailFile = await urltoFile(
-            mobileThumbnailURL,
-            `thumbnail.${mobileThumbnailExt}`,
-            `image/${mobileThumbnailExt}`
-        );
-
-        setThumbnailImageFile(thumbnailFile);
-        setMobileThumbnailImageFile(mobileThumbnailFile);
-
-        setCurPage(53);
     };
     return (
         <StoryPaper onClick={moveTo}>

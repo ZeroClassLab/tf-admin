@@ -36,7 +36,9 @@ export const urltoFile = (
     mimeType: string
 ): Promise<File> => {
     const random = new Date().getTime();
-    return fetch(`${url}?timestamp=${random}`)
+    // const randomQuery = `?timestamp=${random}`;
+    // const isBase64 = "d" === url.charAt(0);
+    return fetch(`${url}`)
         .then(function (res) {
             return res.arrayBuffer();
         })

@@ -79,9 +79,8 @@ export const uploadImage = async (
     imageForm.append("files", imageFile);
     imageForm.append("paths", filepath);
 
-    console.log("ImageForm: ", imageForm);
-    console.log("imageFile: ", imageFile);
-    console.log("filepath: ", filepath);
+    console.log("업로드 중인 imageFile: ", imageFile);
+    console.log("업로드 될 filepath: ", filepath);
 
     try {
         await axios.post<any, any>(
@@ -218,11 +217,19 @@ const checkObjectAndUploadImagesHelper = async (
     }
 };
 
-export const uploadImages = async (fileAndPaths: FileAndPath[]) => {
-    for (const fp of fileAndPaths) {
+export const uploadImages = async (
+    fileAndPaths: FileAndPath[],
+    postID?: number
+) => {
+    console.log("나머지 이미지 파일들과 경로들", fileAndPaths);
+
+    for (let i = 0; i < fileAndPaths.length; i++) {
         await uploadImage(
-            fp.file,
-            `process.env.REACT_APP_IMAGE_SERVER_URL/${fp.path}`
+            fileAndPaths[i].file,
+            `${fileAndPaths[i].path.replace(
+                "$$__postID__$$",
+                `${postID}` || "error"
+            )}`
         );
     }
 };

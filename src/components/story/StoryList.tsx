@@ -17,7 +17,7 @@ import StoryEditPaper from "./StoryEditPaper";
 import ArrowCircleLeftOutlinedIcon from "@mui/icons-material/ArrowCircleLeftOutlined";
 import ArrowCircleRightOutlinedIcon from "@mui/icons-material/ArrowCircleRightOutlined";
 import { PostDataInList } from "./interfaces";
-import { isLoadingState } from "../recoils";
+import { isLoadingState, loadingMessageState } from "../recoils";
 
 const NUM_PER_PAGE = 12;
 
@@ -28,10 +28,13 @@ const StoryList = () => {
     );
     const [storyList, setStoryList] = useRecoilState(currentStoryListState);
     const setIsLoading = useSetRecoilState(isLoadingState);
+    const setLoadingMessage = useSetRecoilState(loadingMessageState);
 
     useEffect(() => {
         const fetchStories = async () => {
+            setLoadingMessage(`${curBoard?.name} 목록 불러오는 중`);
             if (curBoard) {
+                setIsLoading(true);
                 const reqURL = `${
                     process.env.REACT_APP_MAIN_BACK
                 }/story/list?lastIndex=${
@@ -52,6 +55,10 @@ const StoryList = () => {
     useEffect(() => {
         const fetchStories = async () => {
             if (curBoard) {
+                const p = currentPageNumber * NUM_PER_PAGE;
+                setLoadingMessage(
+                    `${p + 1} ~ ${p + NUM_PER_PAGE} 목록 불러오는 중`
+                );
                 setIsLoading(true);
 
                 const reqURL = `${

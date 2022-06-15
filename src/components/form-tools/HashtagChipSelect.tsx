@@ -40,9 +40,12 @@ const HashtagChipSelect = () => {
                 setHashtagList(hashtagList.data);
             }
         };
-        setHashtags([]);
         fetchHashtagList();
     }, [curBoard]);
+
+    useEffect(() => {
+        console.log("current hashtags: ", hashtags);
+    }, [hashtags]);
 
     const handleChange = (event: SelectChangeEvent<typeof hashtags>) => {
         const {
@@ -64,6 +67,7 @@ const HashtagChipSelect = () => {
                     multiple
                     value={hashtags}
                     onChange={handleChange}
+                    // defaultValue={hashtags}
                     input={
                         <OutlinedInput
                             id="select-multiple-chip"
