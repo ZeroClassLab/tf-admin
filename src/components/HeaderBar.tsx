@@ -143,7 +143,7 @@ const HeaderBar: React.VFC<HeaderBarProps> = ({
                     }}
                 >
                     <Typography variant="h6">안녕하세요, 무에요! 😆</Typography>
-                    <Typography>날 추운데 몸조심하세요!</Typography>
+                    <Typography>날 더운데 몸조심하세요!</Typography>
                 </Paper>
             </Modal>
         </>

@@ -70,7 +70,6 @@ const Sidebar: React.VFC<SidebarProps> = ({ open, setOpen }) => {
 
             <MainList setCurPage={setCurPage} />
             <Divider />
-            <SubList setCurPage={setCurPage} />
         </Drawer>
     );
 };

@@ -28,14 +28,14 @@ const FormCafeSelect = () => {
             handleChange={handleChange}
         >
             {userList
-                .filter((user) => user.cafeName !== "")
+                .filter((user) => user.businessName !== "")
                 .map((user, id) => {
                     return (
                         <MenuItem
                             key={`userlist-${id}`}
                             value={`${user.userID}`}
                         >
-                            {user.cafeName}
+                            {user.businessName}
                         </MenuItem>
                     );
                 })}

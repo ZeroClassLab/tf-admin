@@ -4,6 +4,7 @@ import { atom, selector } from "recoil";
 import { BoardType, ServiceType } from "../servicetype/types";
 import { EditorUser, USER_ROLE } from "./configs/constants";
 import { ContentValue } from "@zclab/tmr-react-editor";
+import { FileAndPath } from "./sidebar/utils";
 
 export const formTitleState = atom({
     key: "formTitleEditor",
@@ -133,6 +134,11 @@ export const editorSubmitModeState = atom<SubmitMode>({
     default: SubmitMode.EDIT,
 });
 
+export const willBeUploadedFilesState = atom<FileAndPath[]>({
+    key: "willBeUploadedFiles",
+    default: [],
+});
+
 // middleBar && 아이템 태거
 
 export const isMiddlebarOpenState = atom({
@@ -149,3 +155,5 @@ export const itemTaggerUploadedFileState = atom<File | undefined>({
     key: "itemTaggerUploadedFile",
     default: undefined,
 });
+
+//

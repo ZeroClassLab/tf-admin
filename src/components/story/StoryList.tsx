@@ -6,7 +6,7 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { formBoardTypeState } from "../editor/recoils";
 import FormBoardSelect from "../form-tools/FormBoardSelect";
 import {
@@ -17,6 +17,7 @@ import StoryEditPaper from "./StoryEditPaper";
 import ArrowCircleLeftOutlinedIcon from "@mui/icons-material/ArrowCircleLeftOutlined";
 import ArrowCircleRightOutlinedIcon from "@mui/icons-material/ArrowCircleRightOutlined";
 import { PostDataInList } from "./interfaces";
+import { isLoadingState } from "../recoils";
 
 const NUM_PER_PAGE = 12;
 
@@ -26,6 +27,7 @@ const StoryList = () => {
         currentStoryListPageNumberState
     );
     const [storyList, setStoryList] = useRecoilState(currentStoryListState);
+    const setIsLoading = useSetRecoilState(isLoadingState);
 
     useEffect(() => {
         const fetchStories = async () => {
@@ -46,6 +48,34 @@ const StoryList = () => {
         };
         fetchStories();
     }, [curBoard]);
+
+    useEffect(() => {
+        const fetchStories = async () => {
+            if (curBoard) {
+                setIsLoading(true);
+
+                const reqURL = `${
+                    process.env.REACT_APP_MAIN_BACK
+                }/story/list?lastIndex=${
+                    currentPageNumber * NUM_PER_PAGE
+                }&num=${NUM_PER_PAGE}&board=${curBoard.name}`;
+
+                console.log("reqURL: ", reqURL);
+
+                const stories = await axios.get<PostDataInList[]>(reqURL);
+                const d = stories.data;
+                console.log("nowStories:", d);
+                setStoryList(d);
+            }
+        };
+        fetchStories();
+    }, [currentPageNumber]);
+
+    useEffect(() => {
+        if (storyList.length > 0) {
+            setIsLoading(false);
+        }
+    }, [storyList]);
     return (
         <Box>
             <Paper sx={{ m: 2 }}>

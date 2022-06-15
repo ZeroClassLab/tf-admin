@@ -7,30 +7,73 @@ const NODE_KEY_TYPE = "type";
 const NODE_KEY_URL = "url";
 const NODE_VALUE_IMAGE = "img";
 
+export const POST_ID_FLAG = "$$__postID__$$";
+export const THUMBNAIL_KEY = "thumbnail";
+export const MOBILE_THUMBNAIL_KEY = "mobileThumbnail";
+
+export interface FileAndPath {
+    file: File;
+    path: string;
+}
+
 /**
- *
- * @param userID - auto increment user ID. 소스파일 올라갈 path 에 top level 에 쓰임
- * @param boardPath - 보드의 고유명 (boardName) 을 건네주길 바람.
- * @param imageFile - 이미지 파일 객체. 없을 수도 있음.
- * @param srcPath - 고유의 소스 path ID. board 에 autoIncrement 속성
- * @param imageFilename - 이미지 파일명
- * @returns 이미지 업로드 된 주소
+ * 이미지들 막 넣을 카운트
  */
-export const uploadImage = async (
+let imageCount = 0;
+
+/**
+ * 위의 경로 만들기
+ * @param userID
+ * @param boardPath
+ * @param srcPath
+ */
+export const createParentPath = (
     userID: number,
     boardPath: string,
-    imageFile: File | undefined,
-    srcPath: number,
-    imageFilename: string
+    srcPath: number | string
 ) => {
+    return `${userID}/${boardPath}/${srcPath}`;
+};
+
+/**
+ * 이미지 경로를 만들어주는 유틸함수
+ *
+ * @param imageFile - 이미지파일
+ * @param parentPath - 이미지 파일 전 레벨까지의 경로
+ * @param imageFilename - 이미지 파일 명 (주로 순서)
+ */
+export const createPath = (
+    imageFile: File | undefined,
+    parentPath: string,
+    imageFilename: string
+): string => {
     if (!imageFile) {
         return "";
     }
-
     const filenameArr = imageFile.name.split("."); // 확장자를 찾기위한 스플릿
     const fileext = filenameArr[filenameArr.length - 1]; // 확장자
-    const filepath = `${userID}/${boardPath}/${srcPath}/${imageFilename}.${fileext}`; // FormData 에 넣어줄...
-    const fullpath = `${process.env.REACT_APP_IMAGE_SERVER_URL}/${filepath}`; // 서버url 포함 파일 경로
+
+    const filepath = `${parentPath}/${imageFilename}.${fileext}`; // FormData 에 넣어줄...
+    return filepath;
+};
+
+export const createFullpath = (filepath: string) => {
+    return `${process.env.REACT_APP_IMAGE_SERVER_URL}/${filepath}`; // 서버url 포함 파일 경로
+};
+
+/**
+ * 이미지 업로드
+ * @param imageFile - 이미지 파일 객체. 없을 수도 있음.
+ * @param filepath - 파일 경로
+ */
+export const uploadImage = async (
+    imageFile: File | undefined,
+    filepath: string
+): Promise<void> => {
+    if (!imageFile) {
+        console.error("사진 파일이 없음!");
+        return;
+    }
 
     const imageForm = new FormData();
     imageForm.append("files", imageFile);
@@ -52,39 +95,30 @@ export const uploadImage = async (
         );
     } catch (e) {
         console.error(e);
-        alert(`${imageFile} 사진 업로드 중 실패!`);
+        console.error(`사진 업로드 중 실패!: ${filepath}`);
+        return;
     }
-
-    return fullpath;
 };
-
-/**
- * 이미지들 막 넣을 카운트
- */
-let imageCount = 0;
 
 /**
  * nested level 까지 검사해서 url object 가 있으면 이미지로 바꿔버리기
  *
  * @param contentsObj - editor 의 컨텐츠 data node object's array
- * @param userID
- * @param boardPath
- * @param srcPath
+ * @param parentPath - 윗 레벨의 경로
+ * @param pushCallback - setFileAndPaths
  * @returns
  */
 export const checkObjectAndUploadImages = async (
     contentsObj: ContentValue,
-    userID: number,
-    boardPath: string,
-    srcPath: number
+    parentPath: string,
+    pushCallback: (param: FileAndPath) => void
 ) => {
     const deepCopiedObj = JSON.parse(JSON.stringify(contentsObj));
     try {
         const modified = await checkObjectAndUploadImagesHelper(
             deepCopiedObj,
-            userID,
-            boardPath,
-            srcPath
+            parentPath,
+            pushCallback
         );
         imageCount = 0; // 다하고 나면 초기화
         return JSON.stringify(modified); // 에디터의 내용을 stringified
@@ -100,16 +134,13 @@ export const checkObjectAndUploadImages = async (
  * nested level 까지 검사해서 url object 가 있으면 이미지로 바꿔버리기 헬퍼
  *
  * @param target - 에디터의 데이터 노드 오브젝트 혹은 그것의 nested object 혹은 value.
- * @param userID - 유저아이디
- * @param boardPath - 보드 경로 (보드 name 으로 주기)
- * @param srcPath - 고유의 소스 path ID
+ * @param parentPath - 윗 레벨의 경로
  * @returns
  */
 const checkObjectAndUploadImagesHelper = async (
     target: any,
-    userID: number,
-    boardPath: string,
-    srcPath: number
+    parentPath: string,
+    pushCallback: (param: FileAndPath) => void
 ): Promise<any> => {
     if (Array.isArray(target)) {
         // 검사한 대상이 어레이 일 경우, 돌면서 다시 검사
@@ -118,9 +149,8 @@ const checkObjectAndUploadImagesHelper = async (
             newArr.push(
                 await checkObjectAndUploadImagesHelper(
                     ele,
-                    userID,
-                    boardPath,
-                    srcPath
+                    parentPath,
+                    pushCallback
                 )
             );
         }
@@ -154,15 +184,20 @@ const checkObjectAndUploadImagesHelper = async (
         const filename = `${imageCount}`; // 글 안의 이미지 파일명은 숫자만 해도 충분
         const filenameWithExt = `${imageCount}.${ext}`;
 
-        const f = await urltoFile(
+        const file = await urltoFile(
             target["url"],
             filenameWithExt,
             `image/${ext}`
         );
 
-        // 이미지 실제 업로드. 그 후 오브젝트의 url 부를 이미지 업로드한 주소로 바꾸기
-        const path = await uploadImage(userID, boardPath, f, srcPath, filename);
-        target["url"] = path;
+        // 경로만들기
+        const path = createPath(file, parentPath, filename);
+
+        // 어딘가에 추가해놨다가 바꾸기
+        const param: FileAndPath = { file, path };
+        pushCallback(param);
+
+        target["url"] = createFullpath(path);
         return target;
     } else if (typeof target === "object") {
         // 대상이그냥 오브젝트일 경우 키마다 다 해주고 다시 할당.
@@ -171,9 +206,8 @@ const checkObjectAndUploadImagesHelper = async (
         for (const key in target) {
             anyObj[key] = await checkObjectAndUploadImagesHelper(
                 target[key],
-                userID,
-                boardPath,
-                srcPath
+                parentPath,
+                pushCallback
             );
         }
 
@@ -181,5 +215,14 @@ const checkObjectAndUploadImagesHelper = async (
     } else {
         // 다 아니면 그냥 return
         return target;
+    }
+};
+
+export const uploadImages = async (fileAndPaths: FileAndPath[]) => {
+    for (const fp of fileAndPaths) {
+        await uploadImage(
+            fp.file,
+            `process.env.REACT_APP_IMAGE_SERVER_URL/${fp.path}`
+        );
     }
 };

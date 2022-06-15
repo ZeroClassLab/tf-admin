@@ -16,7 +16,7 @@ export interface QuasiPostData {
 
 export interface DefaultPostData extends QuasiPostData {
     contents: string;
-    srcPath: number;
+    // srcPath: number;
     infoTable?: string;
 }
 

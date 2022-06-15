@@ -8,6 +8,13 @@ export const isLoadingState = atom({
     default: false,
 });
 
+export const loadingMessageState = atom({ key: "loadingMessage", default: "" });
+
+export const autoReloadModeState = atom({
+    key: "autoReloadMode",
+    default: false,
+});
+
 interface FormContentData {
     [key: string]: any;
 }

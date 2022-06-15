@@ -27,6 +27,7 @@ import {
     readMobileThumbnailSourceState,
     readThumbnailSourceState,
 } from "./recoils";
+import { urltoFile } from "../editor/utils/upload";
 
 interface StoryEditPaperProps {
     title: string;
@@ -61,10 +62,10 @@ const StoryEditPaper: React.VFC<StoryEditPaperProps> = ({
     const setLocation = useSetRecoilState(formLocationState);
     const setHashtags = useSetRecoilState(currentHashtagsState);
     const setContentsObj = useSetRecoilState(formContentState);
-    // const setThumbnailImageFile = useSetRecoilState(formThumbnailState);
-    // const setMobileThumbnailImageFile = useSetRecoilState(
-    //     formMobileThumbnailState
-    // );
+    const setThumbnailImageFile = useSetRecoilState(formThumbnailState);
+    const setMobileThumbnailImageFile = useSetRecoilState(
+        formMobileThumbnailState
+    );
     const setReadThumbnailSource = useSetRecoilState(readThumbnailSourceState);
     const setReadMobileThumbnailSource = useSetRecoilState(
         readMobileThumbnailSourceState
@@ -139,6 +140,31 @@ const StoryEditPaper: React.VFC<StoryEditPaperProps> = ({
             const infoTableObj = JSON.parse(storyData.infoTable);
             setInfoTableArray(infoTableObj);
         }
+
+        const thumbnailURL = storyData.thumbnailImage;
+        const thumbnailStringList = thumbnailURL.split(".");
+        const thumbnailExt =
+            thumbnailStringList[thumbnailStringList.length - 1];
+
+        const thumbnailFile = await urltoFile(
+            thumbnailURL,
+            `thumbnail.${thumbnailExt}`,
+            `image/${thumbnailExt}`
+        );
+
+        const mobileThumbnailURL = storyData.mobileThumbnailImage;
+        const mobileThumbnailStringList = mobileThumbnailURL.split(".");
+        const mobileThumbnailExt =
+            mobileThumbnailStringList[mobileThumbnailStringList.length - 1];
+
+        const mobileThumbnailFile = await urltoFile(
+            mobileThumbnailURL,
+            `thumbnail.${mobileThumbnailExt}`,
+            `image/${mobileThumbnailExt}`
+        );
+
+        setThumbnailImageFile(thumbnailFile);
+        setMobileThumbnailImageFile(mobileThumbnailFile);
 
         setCurPage(53);
     };

@@ -20,25 +20,32 @@ import FormWritePage from "./editor/FormWritePage";
 import FormEditPage from "./editor/FormEditPage";
 // import FormTestPage from "./editor/FormTestPage";
 import StoryListPage from "./story/StoryList";
+import V1MainContent from "./v1/V1MainContent";
 
 interface DataProps {
     reload: () => void;
-    data?: { [key: string]: any }[];
+    callbacks: {
+        [key: string]: () => void;
+    };
 }
 
 interface ContentMapperProps {
     idx: number;
-    props: any;
+    callbacks?: {
+        [key: string]: () => void;
+    };
 }
 
-const ContentMapper: React.VFC<ContentMapperProps> = ({ idx, props }) => {
+const ContentMapper: React.VFC<ContentMapperProps> = ({ idx, callbacks }) => {
     switch (idx) {
+        case -44:
+            return <V1MainContent />;
         case 0:
-            return <MainContent {...props} />;
+            return <MainContent callbacks={callbacks} />;
         case 1:
-            return <V1DetailListPage {...props} />;
+            return <V1DetailListPage />;
         case 2:
-            return <V1DetailPage {...props} />;
+            return <V1DetailPage />;
         case 3:
             return <SurveyFormPage />;
         case 30:
@@ -63,15 +70,14 @@ const ContentMapper: React.VFC<ContentMapperProps> = ({ idx, props }) => {
     }
 };
 
-const Dashboard: React.VFC<DataProps> = ({ data, reload }) => {
-    const [open, setOpen] = useState(true);
-    const [curDatum, setCurDatum] = useRecoilState(currentFormContentData);
+const Dashboard: React.VFC<DataProps> = ({ reload, callbacks }) => {
+    const [open, setOpen] = useState(false);
     const currentPage = useRecoilValue(currentPageState);
     const isFormDataLoading = useRecoilValue(isLoadingState);
 
     return (
         <>
-            <Box sx={{ display: "flex" }}>
+            <Box sx={{ display: "flex", position: "relative" }}>
                 <Sidebar open={open} setOpen={setOpen} />
                 <Box
                     component="main"
@@ -94,18 +100,8 @@ const Dashboard: React.VFC<DataProps> = ({ data, reload }) => {
                     />
 
                     {/* contents */}
-                    {isFormDataLoading ? (
-                        <Loading />
-                    ) : (
-                        <ContentMapper
-                            idx={currentPage}
-                            props={{
-                                data: data ?? [{}],
-                                curDatum: curDatum,
-                                setCurDatum: setCurDatum,
-                            }}
-                        />
-                    )}
+                    <ContentMapper idx={currentPage} callbacks={callbacks} />
+                    {isFormDataLoading && <Loading />}
                 </Box>
             </Box>
         </>

@@ -1,12 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { app as _app } from "./firebase";
 import { useRecoilState, useSetRecoilState } from "recoil";
 
 import Dashboard from "./components/Dashboard";
 import {
+    autoReloadModeState,
     isLoadingState,
-    formContentDataListState,
-    currentFormContentData,
+    loadingMessageState,
     surveyContentDataListState,
 } from "./components/recoils";
 import axios from "axios";
@@ -24,8 +24,6 @@ import {
 import { USER_ROLE } from "./components/editor/configs/constants";
 
 const App = () => {
-    const [data, setData] = useRecoilState(formContentDataListState);
-    const setCurDatumV1 = useSetRecoilState(currentFormContentData);
     const setIsReloading = useSetRecoilState(isLoadingState);
     const setSurveyContentDataList = useSetRecoilState(
         surveyContentDataListState
@@ -41,66 +39,95 @@ const App = () => {
     const setAssignedUserList = useSetRecoilState(assignedUserListState);
     const setCurrentAssignedUser = useSetRecoilState(currentAssignedUserState);
 
+    // loading
+    const setLoadingMessage = useSetRecoilState(loadingMessageState);
+
+    const [autoReloadMode, setAutoReloadMode] =
+        useRecoilState(autoReloadModeState);
+
+    const refreshAboutServiceType = async () => {
+        // 서비스 타입들 불러오기
+        try {
+            setLoadingMessage(() => "서비스 종류 정보 불러오는 중");
+            const d2 = await axios.get(
+                `${process.env.REACT_APP_SURVEY_BACK}/formtype`
+            );
+            setFormTypeList(d2.data);
+            setServiceTypeEditor(d2.data[0]); // 에디터에서 현재 사용할 타입
+        } catch (e) {
+            console.error(e);
+            alert("서비스 타입을 불러오는데 실패했습니다!");
+        }
+    };
+
+    const refreshAboutSurvey = async () => {
+        try {
+            // 질문형식 불러오기
+            setLoadingMessage("서베이 관련 정보 불러오는 중");
+            const surveyRes = await axios.get(
+                `${process.env.REACT_APP_SURVEY_BACK}/survey/`
+            );
+            setSurveyContentDataList(surveyRes.data);
+            //서비스 타입불러오기
+            await refreshAboutServiceType();
+        } catch (e) {
+            console.error(e);
+            alert("서베이 관련 데이터를 불러오는데 실패했습니다!");
+        }
+    };
+
+    const refreshAboutEditor = async () => {
+        try {
+            //서비스 타입불러오기
+            await refreshAboutServiceType();
+
+            setLoadingMessage(() => "에디터에 필요한 정보 불러오는 중");
+
+            // 현재 가입되어있는 유저목록 불러오기
+            const userListData = await axios.get(
+                `${process.env.REACT_APP_MAIN_BACK}/user/all`
+            );
+            setUserList(userListData.data);
+            console.log("불러온 유저리스트", userListData.data);
+
+            // 보드타입들 불러오기
+            const boardTypeList = await axios.get(
+                `${process.env.REACT_APP_MAIN_BACK}/board/all`
+            );
+            setBoardList(boardTypeList.data);
+            setBoardTypeEditor(boardTypeList.data[0]);
+
+            // 에디터와 관리자 가져오기
+            const editorUserList = await axios.get(
+                `${process.env.REACT_APP_MAIN_BACK}/user/all?role=${USER_ROLE.EDI}`
+            );
+            const adminUserList = await axios.get(
+                `${process.env.REACT_APP_MAIN_BACK}/user/all?role=${USER_ROLE.ADM}`
+            );
+
+            const assignedUserList = [
+                ...editorUserList.data,
+                ...adminUserList.data,
+            ];
+            setAssignedUserList(assignedUserList);
+            setCurrentAssignedUser(assignedUserList[0]);
+        } catch (e) {
+            console.error(e);
+            alert("에디터 관련 정보 불러오는데 실패!");
+        }
+    };
+
     const refresh = () => {
         const fetchData = async () => {
-            try {
-                setIsReloading(true);
-                // 폼 데이터 불러오기 v1
-                const resv1 = await axios.get(
-                    `${process.env.REACT_APP_V1_BACK}/form/`
-                );
-                setData(resv1.data);
-
-                // 폼데이터 1.0 넣기
-                setCurDatumV1(resv1.data[0] ?? {});
-
-                // 질문형식 불러오기
-                const surveyRes = await axios.get(
-                    `${process.env.REACT_APP_SURVEY_BACK}/survey/`
-                );
-                setSurveyContentDataList(surveyRes.data);
-
-                // 서비스 타입들 불러오기
-                const d2 = await axios.get(
-                    `${process.env.REACT_APP_SURVEY_BACK}/formtype`
-                );
-                setFormTypeList(d2.data);
-                setServiceTypeEditor(d2.data[0]); // 에디터에서 현재 사용할 타입
-
-                // 현재 가입되어있는 유저목록 불러오기
-                const userListData = await axios.get(
-                    `${process.env.REACT_APP_MAIN_BACK}/user/all`
-                );
-                setUserList(userListData.data);
-
-                // 보드타입들 불러오기
-                const boardTypeList = await axios.get(
-                    `${process.env.REACT_APP_MAIN_BACK}/board/all`
-                );
-                setBoardList(boardTypeList.data);
-                setBoardTypeEditor(boardTypeList.data[0]);
-
-                // 에디터와 관리자 가져오기
-                const editorUserList = await axios.get(
-                    `${process.env.REACT_APP_MAIN_BACK}/user/all?role=${USER_ROLE.EDI}`
-                );
-                const adminUserList = await axios.get(
-                    `${process.env.REACT_APP_MAIN_BACK}/user/all?role=${USER_ROLE.ADM}`
-                );
-                const assignedUserList = [
-                    ...editorUserList.data,
-                    ...adminUserList.data,
-                ];
-                setAssignedUserList(assignedUserList);
-                setCurrentAssignedUser(assignedUserList[0]);
-
-                // 해시태그 목록 가져오기
-                // const hashtagList = await axios.get(
-                //     `${process.env.REACT_APP_MAIN_BACK}/user/all?role=${USER_ROLE.ADM}`
-                // );
-                setIsReloading(false);
-            } catch (e) {
-                console.log(e);
+            if (autoReloadMode) {
+                try {
+                    setIsReloading(true);
+                    await refreshAboutSurvey();
+                    await refreshAboutEditor();
+                    setIsReloading(false);
+                } catch (e) {
+                    console.log(e);
+                }
             }
         };
         fetchData();
@@ -108,9 +135,26 @@ const App = () => {
 
     useEffect(() => {
         refresh();
+    }, [autoReloadMode]);
+
+    useEffect(() => {
+        const autoReload = localStorage.getItem("autoreload");
+        if (autoReload) {
+            setAutoReloadMode(true);
+        } else {
+            setAutoReloadMode(false);
+        }
     }, []);
 
-    return <Dashboard data={data} reload={refresh} />;
+    return (
+        <Dashboard
+            reload={refresh}
+            callbacks={{
+                surveyReload: refreshAboutSurvey,
+                editorReload: refreshAboutEditor,
+            }}
+        />
+    );
 };
 
 export default App;

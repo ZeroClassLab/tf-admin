@@ -1,5 +1,4 @@
-export const scherzo = () => {
-    console.log(`
+const martini = `
 I'm looking for some dry martini 👀 -Moo- 
 
 ()   ()      ()  /
@@ -21,5 +20,7 @@ I'm looking for some dry martini 👀 -Moo-
          ||
          /\\
         /;;\\
-   ==============`);
+   ==============`;
+export const scherzo = () => {
+    console.log("------------");
 };

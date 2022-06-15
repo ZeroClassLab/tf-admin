@@ -6,6 +6,8 @@ import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
+import { currentFormContentData } from "../recoils";
+import { useRecoilValue } from "recoil";
 
 interface ProductTag {
     parentImage: string;
@@ -545,7 +547,8 @@ const AboutImageItemTagger: React.VFC<DetailPageProps> = ({ curDatum }) => {
     );
 };
 
-const DetailPage: React.VFC<DetailPageProps> = ({ curDatum }) => {
+const DetailPage = () => {
+    const curDatum = useRecoilValue(currentFormContentData);
     useEffect(() => {
         const prevCs = JSON.parse(localStorage.getItem("checkeds") || "[]");
         let checkeds = [...prevCs, curDatum.contact];

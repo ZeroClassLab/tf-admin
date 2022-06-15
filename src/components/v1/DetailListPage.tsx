@@ -4,13 +4,14 @@ import DetailList from "./DetailList";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { currentFormContentData, formContentDataListState } from "../recoils";
 
-interface DataProps {
-    data: { [key: string]: any }[];
-    setCurDatum: React.Dispatch<React.SetStateAction<{ [key: string]: any }>>;
-}
+interface DataProps {}
 
-const V1DetailListPage: React.VFC<DataProps> = ({ data, setCurDatum }) => {
+const V1DetailListPage: React.VFC<DataProps> = () => {
+    const setCurDatum = useSetRecoilState(currentFormContentData);
+    const data = useRecoilValue(formContentDataListState);
     return (
         <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Grid container spacing={3}>

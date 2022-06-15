@@ -21,37 +21,13 @@ const SubList: React.VFC<SubListProps> = ({ setCurPage }) => {
             <ListItem
                 button
                 onClick={() => {
-                    setCurPage(1);
+                    setCurPage(-44);
                 }}
             >
                 <ListItemIcon>
                     <BarChartIcon />
                 </ListItemIcon>
-                <ListItemText primary="v1 카페 폼 목록" />
-            </ListItem>
-
-            <ListItem
-                button
-                onClick={() => {
-                    setCurPage(2);
-                }}
-            >
-                <ListItemIcon>
-                    <VisibilityIcon />
-                </ListItemIcon>
-                <ListItemText primary="v1 카페 폼 뷰어" />
-            </ListItem>
-
-            <ListItem
-                button
-                onClick={() => {
-                    setCurPage(54);
-                }}
-            >
-                <ListItemIcon>
-                    <VisibilityIcon />
-                </ListItemIcon>
-                <ListItemText primary="에디터테스트" />
+                <ListItemText primary="아카이브" />
             </ListItem>
         </List>
     );

@@ -16,5 +16,5 @@ export interface EditorUser {
     _id: string;
     userID: number;
     nickname: string;
-    cafeName?: string;
+    businessName?: string;
 }
