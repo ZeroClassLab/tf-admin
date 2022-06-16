@@ -112,6 +112,23 @@ const SubmitButton = () => {
         }
     }, [isUploadFinished]);
 
+    useEffect(() => {
+        if (submitMode === SubmitMode.CREATE) {
+            resetTitle();
+            resetAssignedUser();
+            // resetCurBoard();
+            resetHashtags();
+            resetContentsObj();
+            resetThumbnailImageFile();
+            resetMobileThumbnailImageFile();
+            resetInfoTableArray();
+            resetCurUser();
+            resetCustomCafeName();
+            resetLocation();
+            resetCurrentPostID();
+        }
+    }, [submitMode]);
+
     // useEffect(() => {
     //     console.log("모아두고 있는 파일들: ", willBeUploadedFiles);
     // }, [willBeUploadedFiles]);

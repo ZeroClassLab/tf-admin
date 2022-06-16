@@ -8,9 +8,9 @@ export const currentStoryListPageNumberState = atom({
     default: 0,
 });
 
-export const currentStoryListState = atom<PostDataInList[]>({
+export const currentStoryListState = atom<PostDataInList[] | undefined>({
     key: "currentStoryList",
-    default: [],
+    default: undefined,
 });
 
 export const readThumbnailSourceState = atom<string>({

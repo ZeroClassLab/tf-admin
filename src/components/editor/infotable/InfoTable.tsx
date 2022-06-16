@@ -17,7 +17,7 @@ interface InfoCellProps {
 const InfoCell: React.VFC<InfoCellProps> = ({ v, rowIndex, colIndex }) => {
     const [d, setD] = useRecoilState(infoTableKeyValueState);
     const handleChange = (newVal: string) => {
-        const newD = d.map((row, idx) => {
+        const newD = d?.map((row, idx) => {
             const key = row.key;
             const value = row.value;
             if (rowIndex === idx) {
@@ -76,7 +76,7 @@ const InfoRow: React.VFC<InfoRowProps> = ({ k, v, rowIndex }) => {
     const [d, setD] = useRecoilState(infoTableKeyValueState);
 
     const removeSelf = () => {
-        const newD = d.filter((_row, idx) => {
+        const newD = d?.filter((_row, idx) => {
             return idx !== rowIndex;
         });
         setD(newD);
@@ -99,7 +99,9 @@ const InfoRow: React.VFC<InfoRowProps> = ({ k, v, rowIndex }) => {
 const InfoTable = () => {
     const [data, setData] = useRecoilState(infoTableKeyValueState);
     const addRow = () => {
-        setData([...data, { key: "", value: "" }]);
+        if (data) {
+            setData([...data, { key: "", value: "" }]);
+        }
     };
 
     return (
@@ -108,7 +110,7 @@ const InfoTable = () => {
                 정보테이블
             </Typography>
             <InfoHead />
-            {data.map((row, idx) => {
+            {data?.map((row, idx) => {
                 return (
                     <InfoRow
                         rowIndex={idx}

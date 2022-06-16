@@ -38,7 +38,7 @@ const StoryList = () => {
                 const reqURL = `${
                     process.env.REACT_APP_MAIN_BACK
                 }/story/list?lastIndex=${
-                    currentPageNumber * NUM_PER_PAGE
+                    0 * NUM_PER_PAGE
                 }&num=${NUM_PER_PAGE}&board=${curBoard.name}`;
 
                 console.log("reqURL: ", reqURL);
@@ -47,6 +47,7 @@ const StoryList = () => {
                 const d = stories.data;
                 console.log("nowStories:", d);
                 setStoryList(d);
+                setCurrentPageNumber(0);
             }
         };
         fetchStories();
@@ -79,7 +80,7 @@ const StoryList = () => {
     }, [currentPageNumber]);
 
     useEffect(() => {
-        if (storyList.length > 0) {
+        if (storyList) {
             setIsLoading(false);
         }
     }, [storyList]);
@@ -103,14 +104,14 @@ const StoryList = () => {
                     onClick={() => {
                         setCurrentPageNumber((prev) => prev + 1);
                     }}
-                    disabled={storyList.length !== 12}
+                    disabled={!storyList || storyList?.length !== 12}
                 >
                     <ArrowCircleRightOutlinedIcon />
                 </IconButton>
             </Paper>
             <Grid container>
                 <Grid item xs={12} flexWrap={"wrap"} display={"flex"}>
-                    {storyList.map((story, idx) => {
+                    {storyList?.map((story, idx) => {
                         return (
                             <StoryEditPaper
                                 key={`story-paper-${idx}`}
