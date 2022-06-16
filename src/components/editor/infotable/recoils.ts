@@ -3,5 +3,5 @@ import { InfoTableData } from "./interfaces";
 
 export const infoTableKeyValueState = atom<InfoTableData | undefined>({
     key: "infoTableKeyValue",
-    default: [],
+    default: undefined,
 });

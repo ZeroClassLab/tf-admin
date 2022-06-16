@@ -9,14 +9,14 @@ import HashtagChipSelect from "../../form-tools/HashtagChipSelect";
 
 const infoTableDefaultValue = [
     { key: "지역", value: "" },
-    { key: "스타일", value: "" },
-    { key: "애견동반", value: "" },
-    { key: "평수", value: "" },
-    { key: "창업품목", value: "" },
-    { key: "주차여부", value: "" },
     { key: "전화번호", value: "" },
-    { key: "인스타", value: "" },
     { key: "초기비용", value: "" },
+    { key: "인스타", value: "" },
+    { key: "평수", value: "" },
+    { key: "휴무일", value: "" },
+    { key: "영업시간", value: "" },
+    { key: "주차여부", value: "" },
+    { key: "애견동반", value: "" },
     { key: "키즈", value: "" },
 ];
 
@@ -29,6 +29,8 @@ const Side = () => {
     const [infoTable, setInfoTable] = useRecoilState(infoTableKeyValueState);
 
     useEffect(() => {
+        console.log("지금 curBoard", curBoard);
+        console.log("지금 infoTable", infoTable);
         if (infoTable === undefined) {
             if (curBoard?.name === "story") {
                 setInfoTable(infoTableDefaultValue);
@@ -36,7 +38,7 @@ const Side = () => {
                 setInfoTable([]);
             }
         }
-    }, [curBoard, infoTable]);
+    }, [curBoard]);
     return (
         <Paper
             sx={{

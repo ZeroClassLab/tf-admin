@@ -109,6 +109,10 @@ const App = () => {
                 ...editorUserList.data,
                 ...adminUserList.data,
             ];
+            console.log(
+                "뉴스피드 등을 작성할 수 있는 사람들",
+                assignedUserList
+            );
             setAssignedUserList(assignedUserList);
             setCurrentAssignedUser(assignedUserList[0]);
         } catch (e) {

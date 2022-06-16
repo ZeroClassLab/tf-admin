@@ -48,6 +48,7 @@ const StoryList = () => {
                 console.log("nowStories:", d);
                 setStoryList(d);
                 setCurrentPageNumber(0);
+                setIsLoading(false);
             }
         };
         fetchStories();
@@ -73,17 +74,18 @@ const StoryList = () => {
                 const stories = await axios.get<PostDataInList[]>(reqURL);
                 const d = stories.data;
                 console.log("nowStories:", d);
+                setIsLoading(false);
                 setStoryList(d);
             }
         };
         fetchStories();
     }, [currentPageNumber]);
 
-    useEffect(() => {
-        if (storyList) {
-            setIsLoading(false);
-        }
-    }, [storyList]);
+    // useEffect(() => {
+    //     if (storyList) {
+    //         setIsLoading(false);
+    //     }
+    // }, [storyList]);
     return (
         <Box>
             <Paper sx={{ m: 2 }}>

@@ -44,6 +44,10 @@ import {
     isLoadingState,
     loadingMessageState,
 } from "../../recoils";
+import {
+    readMobileThumbnailSourceState,
+    readThumbnailSourceState,
+} from "../../story/recoils";
 
 const willBeUploadedFiles: FileAndPath[] = [];
 
@@ -65,6 +69,12 @@ const SubmitButton = () => {
     const resetLocation = useResetRecoilState(formLocationState);
     // 현재 서브밋모드
     const resetCurrentPostID = useResetRecoilState(postIDwhenEditModeState);
+    const resetReadThumbnailSource = useResetRecoilState(
+        readThumbnailSourceState
+    );
+    const resetReadMobileThumbnailSource = useResetRecoilState(
+        readMobileThumbnailSourceState
+    );
 
     // 밸류
     const title = useRecoilValue(formTitleState);
@@ -116,11 +126,13 @@ const SubmitButton = () => {
         if (submitMode === SubmitMode.CREATE) {
             resetTitle();
             resetAssignedUser();
-            // resetCurBoard();
+            // resetCurBoard(); // 얘는 혹시몰라수...
             resetHashtags();
             resetContentsObj();
             resetThumbnailImageFile();
             resetMobileThumbnailImageFile();
+            resetReadThumbnailSource();
+            resetReadMobileThumbnailSource();
             resetInfoTableArray();
             resetCurUser();
             resetCustomCafeName();
