@@ -6,6 +6,7 @@ import { useRecoilValue, useRecoilState } from "recoil";
 import { formBoardTypeState } from "../recoils";
 import { infoTableKeyValueState } from "../infotable/recoils";
 import HashtagChipSelect from "../../form-tools/HashtagChipSelect";
+import { boardTypeListState } from "../../servicetype/recoils";
 
 const infoTableDefaultValue = [
     { key: "지역", value: "" },
@@ -25,8 +26,17 @@ const infoTableDefaultValue = [
  * @returns
  */
 const Side = () => {
-    const curBoard = useRecoilValue(formBoardTypeState);
+    const [curBoard, setCurBoard] = useRecoilState(formBoardTypeState);
+    const boardTypeList = useRecoilValue(boardTypeListState);
     const [infoTable, setInfoTable] = useRecoilState(infoTableKeyValueState);
+
+    useEffect(() => {
+        setCurBoard(boardTypeList[0]);
+    }, []);
+
+    useEffect(() => {
+        console.log("지금 boardList", boardTypeList);
+    }, [boardTypeList]);
 
     useEffect(() => {
         console.log("지금 curBoard", curBoard);
@@ -38,7 +48,8 @@ const Side = () => {
                 setInfoTable([]);
             }
         }
-    }, [curBoard]);
+    }, [curBoard, infoTable]);
+
     return (
         <Paper
             sx={{

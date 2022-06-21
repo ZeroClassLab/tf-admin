@@ -95,7 +95,7 @@ const App = () => {
                 `${process.env.REACT_APP_MAIN_BACK}/board/all`
             );
             setBoardList(boardTypeList.data);
-            setBoardTypeEditor(boardTypeList.data[0]);
+            // setBoardTypeEditor(boardTypeList.data[0]); // 이제 이건 개별 컴포넌트에서...
 
             // 에디터와 관리자 가져오기
             const editorUserList = await axios.get(
