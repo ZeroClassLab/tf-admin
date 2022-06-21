@@ -201,7 +201,15 @@ const StoryEditPaper: React.VFC<StoryEditPaperProps> = ({
             </Typography>
 
             {src && (
-                <img style={{ width: "80%" }} src={src} alt={`${title}-img`} />
+                <img
+                    style={{
+                        width: "80%",
+                        aspectRatio: "1",
+                        objectFit: "cover",
+                    }}
+                    src={src}
+                    alt={`${title}-img`}
+                />
             )}
 
             <Badge
@@ -209,9 +217,10 @@ const StoryEditPaper: React.VFC<StoryEditPaperProps> = ({
                     position: "absolute",
                     right: 35,
                     top: 27,
+                    width: 100,
                 }}
                 max={999}
-                badgeContent={views}
+                badgeContent={`👀${views}`}
                 color={"info"}
             />
 
