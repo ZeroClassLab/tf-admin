@@ -181,6 +181,7 @@ const StoryEditPaper: React.VFC<StoryEditPaperProps> = ({
             setIsLoading(false);
         } catch (e) {
             console.error(e);
+            setIsLoading(false);
         }
     };
     return (
