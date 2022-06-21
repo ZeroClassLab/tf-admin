@@ -93,6 +93,11 @@ const SubmitButton = () => {
     const submitMode = useRecoilValue(editorSubmitModeState);
     const currentPostID = useRecoilValue(postIDwhenEditModeState);
 
+    const readThumbnailSource = useRecoilValue(readThumbnailSourceState);
+    const readMobileThumbnailSource = useRecoilValue(
+        readMobileThumbnailSourceState
+    );
+
     // TODO 에딧모드에서 보이던 섬네일 리셋
 
     // uploadedFiles
@@ -227,8 +232,12 @@ const SubmitButton = () => {
                 title,
                 userID,
                 hashtags,
-                thumbnailImage: thumbnailImagePath,
-                mobileThumbnailImage: mobileThumbnailImagePath,
+                thumbnailImage: thumbnailImageFile
+                    ? thumbnailImagePath
+                    : readThumbnailSource ?? "",
+                mobileThumbnailImage: mobileThumbnailImageFile
+                    ? mobileThumbnailImagePath
+                    : readMobileThumbnailSource ?? "",
                 contents,
                 board,
                 infoTable,
