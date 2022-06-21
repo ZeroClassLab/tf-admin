@@ -9,20 +9,22 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import CreateIcon from "@mui/icons-material/Create";
 import RoomServiceIcon from "@mui/icons-material/RoomService";
 
-import PreviewIcon from "@mui/icons-material/Preview";
 import ListAltIcon from "@mui/icons-material/ListAlt";
-import FormatColorTextIcon from "@mui/icons-material/FormatColorText";
 import AddBoxIcon from "@mui/icons-material/AddBox";
+import { useRecoilValue } from "recoil";
+import { isLoadingState } from "./recoils";
 
 interface MainListProps {
     setCurPage: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const MainList: React.VFC<MainListProps> = ({ setCurPage }) => {
+    const isReloading = useRecoilValue(isLoadingState);
     return (
         <List>
             {/* Main Button */}
             <ListItem
+                disabled={isReloading}
                 button
                 onClick={() => {
                     setCurPage(0);
@@ -35,6 +37,7 @@ const MainList: React.VFC<MainListProps> = ({ setCurPage }) => {
             </ListItem>
 
             <ListItem
+                disabled={isReloading}
                 button
                 onClick={() => {
                     setCurPage(3);
@@ -47,6 +50,7 @@ const MainList: React.VFC<MainListProps> = ({ setCurPage }) => {
             </ListItem>
 
             <ListItem
+                disabled={isReloading}
                 button
                 onClick={() => {
                     setCurPage(4);
@@ -59,6 +63,7 @@ const MainList: React.VFC<MainListProps> = ({ setCurPage }) => {
             </ListItem>
             {/* Detail Button */}
             <ListItem
+                disabled={isReloading}
                 button
                 onClick={() => {
                     setCurPage(50);
@@ -71,6 +76,7 @@ const MainList: React.VFC<MainListProps> = ({ setCurPage }) => {
             </ListItem>
 
             <ListItem
+                disabled={isReloading}
                 button
                 onClick={() => {
                     setCurPage(52);
@@ -81,18 +87,6 @@ const MainList: React.VFC<MainListProps> = ({ setCurPage }) => {
                 </ListItemIcon>
                 <ListItemText primary="폼 작성하기" />
             </ListItem>
-
-            {/* <ListItem
-                button
-                onClick={() => {
-                    setCurPage(53);
-                }}
-            >
-                <ListItemIcon>
-                    <FormatColorTextIcon />
-                </ListItemIcon>
-                <ListItemText primary="폼 수정하기" />
-            </ListItem> */}
         </List>
     );
 };
