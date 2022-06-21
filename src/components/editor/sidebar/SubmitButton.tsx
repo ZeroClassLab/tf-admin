@@ -302,7 +302,7 @@ const SubmitButton = () => {
             setIsLoading(false);
             setIsUploading((prev) => false);
             setIsUploadFinished(true);
-            // setCurPage(0);
+            setCurPage(0);
         } catch (e) {
             console.log(e);
             setIsLoading(false);
