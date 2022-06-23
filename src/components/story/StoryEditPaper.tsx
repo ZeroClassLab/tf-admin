@@ -12,6 +12,7 @@ import {
     assignedUserListState,
     currentAssignedUserState,
     currentHashtagsState,
+    editorSubmitModeState,
     formBoardTypeState,
     formContentState,
     formCurrentUserState,
@@ -22,6 +23,7 @@ import {
     formTitleState,
     isCustomUserState,
     postIDwhenEditModeState,
+    SubmitMode,
 } from "../editor/recoils";
 import axios from "axios";
 import { infoTableKeyValueState } from "../editor/infotable/recoils";
@@ -80,8 +82,10 @@ const StoryEditPaper: React.VFC<StoryEditPaperProps> = ({
     const formUserList = useRecoilValue(formUserListState);
     const setIsLoading = useSetRecoilState(isLoadingState);
     const setLoadingMessage = useSetRecoilState(loadingMessageState);
+    const setEditorMode = useSetRecoilState(editorSubmitModeState);
 
     const moveTo = async () => {
+        setEditorMode(SubmitMode.EDIT);
         try {
             setLoadingMessage("포스팅 데이터 불러오는 중");
             setIsLoading(true);
