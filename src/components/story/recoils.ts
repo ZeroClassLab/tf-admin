@@ -22,3 +22,8 @@ export const readMobileThumbnailSourceState = atom<string>({
     key: "readMobileThumbnailSource",
     default: "",
 });
+
+export const isBoardTypeChangedViaDropdownState = atom<boolean>({
+    key: "isBoardTypeChangedViaDropdown",
+    default: false,
+});

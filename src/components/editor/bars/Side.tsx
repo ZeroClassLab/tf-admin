@@ -30,9 +30,9 @@ const Side = () => {
     const boardTypeList = useRecoilValue(boardTypeListState);
     const [infoTable, setInfoTable] = useRecoilState(infoTableKeyValueState);
 
-    useEffect(() => {
-        setCurBoard(boardTypeList[0]);
-    }, []);
+    // useEffect(() => {
+    //     setCurBoard(boardTypeList[0]);
+    // }, []);
 
     useEffect(() => {
         console.log("지금 boardList", boardTypeList);

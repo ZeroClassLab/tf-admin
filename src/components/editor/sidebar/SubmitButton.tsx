@@ -55,7 +55,7 @@ const SubmitButton = () => {
     // 리셋
     const resetTitle = useResetRecoilState(formTitleState);
     const resetAssignedUser = useResetRecoilState(currentAssignedUserState);
-    const resetCurBoard = useResetRecoilState(formBoardTypeState);
+    // const resetCurBoard = useResetRecoilState(formBoardTypeState);
     const resetHashtags = useResetRecoilState(currentHashtagsState);
     const resetContentsObj = useResetRecoilState(formContentState);
     const resetThumbnailImageFile = useResetRecoilState(formThumbnailState);

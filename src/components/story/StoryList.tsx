@@ -12,6 +12,7 @@ import FormBoardSelect from "../form-tools/FormBoardSelect";
 import {
     currentStoryListPageNumberState,
     currentStoryListState,
+    isBoardTypeChangedViaDropdownState,
 } from "./recoils";
 import StoryEditPaper from "./StoryEditPaper";
 import ArrowCircleLeftOutlinedIcon from "@mui/icons-material/ArrowCircleLeftOutlined";
@@ -30,29 +31,39 @@ const StoryList = () => {
     const setIsLoading = useSetRecoilState(isLoadingState);
     const setLoadingMessage = useSetRecoilState(loadingMessageState);
 
+    const [isBoardTypeChangedViaDropdown, setIsBoardTypeChangedViaDropdown] =
+        useRecoilState(isBoardTypeChangedViaDropdownState);
+
     useEffect(() => {
-        const fetchStories = async () => {
-            setLoadingMessage(`${curBoard?.name} 목록 불러오는 중`);
-            if (curBoard) {
-                setIsLoading(true);
-                const reqURL = `${
-                    process.env.REACT_APP_MAIN_BACK
-                }/story/list?lastIndex=${
-                    0 * NUM_PER_PAGE
-                }&num=${NUM_PER_PAGE}&board=${curBoard.name}`;
+        if (isBoardTypeChangedViaDropdown) {
+            console.log(
+                "isBoardTypeChangedViaDropdown",
+                isBoardTypeChangedViaDropdown
+            );
 
-                console.log("reqURL: ", reqURL);
+            const fetchStories = async () => {
+                setLoadingMessage(`${curBoard?.name} 목록 불러오는 중`);
+                if (curBoard) {
+                    setIsLoading(true);
+                    const reqURL = `${
+                        process.env.REACT_APP_MAIN_BACK
+                    }/story/list?lastIndex=${
+                        0 * NUM_PER_PAGE
+                    }&num=${NUM_PER_PAGE}&board=${curBoard.name}`;
 
-                const stories = await axios.get<PostDataInList[]>(reqURL);
-                const d = stories.data;
-                console.log("nowStories:", d);
-                setStoryList(d);
-                setCurrentPageNumber(0);
-                setIsLoading(false);
-            }
-        };
-        fetchStories();
-    }, [curBoard]);
+                    console.log("reqURL: ", reqURL);
+
+                    const stories = await axios.get<PostDataInList[]>(reqURL);
+                    const d = stories.data;
+                    console.log("nowStories:", d);
+                    setStoryList(d);
+                    setCurrentPageNumber(0);
+                    setIsLoading(false);
+                }
+            };
+            fetchStories();
+        }
+    }, [curBoard, isBoardTypeChangedViaDropdown]);
 
     useEffect(() => {
         const fetchStories = async () => {

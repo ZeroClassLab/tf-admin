@@ -45,7 +45,7 @@ export interface WillCreatePostData extends DefaultPostData {
  */
 export interface PostData extends DefaultPostData {
     date: string;
-    board: BoardType;
+    board: string;
     likes: number;
     postID: number;
     views: number;

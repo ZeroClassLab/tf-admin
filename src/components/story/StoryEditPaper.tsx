@@ -2,7 +2,7 @@ import React from "react";
 import Typography from "@mui/material/Typography";
 import Badge from "@mui/material/Badge";
 import StoryPaper from "./StoryPaper";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
     currentPageState,
     isLoadingState,
@@ -30,10 +30,12 @@ import { infoTableKeyValueState } from "../editor/infotable/recoils";
 import { PostData } from "./interfaces";
 import { formUserListState } from "../editor/recoils";
 import {
+    isBoardTypeChangedViaDropdownState,
     readMobileThumbnailSourceState,
     readThumbnailSourceState,
 } from "./recoils";
 import { urltoFile } from "../editor/utils/upload";
+import { boardTypeListState } from "../servicetype/recoils";
 
 interface StoryEditPaperProps {
     title: string;
@@ -53,8 +55,11 @@ const StoryEditPaper: React.VFC<StoryEditPaperProps> = ({
     src,
 }) => {
     const setCurPage = useSetRecoilState(currentPageState);
+    const [curBoard, setCurBoard] = useRecoilState(formBoardTypeState);
 
     const setCurrentPostID = useSetRecoilState(postIDwhenEditModeState);
+
+    const boardTypeList = useRecoilValue(boardTypeListState);
 
     const userList = useRecoilValue(formUserListState);
     const assignedUserList = useRecoilValue(assignedUserListState);
@@ -64,7 +69,6 @@ const StoryEditPaper: React.VFC<StoryEditPaperProps> = ({
     const setAssignedUser = useSetRecoilState(currentAssignedUserState);
     const setIsCustomUserState = useSetRecoilState(isCustomUserState);
     const setCustomCafeName = useSetRecoilState(formCustomCafeNameState);
-    // const setCurBoard = useSetRecoilState(formBoardTypeState);
     const setLocation = useSetRecoilState(formLocationState);
     const setHashtags = useSetRecoilState(currentHashtagsState);
     const setContentsObj = useSetRecoilState(formContentState);
@@ -78,22 +82,34 @@ const StoryEditPaper: React.VFC<StoryEditPaperProps> = ({
     );
     const setInfoTableArray = useSetRecoilState(infoTableKeyValueState);
 
-    const curBoard = useRecoilValue(formBoardTypeState);
     const formUserList = useRecoilValue(formUserListState);
     const setIsLoading = useSetRecoilState(isLoadingState);
     const setLoadingMessage = useSetRecoilState(loadingMessageState);
     const setEditorMode = useSetRecoilState(editorSubmitModeState);
+    const setIsBoardTypeChangedViaDropdown = useSetRecoilState(
+        isBoardTypeChangedViaDropdownState
+    );
 
     const moveTo = async () => {
         setEditorMode(SubmitMode.EDIT);
         try {
-            setLoadingMessage("포스팅 데이터 불러오는 중");
-            setIsLoading(true);
+            setIsBoardTypeChangedViaDropdown(() => false);
+            setLoadingMessage(() => "포스팅 데이터 불러오는 중");
+            setIsLoading(() => true);
             const res = await axios.get<PostData>(
                 `${process.env.REACT_APP_MAIN_BACK}/story?userID=${userID}&postID=${postID}`
             );
             const storyData = res.data;
-            console.log(storyData);
+            console.log("불러온 포스트 정보", storyData);
+
+            // 현재 보드를 바꿔주기
+            setCurBoard(
+                () =>
+                    boardTypeList.filter(
+                        (boardOne) => boardOne.name === storyData.board
+                    )[0]
+            );
+            console.log("보드 타입 넣어줌: ", storyData.title);
 
             // 제목
             setTitle(storyData.title);
@@ -182,7 +198,7 @@ const StoryEditPaper: React.VFC<StoryEditPaperProps> = ({
             setMobileThumbnailImageFile(mobileThumbnailFile);
 
             setCurPage(53);
-            setIsLoading(false);
+            setIsLoading(() => false);
         } catch (e) {
             console.error(e);
             setIsLoading(false);
